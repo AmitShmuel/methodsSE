@@ -1,9 +1,8 @@
-﻿#ifndef POINT_H
-#define POINT_H
-#include <ostream>
+﻿#pragma once
+#include <iostream>
 
-class Point
-{
+class Point {
+private:
 	int x, y;
 
 public:
@@ -15,5 +14,3 @@ public:
 
 	friend std::ostream& operator<<(std::ostream&, const Point&);
 };
-
-#endif
