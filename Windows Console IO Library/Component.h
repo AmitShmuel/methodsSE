@@ -26,6 +26,10 @@ protected:
 	HANDLE hinput = GetStdHandle(STD_INPUT_HANDLE);
 
 	//bool isVisible;
+	void removeFromScreen() const;
+	virtual void draw() = 0;
+
+	void drawBorder() const;
 
 public:
 	virtual ~Component() = 0 {};
@@ -34,12 +38,12 @@ public:
 
 	//Setters:
 	//void setVisible(bool visible) { isVisible = visible; }
-	void setBorderType(BorderType border) { borderType = border; draw(); }
-	void setWidth(int _width) { width = _width; draw();}
-	void setHeight(int _height) { height = _height; draw();}
-	void setPosition(short _x, short _y) { position = {_x, _y}; draw();}
-	void setTextColor(Color color) { textColor = color; draw();}
-	void setBackgroundColor(Color color) { backgroundColor = color; draw();}
+	void setBorderType(BorderType border) { borderType = border; }	//TODO
+	void setWidth(int _width) { width = _width;}					//TODO
+	void setHeight(int _height) { height = _height;}				//TODO
+	void setPosition(short _x, short _y) { removeFromScreen(); position = {_x, _y}; draw();}
+	void setTextColor(Color color) { removeFromScreen();  textColor = color; draw(); }
+	void setBackgroundColor(Color color) { removeFromScreen(); backgroundColor = color; draw(); }
 	
 	//Getters:
 //	bool isVisible() const { return isVisible; }
@@ -50,8 +54,4 @@ public:
 	short getYPosition() const { return position.Y; }
 	Color getTextColor() const { return textColor; }
 	Color getBackgroundColor() const { return backgroundColor; }
-
-
-	virtual void draw() = 0;
-	virtual void removeFromScreen() = 0;
 };
