@@ -1,11 +1,8 @@
 ﻿#pragma once
-#include "Point.h"
 #include <Windows.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctime>
 
-typedef enum BorderType {NONE, DOTTED, SOLID} BorderType;
+typedef enum BorderType {NONE, DOTTED, SOLID, DBL} BorderType;
 typedef enum Color {BLACK, BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHTGRAY, DARKGRAY, LIGHTBLUE,
 					LIGHTGREEN, LIGHTCYAN, LIGHTRED, LIGHTMAGENTA, YELLOW, WHITE} Color;
 
@@ -28,8 +25,6 @@ protected:
 
 	//bool isVisible;
 	void removeFromScreen() const;
-	virtual void draw() = 0;
-
 	void drawBorder() const;
 
 public:
@@ -37,12 +32,15 @@ public:
 	UIComponent(short x_pos=0, short y_pos=0, int w=0, int h=0, BorderType border=NONE,
 		Color tColor=BLACK, Color bColor=WHITE, UIComponent *parent = NULL);
 
-	// Special methods
+	// Component functionality methods
 	UIComponent& getRoot();
+	virtual void addComponent(UIComponent& component) = 0 {};
+	virtual void removeAll() = 0 {};
+	virtual void draw() = 0;
 
 	//Setters:
 	//void setVisible(bool visible) { isVisible = visible; }
-	void setBorderType(BorderType border) { borderType = border; }	//TODO
+	void setBorderType(BorderType border) { borderType = border; draw(); }	//TODO
 	void setWidth(int _width) { width = _width;}					//TODO
 	void setHeight(int _height) { height = _height;}				//TODO
 	void setPosition(short _x, short _y) { removeFromScreen(); position = {_x, _y}; draw();}

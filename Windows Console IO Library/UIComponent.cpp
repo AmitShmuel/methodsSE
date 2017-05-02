@@ -1,4 +1,5 @@
 ﻿#include "UIComponent.h"
+#include <iostream>
 
 UIComponent::UIComponent(short x_pos, short y_pos, int w, int h, BorderType border, Color tColor, Color bColor, UIComponent *parent) : parent(parent),
 	position { x_pos, y_pos }, width(w), height(h), borderType(border),
@@ -42,6 +43,9 @@ void UIComponent::drawBorder() const {
 		break;
 	case SOLID:
 		bc = { '\xDA', '\xBF', '\xC0','\xD9', '\xC4', '\xB3' };
+		break;
+	case DBL:
+		bc = { '\xC9', '\xBB', '\xC8','\xBC', '\xCD', '\xBA' };
 		break;
 	case NONE: return;
 	default: return;
