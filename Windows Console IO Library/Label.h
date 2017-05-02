@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "Component.h"
+#include "UIComponent.h"
 #include <string>
 
-class Label: public Component {
+class Label: public UIComponent {
 private:
 	std::string text;
 

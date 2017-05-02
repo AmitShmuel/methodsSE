@@ -1,12 +1,12 @@
 ﻿#include "Label.h"
 
 Label::Label(std::string _text, short x_pos, short y_pos, int w, int h, BorderType border,
-	Color tColor, Color bColor):Component(x_pos, y_pos, w, h, border, tColor, bColor), text(_text) {}
+	Color tColor, Color bColor):UIComponent(x_pos, y_pos, w, h, border, tColor, bColor), text(_text) {}
 
 
 void Label::draw() {
 
-	Component::draw();
+	UIComponent::draw();
 
 	COORD c = { position.X+1, position.Y + 1 };
 	SetConsoleCursorPosition(h, c);

@@ -1,11 +1,19 @@
-﻿#include "Component.h"
+﻿#include "UIComponent.h"
 
-Component::Component(short x_pos, short y_pos, int w, int h, BorderType border, Color tColor, Color bColor) :
+UIComponent::UIComponent(short x_pos, short y_pos, int w, int h, BorderType border, Color tColor, Color bColor, UIComponent *parent) : parent(parent),
 	position { x_pos, y_pos }, width(w), height(h), borderType(border),
 	textColor(tColor), backgroundColor(bColor) {
 }
 
-void Component::removeFromScreen() const {
+UIComponent & UIComponent::getRoot() {
+	UIComponent *result = this;
+	while (result->parent) {
+		result = result->parent;
+	}
+	return *result;
+}
+
+void UIComponent::removeFromScreen() const {
 	SetConsoleCursorPosition(h, position);
 	SetConsoleTextAttribute(h, 0);
 	COORD c = { position.X, position.Y };
@@ -17,12 +25,12 @@ void Component::removeFromScreen() const {
 	}
 }
 
-void Component::draw() {
+void UIComponent::draw() {
 
 	drawBorder();
 }
 
-void Component::drawBorder() const {
+void UIComponent::drawBorder() const {
 	SetConsoleCursorPosition(h, position);
 	SetConsoleTextAttribute(h, textColor | FOREGROUND_INTENSITY | backgroundColor * 16);
 	short i;

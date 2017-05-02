@@ -21,10 +21,10 @@
     <ClCompile Include="Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
+    <ClCompile Include="Label.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Label.cpp">
+    <ClCompile Include="UIComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClInclude Include="Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
+    <ClInclude Include="Label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Label.h">
+    <ClInclude Include="UIComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

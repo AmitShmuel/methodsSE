@@ -13,12 +13,13 @@ struct BorderCharacters {
 	char leftTopCorner, rightTopCorner, leftBottomCorner, rightBottomCorner, horizontal, vertical;
 };
 
-class Component {
+class UIComponent {
 
 protected:
-	BorderType borderType;
-	int width, height;
+	UIComponent *parent;
 	COORD position;
+	int width, height;
+	BorderType borderType;
 	Color textColor, backgroundColor;
 
 	//Windows STD handlersb & internal helpers
@@ -32,9 +33,12 @@ protected:
 	void drawBorder() const;
 
 public:
-	virtual ~Component() = 0 {};
-	Component(short x_pos=0, short y_pos=0, int w=0, int h=0, BorderType border=NONE,
-		Color tColor=BLACK, Color bColor=WHITE);
+	virtual ~UIComponent() = 0 {};
+	UIComponent(short x_pos=0, short y_pos=0, int w=0, int h=0, BorderType border=NONE,
+		Color tColor=BLACK, Color bColor=WHITE, UIComponent *parent = NULL);
+
+	// Special methods
+	UIComponent& getRoot();
 
 	//Setters:
 	//void setVisible(bool visible) { isVisible = visible; }
