@@ -146,11 +146,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConsoleController.cpp" />
     <ClCompile Include="UIComponent.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConsoleController.h" />
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="Label.h" />
   </ItemGroup>
