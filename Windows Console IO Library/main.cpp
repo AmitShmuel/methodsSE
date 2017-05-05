@@ -4,10 +4,10 @@
 using namespace std;
 
 void main() {
-	//UIComponent *l = new Label("Silencio1234567",0, 0, 50, 2, DOTTED, YELLOW, BLACK);
-	//l->draw();
-	//getchar();
-
+	UIComponent *l = new Label("Silencio1234567",0, 0, 50, 2, DBL, YELLOW, BLACK);
+	l->draw();
+	getchar();
+	delete l;
 	////TODO: Redraw component when using: setWidth, setHeight, setBorderType
 	//l->setTextColor(GREEN);
 	//l->setBackgroundColor(RED);
@@ -15,22 +15,22 @@ void main() {
 	//getchar();
 
 	//set cursor position example
-	INPUT_RECORD ir[5] = { 0 };
-	DWORD num_read;
+	//INPUT_RECORD ir[5] = { 0 };
+	//DWORD num_read;
 
-	ConsoleController c = CCTRL;
-	
-	c.setColors(WHITE, true, RED, true);
-	c.setCursorVisible(false);
-	c.setCursorVisible(true);
-	c.setMouseEnabled(true);
-	cout << c.isMouseEnabled() << endl;
-	c.setMouseEnabled(false);
-	cout << c.isMouseEnabled() << endl;
-	getchar();
+	//ConsoleController c = CCTRL;
+	//
+	//c.setColors(WHITE, true, RED, true);
+	//c.setCursorVisible(false);
+	//c.setCursorVisible(true);
+	//c.setMouseEnabled(true);
+	//cout << c.isMouseEnabled() << endl;
+	//c.setMouseEnabled(false);
+	//cout << c.isMouseEnabled() << endl;
+	//getchar();
 //	c.setMouseEnabled(true);
 	//c.testEvents();
 	
 	
-	ConsoleController::destroy();
+	CCTRLDESTROY;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #define CCTRL ConsoleController::init()
+#define CCTRLDESTROY ConsoleController::destroy()
 
 /* 
 Console control wrapper class (singleton)
@@ -19,12 +20,12 @@ private:
 	WORD attr;							// current console text attributes
 	CONSOLE_CURSOR_INFO cursorInfo;		// current console info
 
-	// TODO: add event listeners
+	// TODO: add event thread, listeners, etc	--yftah
 
 	// CTOR
 	ConsoleController();
 public:
-	// singleton initializer
+	// singleton initializer & destroy wrapper (call destroy() at the end of the program)
 	static ConsoleController& init();
 	static void destroy();
 

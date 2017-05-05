@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <Windows.h>
+#include "ConsoleController.h"
 #include <stdio.h>
 
 typedef enum BorderType {NONE, DOTTED, SOLID, DBL} BorderType;
@@ -18,10 +18,6 @@ protected:
 	int width, height;
 	BorderType borderType;
 	Color textColor, backgroundColor;
-
-	//Windows STD handlersb & internal helpers
-	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	HANDLE hinput = GetStdHandle(STD_INPUT_HANDLE);
 
 	//bool isVisible;
 	void removeFromScreen() const;

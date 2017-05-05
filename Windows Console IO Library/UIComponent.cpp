@@ -15,14 +15,21 @@ UIComponent & UIComponent::getRoot() {
 }
 
 void UIComponent::removeFromScreen() const {
-	SetConsoleCursorPosition(h, position);
-	SetConsoleTextAttribute(h, 0);
+	ConsoleController ctrl = CCTRL;
+	//SetConsoleCursorPosition(h, position);
+	ctrl.setPosition(position);
+	//SetConsoleTextAttribute(h, 0);
+
+	// FIXME: this assumes the UI is black -Yftah
+	ctrl.setColors(0, false, 0, false);
 	COORD c = { position.X, position.Y };
 	for (short i = 0; i < height + 1; i++) {
 		for (short j = 0; j < width + 2; j++) {
 			std::cout << " ";
 		}
-		SetConsoleCursorPosition(h, { c.X, ++c.Y });
+		//SetConsoleCursorPosition(h, { c.X, ++c.Y });
+		++c.Y;
+		ctrl.setPosition(c);
 	}
 }
 
@@ -32,8 +39,11 @@ void UIComponent::draw() {
 }
 
 void UIComponent::drawBorder() const {
-	SetConsoleCursorPosition(h, position);
-	SetConsoleTextAttribute(h, textColor | FOREGROUND_INTENSITY | backgroundColor * 16);
+	// SetConsoleCursorPosition(h, position);
+	ConsoleController ctrl = CCTRL;
+	ctrl.setPosition(position);
+	// SetConsoleTextAttribute(h, textColor | FOREGROUND_INTENSITY | backgroundColor * 16);
+	ctrl.setColors(textColor, true, backgroundColor, false);
 	short i;
 	COORD c;
 	BorderCharacters bc;
@@ -60,15 +70,18 @@ void UIComponent::drawBorder() const {
 
 	for (i = 1; i < height; i++) {
 		c = { position.X, position.Y + i };
-		SetConsoleCursorPosition(h, c);
+		//SetConsoleCursorPosition(h, c);
+		ctrl.setPosition(c);
 		printf("%c", bc.vertical);
 		c = { position.X + static_cast<short>(width) + 1, position.Y + i };
-		SetConsoleCursorPosition(h, c);
+		//SetConsoleCursorPosition(h, c);
+		ctrl.setPosition(c);
 		printf("%c", bc.vertical);
 	}
 
 	c = { position.X, position.Y + i };
-	SetConsoleCursorPosition(h, c);
+	//SetConsoleCursorPosition(h, c);
+	ctrl.setPosition(c);
 	printf("%c", bc.leftBottomCorner);
 	for (i = 0; i < width; i++) {
 		printf("%c", bc.horizontal);
