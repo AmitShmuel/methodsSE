@@ -18,9 +18,15 @@ void main() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
 
-	ConsoleController c = ConsoleController::init();
+	ConsoleController c = CCTRL;
+	
 	c.setColors(WHITE, true, RED, true);
-	cout << "Hello";
+	c.setCursorVisible(false);
+	c.setCursorVisible(true);
+	c.setMouseEnabled(true);
+	cout << c.isMouseEnabled() << endl;
+	c.setMouseEnabled(false);
+	cout << c.isMouseEnabled() << endl;
 	getchar();
 //	c.setMouseEnabled(true);
 	//c.testEvents();

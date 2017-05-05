@@ -7,6 +7,7 @@ ConsoleController *ConsoleController::instance = 0;
 // private CTOR for jesus
 ConsoleController::ConsoleController() : hOutput(GetStdHandle(STD_OUTPUT_HANDLE)), hInput(GetStdHandle(STD_INPUT_HANDLE)) {
 	GetConsoleMode(hInput, &mode);
+	GetConsoleCursorInfo(hOutput, &cursorInfo);
 }
 
 // Init console controller
@@ -29,7 +30,8 @@ void ConsoleController::setPosition(COORD c) {
 
 // sets text console attribute
 void ConsoleController::setColors(short foregroundColor, bool foregroundIntensity, short backgroundColor, bool backgroundIntensity) {
-	SetConsoleTextAttribute(hOutput, foregroundColor | FOREGROUND_INTENSITY * foregroundIntensity | 16 * backgroundColor | BACKGROUND_INTENSITY * backgroundIntensity);
+	attr = foregroundColor | FOREGROUND_INTENSITY * foregroundIntensity | 16 * backgroundColor | BACKGROUND_INTENSITY * backgroundIntensity;
+	SetConsoleTextAttribute(hOutput, attr);
 }
 
 void ConsoleController::setMouseEnabled(bool isVisibile) {
@@ -38,6 +40,28 @@ void ConsoleController::setMouseEnabled(bool isVisibile) {
 	mode = (isVisibile) ? mode | ENABLE_MOUSE_INPUT : mode & ~ENABLE_MOUSE_INPUT;
 	//std::cout << mode << std::endl;
 	SetConsoleMode(hInput, ENABLE_MOUSE_INPUT);
+}
+
+void ConsoleController::setCursorVisible(bool isVisible) {
+	cursorInfo.bVisible = isVisible;
+	SetConsoleCursorInfo(hOutput, &cursorInfo);
+}
+
+void ConsoleController::setCursorSize(DWORD size) {
+	cursorInfo.dwSize = size;
+	SetConsoleCursorInfo(hOutput, &cursorInfo);
+}
+
+bool ConsoleController::isMouseEnabled() {
+	return (mode & ENABLE_MOUSE_INPUT) > 0;
+}
+
+bool ConsoleController::isCursorVisible() {
+	return cursorInfo.bVisible;
+}
+
+DWORD ConsoleController::getCursorSize() {
+	return cursorInfo.dwSize;
 }
 
 // test code for events 
