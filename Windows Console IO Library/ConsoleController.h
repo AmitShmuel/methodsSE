@@ -37,9 +37,9 @@ public:
 	void setCursorSize(DWORD size);
 
 	// getters
-	bool isMouseEnabled();
-	bool isCursorVisible();
-	DWORD getCursorSize();
+	bool isMouseEnabled() const;
+	bool isCursorVisible() const;
+	DWORD getCursorSize() const;
 
 	~ConsoleController();
 
@@ -48,4 +48,3 @@ public:
 	
 
 };
-

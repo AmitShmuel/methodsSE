@@ -11,7 +11,14 @@ public:
 		BorderType border = NONE, Color tColor = BLACK, Color bColor = WHITE, UIComponent *parent = NULL);
 	
 	void draw() override;
-	void addComponent(UIComponent& component) {};
-	void removeAll() {};
-	~Label() {};
+
+	// TODO: remove it from here!
+	void addComponent(UIComponent&) override {};
+	void removeAll() override {};
+
+	// setters:
+	void setText(std::string);
+
+	// getters:
+	std::string getText() const { return text; }
 };

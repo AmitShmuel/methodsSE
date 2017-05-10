@@ -146,13 +146,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="ConsoleController.cpp" />
+    <ClCompile Include="IOConsoleException.cpp" />
+    <ClCompile Include="NumericBox.cpp" />
     <ClCompile Include="UIComponent.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="ConsoleController.h" />
+    <ClInclude Include="IOConsoleException.h" />
+    <ClInclude Include="NumericBox.h" />
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="Label.h" />
   </ItemGroup>

@@ -2,7 +2,8 @@
 #include <iostream>
 
 Label::Label(std::string _text, short x_pos, short y_pos, int w, int h, BorderType border,
-	Color tColor, Color bColor, UIComponent *parent) : UIComponent(x_pos, y_pos, w, h, border, tColor, bColor, parent), text(_text) {
+	Color tColor, Color bColor, UIComponent *parent) :
+	UIComponent(x_pos, y_pos, w, h, border, tColor, bColor, parent), text(_text) {
 	if (text.length() > width) text = text.substr(0, width);
 }
 
@@ -10,7 +11,7 @@ Label::Label(std::string _text, short x_pos, short y_pos, int w, int h, BorderTy
 void Label::draw() {
 
 	UIComponent::draw();
-	ConsoleController ctrl = CCTRL;
+	auto ctrl = CCTRL;
 	// clear background
 	COORD c = { position.X + 1, position.Y + 1 };
 	short text_len = static_cast<short>(text.length());
@@ -26,6 +27,10 @@ void Label::draw() {
 	//SetConsoleCursorPosition(h, c);
 	ctrl.setPosition(c);
 	std::cout << text;
-	
+}
 
+void Label::setText(std::string _text) {
+	text = _text;
+	if (text.length() > width) text = text.substr(0, width);
+	draw();
 }

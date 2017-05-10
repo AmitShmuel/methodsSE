@@ -52,15 +52,15 @@ void ConsoleController::setCursorSize(DWORD size) {
 	SetConsoleCursorInfo(hOutput, &cursorInfo);
 }
 
-bool ConsoleController::isMouseEnabled() {
+bool ConsoleController::isMouseEnabled() const {
 	return (mode & ENABLE_MOUSE_INPUT) > 0;
 }
 
-bool ConsoleController::isCursorVisible() {
+bool ConsoleController::isCursorVisible() const {
 	return cursorInfo.bVisible;
 }
 
-DWORD ConsoleController::getCursorSize() {
+DWORD ConsoleController::getCursorSize() const {
 	return cursorInfo.dwSize;
 }
 
@@ -84,7 +84,7 @@ void ConsoleController::testEvents() {
 						case VK_TAB:
 
 							goto end;
-							break;
+							break;	//Unreachable code - Yoav
 						default:
 							SetConsoleCursorPosition(hOutput, { 0,0 });
 							printf("x");
