@@ -1,8 +1,8 @@
 ﻿#include "Label.h"
 #include <iostream>
 
-Label::Label(std::string _text, short x_pos, short y_pos, int w, int h, BorderType border,
-	Color tColor, Color bColor, UIComponent *parent) : UIComponent(x_pos, y_pos, w, h, border, tColor, bColor, parent), text(_text) {
+Label::Label(std::string _text, short x_pos, short y_pos, short w, short h, BorderType border,
+	Color tColor, Color bColor, UIComponent *parent) : UIComponent(x_pos, y_pos, w, h, border, tColor, bColor), text(_text) {
 	if (text.length() > width) text = text.substr(0, width);
 }
 
@@ -10,21 +10,23 @@ Label::Label(std::string _text, short x_pos, short y_pos, int w, int h, BorderTy
 void Label::draw() {
 
 	UIComponent::draw();
-	ConsoleController ctrl = CCTRL;
+	//ConsoleController ctrl = CCTRL;
 	// clear background
-	COORD c = { position.X + 1, position.Y + 1 };
+	COORD c = { left + 1, top + 1 };
 	short text_len = static_cast<short>(text.length());
-	int size = width;
+	short size = width;
 	//SetConsoleCursorPosition(h, c);
-	ctrl.setPosition(c);
+	//ctrl.setPosition(c);
+	GFX.moveTo(c.X, c.Y);
 	for (short i = 0; i < size; i++) {
 		std::cout << " ";
 	}
 
 	// print centered text
-	c = { position.X + 1 + static_cast<short>((width) / 2) - text_len / 2, position.Y + 1 };
+	c = { left + 1 + ((width) / 2) - text_len / 2, top + 1 };
 	//SetConsoleCursorPosition(h, c);
-	ctrl.setPosition(c);
+	//ctrl.setPosition(c);
+	GFX.moveTo(c.X, c.Y);
 	std::cout << text;
 	
 
