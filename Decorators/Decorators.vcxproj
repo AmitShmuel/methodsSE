@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2D460596-459D-4E55-A35E-A392971604BE}</ProjectGuid>
-    <RootNamespace>Common</RootNamespace>
+    <ProjectGuid>{435A3597-17F7-4036-9E69-5F2EB6D3AE67}</ProjectGuid>
+    <RootNamespace>Decorators</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -110,16 +110,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleController.cpp" />
-    <ClCompile Include="Control.cpp" />
-    <ClCompile Include="EventEngine.cpp" />
-    <ClCompile Include="Graphics.cpp" />
+    <ClInclude Include="Border.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConsoleController.h" />
-    <ClInclude Include="Control.h" />
-    <ClInclude Include="EventEngine.h" />
-    <ClInclude Include="Graphics.h" />
+    <ClCompile Include="Border.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{2d460596-459d-4e55-a35e-a392971604be}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\Components.vcxproj">
+      <Project>{92d26d1d-89cd-4106-96e8-c4b6bc821169}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

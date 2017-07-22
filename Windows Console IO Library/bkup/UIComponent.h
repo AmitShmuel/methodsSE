@@ -26,7 +26,7 @@ public:
 
 	// Component functionality methods
 	UIComponent& getRoot();
-	virtual void addComponent(UIComponent& component) = 0 {};
+	virtual void addComponent(UIComponent* component) = 0 {};
 	virtual void removeAll() = 0 {};
 	virtual void draw() = 0;
 

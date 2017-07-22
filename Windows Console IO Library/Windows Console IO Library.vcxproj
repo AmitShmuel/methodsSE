@@ -149,19 +149,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleController.cpp" />
-    <ClCompile Include="UIComponent.cpp" />
-    <ClCompile Include="Label.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ConsoleController.h" />
-    <ClInclude Include="UIComponent.h" />
-    <ClInclude Include="Label.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{2d460596-459d-4e55-a35e-a392971604be}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\Components.vcxproj">
+      <Project>{92d26d1d-89cd-4106-96e8-c4b6bc821169}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Decorators\Decorators.vcxproj">
+      <Project>{435a3597-17f7-4036-9e69-5f2eb6d3ae67}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

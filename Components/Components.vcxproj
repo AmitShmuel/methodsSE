@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2D460596-459D-4E55-A35E-A392971604BE}</ProjectGuid>
-    <RootNamespace>Common</RootNamespace>
+    <ProjectGuid>{92D26D1D-89CD-4106-96E8-C4B6BC821169}</ProjectGuid>
+    <RootNamespace>Components</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -110,16 +110,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleController.cpp" />
-    <ClCompile Include="Control.cpp" />
-    <ClCompile Include="EventEngine.cpp" />
-    <ClCompile Include="Graphics.cpp" />
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{2d460596-459d-4e55-a35e-a392971604be}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConsoleController.h" />
-    <ClInclude Include="Control.h" />
-    <ClInclude Include="EventEngine.h" />
-    <ClInclude Include="Graphics.h" />
+    <ClCompile Include="Label.cpp" />
+    <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="UIComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Label.h" />
+    <ClInclude Include="Panel.h" />
+    <ClInclude Include="UIComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

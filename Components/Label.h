@@ -11,7 +11,7 @@ public:
 		BorderType border = None, Color tColor = Black, Color bColor = White, UIComponent *parent = NULL);
 	
 	void draw() override;
-	void addComponent(UIComponent& component) {};
+	void addComponent(UIComponent* component) {};
 	void removeAll() {};
 	~Label() {};
 };

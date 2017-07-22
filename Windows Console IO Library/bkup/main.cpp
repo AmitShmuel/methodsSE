@@ -1,5 +1,5 @@
-#include "../Components/Label.h"
-//#include "ConsoleController.h"
+#include "Label.h"
+#include "ConsoleController.h"
 #include "../Common/Graphics.h"
 #include <iostream>
 using namespace std;
