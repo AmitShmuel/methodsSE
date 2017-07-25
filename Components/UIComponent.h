@@ -44,8 +44,8 @@ public:
 	// setters:
 	//void setVisible(bool visible) { isVisible = visible; }
 	void setBorderType(BorderType border) { borderType = border; draw(); }
-	void setWidth(int _width) { removeFromScreen(); width = _width; draw(); }
-	void setHeight(int _height) { removeFromScreen(); height = _height; draw(); }
+	virtual void setWidth(int _width) { removeFromScreen(); width = _width; draw(); }
+	virtual void setHeight(int _height) { removeFromScreen(); height = _height; draw(); }
 	void setPosition(short _x, short _y) { removeFromScreen(); position = { _x, _y }; draw(); }
 	void setTextColor(Color color) { textColor = color; draw(); }
 	void setBackgroundColor(Color color) { backgroundColor = color; draw(); }

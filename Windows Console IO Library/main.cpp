@@ -1,5 +1,6 @@
 #include "../Components/Label.h"
 #include "../Components/MessageWindow.h"
+#include "../Components/NumericBox.h"
 #include <iostream>
 using namespace std;
 /*
@@ -13,8 +14,8 @@ class ActionTest : public Action {
 void main() {
 
 
-	UIComponent *m = new MessageWindow("A Message", 0, 0, 50, 5, Solid, Orange, Blue);
-	m->draw();
+	//UIComponent *m = new MessageWindow("A Message", 0, 0, 50, 5, Solid, Orange, Blue);
+	//m->draw();
 
 	//UIComponent *l = new Label("silencio1234567",0, 0, 25, 7, Double, Blue, Green);
 	//l->draw();
@@ -26,9 +27,11 @@ void main() {
 	button->click();*/
 
 	//delete button;
-	delete m;
 	//delete m;
 
+	UIComponent* numBox = new NumericBox(100, 1, 100000000, 0, 0, Solid, White, Black);
+	numBox->draw();
+	delete numBox;
 	getchar();
 	CCTRLDESTROY;
 }

@@ -1,13 +1,15 @@
 #include "NumericBox.h"
 
-NumericBox::NumericBox(int _val, int _min, int _max, short x_pos, short y_pos, int w, int h,
+NumericBox::NumericBox(int _val, int _min, int _max, short x_pos, short y_pos,
 	BorderType border, Color tColor, Color bColor, UIComponent * parent)
-	: UIComponent(x_pos, y_pos, w, h, border, tColor, bColor, parent), incrementor(*this), decrementor(*this) {
+	: UIComponent(x_pos, y_pos, 14, 2, border, tColor, bColor, parent), incrementor(*this), decrementor(*this) {
 
 	if (_val >= _min && _val <= _max) {
 		maximum = _max;
 		minimum = _min;
 		value = _val;
+		decBtn = new Button(&decrementor, "-", x_pos, y_pos, 1,2, border, tColor, bColor);
+		incBtn = new Button(&incrementor, "+", x_pos+13, y_pos, 1, 2, border, tColor, bColor);
 	}
 	else {
 		throw IOConsoleException("Numeric Box: value exceeds limits");
@@ -15,37 +17,35 @@ NumericBox::NumericBox(int _val, int _min, int _max, short x_pos, short y_pos, i
 }
 
 void NumericBox::drawValue() const {
-	//auto ctrl = CCTRL;
-	//// clear background
-	//COORD c = { position.X + 2, position.Y + 1 };
-	//short text_len = static_cast<short>(std::to_string(getValue()).length());
-	//int size = width;
-	////SetConsoleCursorPosition(h, c);
-	//ctrl.setPosition(c);
-	//for (short i = 0; i < size - 2; i++) {
-	//	std::cout << " ";
-	//}
+	auto ctrl = CCTRL;
+	// clear background
+	COORD c = { position.X + 3, position.Y + 1 };
+	short text_len = static_cast<short>(std::to_string(getValue()).length());
+	//SetConsoleCursorPosition(h, c);
+	ctrl.setPosition(c);
+	for (short i = 0; i < width - 4; i++) {
+		std::cout << " ";
+	}
 
-	//// print centered text
-	//c = { position.X + static_cast<short>((width) / 2) - text_len / 2, position.Y + 1 };
-	////SetConsoleCursorPosition(h, c);
-	//ctrl.setPosition(c);
-	//std::cout << getValue();
-}
-
-void NumericBox::drawOperators() const {
-	//auto ctrl = CCTRL;
-	//COORD c = { position.X + 1, position.Y + 1 };
-	//ctrl.setPosition(c);
-	//std::cout << "-";
-	//c = { static_cast<short>(width) - position.X, position.Y + 1 };
-	//ctrl.setPosition(c);
-	//std::cout << "+";
+	// print centered text
+	c = { position.X + static_cast<short>(width / 2) - text_len / 2, position.Y + 1 };
+	ctrl.setPosition(c);
+	std::cout << getValue();
 }
 
 void NumericBox::draw() {
+	decBtn->draw();
+	incBtn->draw();
 	UIComponent::draw();
-	drawOperators();
+	auto ctrl = CCTRL;
+	ctrl.setPosition({ position.X + 2, position.Y});
+	std::cout << "\xC2";
+	ctrl.setPosition({ position.X + 13, position.Y });
+	std::cout << "\xC2";
+	ctrl.setPosition({ position.X + 2, position.Y +2});
+	std::cout << "\xC1";
+	ctrl.setPosition({ position.X + 13, position.Y + 2 });
+	std::cout << "\xC1";
 	drawValue();
 }
 
@@ -75,8 +75,8 @@ void NumericBox::setMax(int _max) {
 }
 
 NumericBox::~NumericBox() {
-	if (incrementButton) delete incrementButton;
-	if (decrementButton) delete decrementButton;
+	if (incBtn) delete incBtn;
+	if (decBtn) delete decBtn;
 }
 
 void NumericBox::IncrementAction::action() {

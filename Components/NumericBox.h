@@ -26,21 +26,23 @@ class NumericBox : public UIComponent {
 
 	/*===========NumericBox Defenition=============================*/
 	int value, minimum, maximum;
-	Button *incrementButton, *decrementButton;
+	Button *incBtn, *decBtn;
 	IncrementAction incrementor;
 	DecrementAction decrementor;
 
 	void drawValue() const;
-	void drawOperators() const;
 
 public:
 
-	NumericBox(int _val = 0, int _min = -INT_MIN, int _max = INT_MAX, short x_pos = 0, short y_pos = 0, int w = 0, int h = 0, BorderType border = None,
+	NumericBox(int _val = 0, int _min = -INT_MIN, int _max = INT_MAX, short x_pos = 0, short y_pos = 0, BorderType border = None,
 		Color tColor = Black, Color bColor = White, UIComponent *parent = NULL);
 
 	virtual void draw() override;
 	virtual void addComponent(UIComponent * component) {};
 	virtual void removeAll() {};
+
+	virtual void setHeight(int _h) override {};
+	virtual void setWidth(int _w)  override {};
 
 	// setters
 	void setValue(int);
