@@ -115,12 +115,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="UIComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Panel.h" />
