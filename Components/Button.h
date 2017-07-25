@@ -6,16 +6,8 @@ class Button : public Label {
 	Action* actioner;
 
 public:
-<<<<<<< HEAD
 		Button(Action* act ,std::string _text, short x_pos = 0, short y_pos = 0, int w = 0, int h = 0,
 			BorderType border = None, Color tColor = Black, Color bColor = White, UIComponent* parent = NULL);
 
 		void click() const;
 };
-=======
-	Button(Action* act, std::string _text, short x_pos = 0, short y_pos = 0, int w = 0, int h = 0,
-		BorderType border = None, Color tColor = Black, Color bColor = White, UIComponent* parent = NULL);
-
-	void click() const;
-};
->>>>>>> MessageWindow

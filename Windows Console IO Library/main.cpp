@@ -37,7 +37,7 @@ void main() {
 	button->draw();
 	GFX.moveTo(0, 5);
 	button->click();*/
-	
+
 	//delete button;
 	//delete l;
 	delete m;
