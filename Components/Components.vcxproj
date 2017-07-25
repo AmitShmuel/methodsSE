@@ -118,6 +118,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="Label.cpp" />
+    <ClCompile Include="MessageWindow.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="UIComponent.cpp" />
   </ItemGroup>
@@ -125,6 +126,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="Label.h" />
+    <ClInclude Include="MessageWindow.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="UIComponent.h" />
   </ItemGroup>

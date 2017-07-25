@@ -30,6 +30,12 @@
     <ClCompile Include="Action.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="IOConsoleException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+>>>>>>> MessageWindow
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EventEngine.h">
@@ -47,5 +53,11 @@
     <ClInclude Include="Action.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="IOConsoleException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+>>>>>>> MessageWindow
   </ItemGroup>
 </Project>
