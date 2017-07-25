@@ -6,7 +6,7 @@
 
 //typedef enum BorderType {NONE, DOTTED, SOLID, DBL} BorderType;
 //typedef enum UIColor {BLACK, BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHTGRAY, DARKGRAY, LIGHTBLUE,
-//					LIGHTGREEN, LIGHTCYAN, LIGHTRED, LIGHTMAGENTA, YELLOW, WHITE} UIColor;
+//						LIGHTGREEN, LIGHTCYAN, LIGHTRED, LIGHTMAGENTA, YELLOW, WHITE} UIColor;
 
 class UIComponent : public Control {
 
@@ -32,7 +32,7 @@ public:
 
 	//Setters:
 	//void setVisible(bool visible) { isVisible = visible; }
-	void setBorderType(BorderType border) { borderType = border; draw(); }	//TODO
+	void setBorderType(BorderType border) { borderType = border; draw(); }
 	void setPosition(short _x, short _y) { removeFromScreen(); left = _x; top = _y; draw(); }
 	void setTextColor(Color color, bool intensity = false) { removeFromScreen();  textColor = color; draw(); }
 	void setBackgroundColor(Color color, bool intensity = false) { removeFromScreen(); backgroundColor = color; draw(); }

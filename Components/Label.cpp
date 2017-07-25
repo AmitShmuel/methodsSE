@@ -28,6 +28,10 @@ void Label::draw() {
 	//ctrl.setPosition(c);
 	GFX.moveTo(c.X, c.Y);
 	std::cout << text;
-	
+}
 
+void Label::setText(std::string _text) {
+	text = _text;
+	if (text.length() > width) text = text.substr(0, width);
+	draw();
 }
