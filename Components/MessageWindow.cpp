@@ -12,16 +12,20 @@ MessageWindow::MessageWindow(std::string _text, short x_pos, short y_pos, short 
 void MessageWindow::draw() {
 
 	UIComponent::draw();
-
-	COORD c = { left + 1, top + 1 };
+	ConsoleController ctrl = CCTRL;
+	COORD c = { position.X + 1, position.Y + 1 };
 	short text_len = static_cast<short>(text.length());
-	GFX.moveTo(c.X, c.Y);
-	for (short i = 0; i < width; i++) 
-		std::cout << " ";
+	ctrl.setPosition(c);
+	for (short i = 0; i < height; i++) {
+		for (short j = 0; j < width; j++) {
+			std::cout << " ";
+		}
+		ctrl.setPosition({ position.X + 1, position.Y + i + 1 });
+	}
 
 	// print centered text
-	c = { left + 1 + ((width) / 2) - text_len / 2, top + 1 };
-	GFX.moveTo(c.X, c.Y);
+	c = { position.X + 1 + static_cast<short> ((width) / 2) - text_len / 2, position.Y + 1 };
+	ctrl.setPosition(c);
 	std::cout << text;
 
 	okBtn.draw();
@@ -33,7 +37,6 @@ void MessageWindow::draw() {
 bool MessageWindow::listen() {
 
 	// TODO: button press
-
 	for (;;) {
 		//if(okBtn pressed) return true;
 		//if(cancelBtn pressed) return false;

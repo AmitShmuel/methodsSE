@@ -75,7 +75,7 @@ void ConsoleController::testEvents() {
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
 		bool tab_down = false;
 		if (num_read) {
-			for (int i = 0; i<num_read; i++) {
+			for (int i = 0; i< (int) num_read; i++) {
 				switch (ir[i].EventType) {
 				case KEY_EVENT:
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;

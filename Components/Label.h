@@ -18,6 +18,6 @@ public:
 	std::string getText() const { return text; }
 
 	void draw() override;
-	void addComponent(UIComponent* component) {};
-	void removeAll() {};
+	void virtual addComponent(UIComponent* component) {};
+	void virtual removeAll() {};
 };

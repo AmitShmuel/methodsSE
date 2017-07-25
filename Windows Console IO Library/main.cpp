@@ -1,35 +1,22 @@
 #include "../Components/Label.h"
 #include "../Components/MessageWindow.h"
-//#include "ConsoleController.h"
-#include "../Common/Graphics.h"
-#include "../Components/Button.h"
-#include "../Common/Action.h"
-#include "../Common/IOConsoleException.h"
 #include <iostream>
 using namespace std;
-
+/*
 class ActionTest : public Action {
 
 	virtual void action() override {
 		cout << "Hello World";
 	}
 };
-
+*/
 void main() {
 
-	//Graphics g = Graphics();
-	try {
-		GFX.setBackground(Blue);
-		GFX.clearScreen();
-	}
-	catch (const IOConsoleException&) {
-		cout << "Just an example..\n";
-	}
 
 	UIComponent *m = new MessageWindow("A Message", 0, 0, 50, 5, Solid, Orange, Blue);
 	m->draw();
 
-	//UIComponent *l = new Label("Silencio1234567",0, 0, 50, 4, Double, BrightOrange, Blue);
+	//UIComponent *l = new Label("silencio1234567",0, 0, 25, 7, Double, Blue, Green);
 	//l->draw();
 
 	/*ActionTest at;
@@ -39,10 +26,9 @@ void main() {
 	button->click();*/
 
 	//delete button;
-	//delete l;
 	delete m;
+	//delete m;
 
 	getchar();
-	GFX.moveTo(0, 10);
-	GFX_DESTROY;
+	CCTRLDESTROY;
 }

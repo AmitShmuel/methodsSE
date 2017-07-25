@@ -27,7 +27,7 @@ public:
 	virtual void setWidth(int _width) { width = _width; };
 	virtual void setHeight(int _height) { height = _height; };
 	virtual void getAllControls(vector<Control*>* controls) {};
-	virtual bool canGetFocus() { return FALSE; };
+	virtual bool canGetFocus() { return false; };
 	~Control();
 };
 

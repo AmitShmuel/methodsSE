@@ -10,23 +10,23 @@ Label::Label(std::string _text, short x_pos, short y_pos, short w, short h, Bord
 void Label::draw() {
 
 	UIComponent::draw();
-	//ConsoleController ctrl = CCTRL;
+	ConsoleController ctrl = CCTRL;
 	// clear background
-	COORD c = { left + 1, top + 1 };
+	COORD c = { position.X + 1, position.Y + 1 };
 	short text_len = static_cast<short>(text.length());
-	short size = width;
-	//SetConsoleCursorPosition(h, c);
-	//ctrl.setPosition(c);
-	GFX.moveTo(c.X, c.Y);
-	for (short i = 0; i < size; i++) {
-		std::cout << " ";
+	ctrl.setPosition(c);
+	//GFX.moveTo(c.X, c.Y);
+	for (short i = 0; i < height; i++) {
+		for (short j = 0; j < width; j++) {
+			std::cout << " ";
+		}
+		ctrl.setPosition({ position.X + 1, position.Y + i + 1});
 	}
 
 	// print centered text
-	c = { left + 1 + ((width) / 2) - text_len / 2, top + 1 };
-	//SetConsoleCursorPosition(h, c);
-	//ctrl.setPosition(c);
-	GFX.moveTo(c.X, c.Y);
+	c = { position.X + 1 + static_cast<short>((width) / 2) - text_len / 2, position.Y + 1 };
+	ctrl.setPosition(c);
+	//GFX.moveTo(c.X, c.Y);
 	std::cout << text;
 }
 
