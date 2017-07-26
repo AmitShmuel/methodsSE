@@ -3,17 +3,11 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ConsoleController.cpp" />
-    <ClCompile Include="Control.cpp" />
-    <ClCompile Include="EventEngine.cpp" />
-    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IOConsoleException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="ConsoleController.h" />
-    <ClInclude Include="Control.h" />
-    <ClInclude Include="EventEngine.h" />
-    <ClInclude Include="Graphics.h" />
     <ClInclude Include="IOConsoleException.h" />
   </ItemGroup>
 </Project>
