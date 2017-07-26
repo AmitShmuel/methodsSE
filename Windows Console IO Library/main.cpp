@@ -2,6 +2,7 @@
 #include "../Components/MessageWindow.h"
 #include "../Components/NumericBox.h"
 #include "../Components/Button.h"
+#include "../Components/TextBox.h"
 #include <iostream>
 using namespace std;
 
@@ -30,11 +31,16 @@ void main() {
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
 	numBox->draw();
 
+	TextBox* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 5, Dotted, White, Black);
+	textBox->draw();
+
+
 	CCTRL.listenToUserEvents();
 
 	delete l;
 	delete button;
 	delete numBox;
+	delete textBox;
 	getchar();
 	CCTRLDESTROY;
 }

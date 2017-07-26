@@ -46,6 +46,7 @@ public:
 	void setCursorSize(DWORD size);
 
 	// getters
+	COORD getPosition() const;
 	bool isMouseEnabled();
 	bool isCursorVisible();
 	DWORD getCursorSize();

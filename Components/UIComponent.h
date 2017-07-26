@@ -55,7 +55,7 @@ public:
 	BorderType getBorderType()		const { return borderType; }
 	int		   getWidth()			const { return width; }
 	int		   getHeight()			const { return height; }
-	short	   getXPoisition()		const { return position.X; }
+	short	   getXPosition()		const { return position.X; }
 	short	   getYPosition()		const { return position.Y; }
 	Color	   getTextColor()		const { return textColor; }
 	Color	   getBackgroundColor() const { return backgroundColor; }

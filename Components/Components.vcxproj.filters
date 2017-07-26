@@ -8,6 +8,7 @@
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="UIComponent.cpp" />
     <ClCompile Include="NumericBox.cpp" />
+    <ClCompile Include="TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -17,5 +18,6 @@
     <ClInclude Include="Panel.h" />
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="NumericBox.h" />
+    <ClInclude Include="TextBox.h" />
   </ItemGroup>
 </Project>
