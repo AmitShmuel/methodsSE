@@ -127,6 +127,8 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="ComboBox.h" />
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="DimensionException.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="MessageWindow.h" />
     <ClInclude Include="NumericBox.h" />

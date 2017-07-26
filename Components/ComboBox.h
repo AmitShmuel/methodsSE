@@ -5,11 +5,21 @@
 using namespace std;
 
 class ComboBox : public UIComponent {
-	vector<string>* options;
-	string* selected;
+	vector<string> options;
+	int selected_index;
+	bool open;
 public:
-	ComboBox(vector<string>* options, short pos_x, short pos_y, short width, short height);
+	ComboBox(string* options, int len, short pos_x, short pos_y, short width, BorderType border = Double, Color tColor = White, Color bColor = Black, UIComponent* parent = NULL);
+
+	void draw();
+
+	// General UI Methods
 	bool canGetFocus() { return true; }
+
+	// ComboBox Specific
+	void toggle();
+	
+
 	~ComboBox();
 };
 

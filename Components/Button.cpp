@@ -5,6 +5,10 @@ Button::Button(Action* act, std::string _text, short x_pos, short y_pos, int w, 
 	CCTRL.attachObserver(this);
 }
 
+Button::~Button() {
+	CCTRL.detachObserver(this);
+}
+
 void Button::click() const {
 
 	if(actioner)

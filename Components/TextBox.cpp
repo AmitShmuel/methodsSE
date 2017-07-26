@@ -7,6 +7,10 @@ TextBox::TextBox(std::string _text, int _maxSize, short x_pos, short y_pos, shor
 	CCTRL.attachObserver(this);
 }
 
+TextBox::~TextBox() {
+	CCTRL.detachObserver(this);
+}
+
 void TextBox::setText(std::string _text) {
 	text = _text;
 	if (text.length() > width * height) text = text.substr(0, width * height);

@@ -3,6 +3,7 @@
 #include "../Components/NumericBox.h"
 #include "../Components/Button.h"
 #include "../Components/TextBox.h"
+#include "../Components/Components.h"
 #include <iostream>
 using namespace std;
 
@@ -15,7 +16,9 @@ class ActionTest : public Action {
 
 void main() {
 
-
+	CCTRL.setColors(BrightGreen, true, 0, 0);
+	cout << "FG: " << CCTRL.getTextColor() << "\tBG: " << CCTRL.getBackgroundColor();
+	getchar();
 	//UIComponent *m = new MessageWindow("A Message", 0, 0, 50, 5, Solid, Orange, Blue);
 	//m->draw();
 
@@ -34,9 +37,17 @@ void main() {
 	TextBox* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 5, Dotted, White, Black);
 	textBox->draw();
 
+	string* strs = new string[5];
+	strs[0] = "oneaaaaaaaaaaaa";
+	strs[1] = "two";
+	strs[2] = "thrdfghshgsdfgjfsdee";
+	strs[3] = "four";
+	strs[4] = "five";
+	UIComponent* combo = new ComboBox(strs, 5, 20, 22, 10, Solid, BrightOrange, Blue);
+	combo->draw();
+	//CCTRL.listenToUserEvents();
 
-	CCTRL.listenToUserEvents();
-
+	delete[] strs;
 	delete l;
 	delete button;
 	delete numBox;

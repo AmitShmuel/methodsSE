@@ -19,5 +19,7 @@
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="NumericBox.h" />
     <ClInclude Include="TextBox.h" />
+    <ClInclude Include="DimensionException.h" />
+    <ClInclude Include="Components.h" />
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ void Label::draw() {
 	}
 
 	// print centered text
-	c = { position.X + 1 + static_cast<short>((width) / 2) - text_len / 2, position.Y + 1 };
+	c = { position.X + 1 + width / 2 - text_len / 2, position.Y + 1 };
 	ctrl.setPosition(c);
 	//GFX.moveTo(c.X, c.Y);
 	std::cout << text;

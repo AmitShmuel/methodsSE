@@ -47,15 +47,19 @@ public:
 
 	// getters
 	COORD getPosition() const;
+	COORD getConsoleSize() const;
+	short getTextColor() const;
+	short getBackgroundColor() const;
 	bool isMouseEnabled();
 	bool isCursorVisible();
 	DWORD getCursorSize();
 
 	~ConsoleController();
 
-	// test functions
+	// Observer functions
 	void listenToUserEvents();
 	bool isIntersects(COORD mousePos, UIComponent* comp);
-	void attachObserver(UIComponent*);
+	void attachObserver(UIComponent* ob);
+	void detachObserver(UIComponent* ob);
 };
 
