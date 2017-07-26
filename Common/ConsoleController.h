@@ -1,5 +1,10 @@
 #pragma once
 #include <Windows.h>
+#include <vector>
+#include "../Components/UIComponent.h"
+
+#include <stdio.h>
+#include <iostream>
 #define CCTRL ConsoleController::init()
 #define CCTRLDESTROY ConsoleController::destroy()
 
@@ -9,6 +14,8 @@ Use CCTRL to avoid typing ConsoleController everytime
 
 Yftah
 */
+class UIComponent;	//Handling dependency injection
+
 class ConsoleController {
 private:
 	static ConsoleController *instance;	// singleton instance
@@ -21,6 +28,7 @@ private:
 	CONSOLE_CURSOR_INFO cursorInfo;		// current console info
 
 	// TODO: add event thread, listeners, etc	--yftah
+	std::vector<UIComponent*> observers;
 
 	// CTOR
 	ConsoleController();
@@ -44,8 +52,8 @@ public:
 	~ConsoleController();
 
 	// test functions
-	void testEvents();
-	
-
+	void listenToUserEvents();
+	bool isIntersects(COORD mousePos, UIComponent* comp);
+	void attachObserver(UIComponent*);
 };
 

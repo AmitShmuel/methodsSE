@@ -1,6 +1,5 @@
 #include "ConsoleController.h"
-#include <stdio.h>
-#include <iostream>
+
 // init static
 ConsoleController *ConsoleController::instance = 0;
 
@@ -66,9 +65,11 @@ DWORD ConsoleController::getCursorSize() {
 
 // test code for events 
 // TODO: event thread and attach listeners
-void ConsoleController::testEvents() {
+void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
+
+	bool flag = false;
 
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
@@ -99,10 +100,16 @@ void ConsoleController::testEvents() {
 				case MOUSE_EVENT:
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
-
 							SetConsoleCursorPosition(hOutput, { 0,0 });
-							printf("Mousedown");
-						
+							//printf("Mousedown");
+							auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
+							for (auto observer : observers) {
+								if (isIntersects(mousePos, observer)) {
+									//if (Button* btn = dynamic_cast<Button*>(observer)) {
+									//	btn->click();
+									//}
+								}
+							}
 						break;
 					case RI_MOUSE_LEFT_BUTTON_UP:
 						SetConsoleCursorPosition(hOutput, { 0,0 });
@@ -121,5 +128,16 @@ end:
 	return;
 }
 
+bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {
+	if (mousePos.X >= comp->getXPoisition() && mousePos.X <= comp->getXPoisition() + comp->getWidth() &&
+		mousePos.Y >= comp->getYPosition() && mousePos.Y <= comp->getYPosition() + comp->getHeight()) {
+		return true;
+	}
+	return false;
+}
+
+void ConsoleController::attachObserver(UIComponent* comp) {
+	observers.push_back(comp);
+}
 
 ConsoleController::~ConsoleController() {}

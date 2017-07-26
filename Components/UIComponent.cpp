@@ -2,8 +2,7 @@
 
 UIComponent::UIComponent(short x_pos, short y_pos, int w, int h, BorderType border, Color tColor, Color bColor, UIComponent *parent):
 position{ x_pos, y_pos }, width(w), height(h), borderType(border),
-textColor(tColor), backgroundColor(bColor) {
-}
+textColor(tColor), backgroundColor(bColor) {}
 
 UIComponent & UIComponent::getRoot() {
 	UIComponent *result = this;
@@ -60,32 +59,32 @@ void UIComponent::drawBorder() const {
 	default: return;
 	}
 
-	printf("%c", bc.leftTopCorner);
+	std::cout << bc.leftTopCorner;
 
 	for (i = 0; i < width; i++)
-		printf("%c", bc.horizontal);
+		std::cout << bc.horizontal;
 
-	printf("%c", bc.rightTopCorner);
+	std::cout << bc.rightTopCorner;
 
 	for (i = 1; i < height; i++) {
 		c = { position.X, position.Y + i };
 		//SetConsoleCursorPosition(h, c);
 		ctrl.setPosition(c);
-		printf("%c", bc.vertical);
+		std::cout << bc.vertical;
 		c = { position.X + static_cast<short>(width) + 1, position.Y + i };
 		//SetConsoleCursorPosition(h, c);
 		ctrl.setPosition(c);
-		printf("%c", bc.vertical);
+		std::cout << bc.vertical;
 	}
 
 	c = { position.X, position.Y + i };
 	//SetConsoleCursorPosition(h, c);
 	ctrl.setPosition(c);
-	printf("%c", bc.leftBottomCorner);
+	std::cout << bc.leftBottomCorner;
 	for (i = 0; i < width; i++) {
-		printf("%c", bc.horizontal);
+		std::cout << bc.horizontal;
 	}
-	printf("%c", bc.rightBottomCorner);
+	std::cout << bc.rightBottomCorner;
 }
 
 
