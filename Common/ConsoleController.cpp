@@ -101,7 +101,6 @@ void ConsoleController::listenToUserEvents() {
 							break;
 						default:
 							SetConsoleCursorPosition(hOutput, { 0,0 });
-							printf("x");
 							break;
 						}
 						setMouseEnabled(false);
@@ -124,10 +123,10 @@ void ConsoleController::listenToUserEvents() {
 										break;
 									}
 									if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
-										if (mousePos.X > textBox->getXPosition() + textBox->getText().length()) {
-											SetConsoleCursorPosition(hOutput, { textBox->getXPosition() + static_cast<short>(textBox->getText().length()) , textBox->getYPosition() });
+										if (mousePos.X > textBox->getXPosition() + textBox->getText().length() - 1) {
+											setPosition({ textBox->getXPosition() + static_cast<short>(textBox->getText().length()) , textBox->getYPosition() });
 										}
-										else  SetConsoleCursorPosition(hOutput, mousePos);
+										else  setPosition(mousePos);
 										break;
 									}
 								}
