@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <vector>
-#include "../Components/UIComponent.h"
+
 
 #include <stdio.h>
 #include <iostream>
@@ -14,6 +14,7 @@ Use CCTRL to avoid typing ConsoleController everytime
 
 Yftah
 */
+
 class UIComponent;	//Handling dependency injection
 
 class ConsoleController {

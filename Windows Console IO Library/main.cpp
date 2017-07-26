@@ -1,6 +1,7 @@
 #include "../Components/Label.h"
 #include "../Components/MessageWindow.h"
 #include "../Components/NumericBox.h"
+#include "../Components/Button.h"
 #include <iostream>
 using namespace std;
 
@@ -26,7 +27,7 @@ void main() {
 
 	//delete m;
 
-	UIComponent* numBox = new NumericBox(100, 1, 100000000, 0, 0, Solid, White, Black);
+	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
 	numBox->draw();
 
 	CCTRL.listenToUserEvents();

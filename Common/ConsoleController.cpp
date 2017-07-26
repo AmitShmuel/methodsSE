@@ -1,4 +1,6 @@
 #include "ConsoleController.h"
+#include "../Components/UIComponent.h"
+#include "../Components/Button.h"
 
 // init static
 ConsoleController *ConsoleController::instance = 0;
@@ -69,8 +71,6 @@ void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
 
-	bool flag = false;
-
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
@@ -105,9 +105,10 @@ void ConsoleController::listenToUserEvents() {
 							auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
 							for (auto observer : observers) {
 								if (isIntersects(mousePos, observer)) {
-									//if (Button* btn = dynamic_cast<Button*>(observer)) {
-									//	btn->click();
-									//}
+									//observer->click(ir[i].Event.MouseEvent)
+									if (Button* btn = dynamic_cast<Button*>(observer)) {
+										btn->click();
+									}
 								}
 							}
 						break;
