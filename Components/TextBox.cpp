@@ -11,6 +11,27 @@ TextBox::~TextBox() {
 	CCTRL.detachObserver(this);
 }
 
+void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
+	COORD mousePos = mouseRecord.dwMousePosition;
+	if (mousePos.Y > getYPosition() &&
+		mousePos.Y < getYPosition() + getHeight() &&
+		mousePos.X > getXPosition() &&
+		mousePos.X < getXPosition() + getWidth() + 1) {
+
+		if (mousePos.Y > lastIndexPosition.Y ||
+			(mousePos.Y == lastIndexPosition.Y &&
+				mousePos.X > lastIndexPosition.X)) {
+			CCTRL.setPosition(lastIndexPosition);
+		}
+		else CCTRL.setPosition(mousePos);
+
+	}
+}
+
+void TextBox::keyPressed(KEY_EVENT_RECORD) {
+
+}
+
 void TextBox::setText(std::string _text) {
 	text = _text;
 	if (text.length() > width * height) text = text.substr(0, width * height);

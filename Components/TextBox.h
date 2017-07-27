@@ -20,6 +20,9 @@ public:
 
 	bool canGetFocus() { return true; }
 
+	void mouseClicked(MOUSE_EVENT_RECORD);
+	void keyPressed(KEY_EVENT_RECORD);
+
 	// setters:
 	void setText(std::string);
 

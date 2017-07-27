@@ -33,7 +33,7 @@ void main() {
 	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, White, Black);
 	button->draw();
 
-	TextBox* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 5, Dotted, White, Black);
+	TextBox* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 10, Dotted, White, Black);
 	textBox->draw();
 
 	string* strs = new string[5];

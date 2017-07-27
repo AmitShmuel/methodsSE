@@ -150,32 +150,8 @@ void ConsoleController::listenToUserEvents() {
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
-								//observer->click(ir[i].Event.MouseEvent)
-								if (Button* btn = dynamic_cast<Button*>(observer)) {
-									btn->click();
-								}
-								else if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
-									if (mousePos.Y > textBox->getYPosition() &&
-										mousePos.Y < textBox->getYPosition() + textBox->getHeight() &&
-										mousePos.X > textBox->getXPosition() &&
-										mousePos.X < textBox->getXPosition() + textBox->getWidth() + 1) {
-
-										if (mousePos.Y > textBox->lastIndexPosition.Y ||
-											(mousePos.Y == textBox->lastIndexPosition.Y &&
-												mousePos.X > textBox->lastIndexPosition.X)) {
-											setPosition(textBox->lastIndexPosition);
-										}
-										else setPosition(mousePos);
-										
-									}
-									//std::cout << "X = " << textBox->lastIndexPosition.X << " Y = " << textBox->lastIndexPosition.Y;
-								} else if (ComboBox* comboBox = dynamic_cast<ComboBox*>(observer)) {
-									comboBox->mouseClicked(ir[i].Event.MouseEvent);
-								}
-								else
-									SetConsoleCursorPosition(hOutput, mousePos);
+								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
-							
 						}
 						break;
 					case RI_MOUSE_LEFT_BUTTON_UP:
