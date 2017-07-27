@@ -26,7 +26,7 @@ class NumericBox : public UIComponent {
 
 	/*===========NumericBox Defenition=============================*/
 	int value, minimum, maximum;
-	Button *incBtn, *decBtn;
+	Button incBtn, decBtn;
 	IncrementAction incrementor;
 	DecrementAction decrementor;
 
@@ -53,6 +53,4 @@ public:
 	int getValue() const { return value; }
 	int getMin()   const { return minimum; }
 	int getMax()   const { return maximum; }
-
-	~NumericBox();
 };

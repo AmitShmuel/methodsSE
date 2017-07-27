@@ -183,11 +183,8 @@ end:
 }
 
 bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {
-	if (mousePos.X >= comp->getXPosition() && mousePos.X <= comp->getXPosition() + comp->getWidth() &&
-		mousePos.Y >= comp->getYPosition() && mousePos.Y <= comp->getYPosition() + comp->getHeight()) {
-		return true;
-	}
-	return false;
+	return (mousePos.X >= comp->getXPosition() && mousePos.X <= comp->getXPosition() + comp->getWidth() &&
+		mousePos.Y >= comp->getYPosition() && mousePos.Y <= comp->getYPosition() + comp->getHeight());
 }
 
 void ConsoleController::attachObserver(UIComponent* comp) {
