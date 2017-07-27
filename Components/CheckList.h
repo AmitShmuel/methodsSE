@@ -13,16 +13,20 @@ class CheckList : public UIComponent {
 	};
 
 	vector<Item> list;
+	short current;
+	bool drawn;
 
 public:
 
 	CheckList(string* options, int len, short pos_x, short pos_y, short width, BorderType border = Double, Color tColor = White, Color bColor = Black, UIComponent* parent = NULL);
 
 	void draw();
+	void mouseClicked(MOUSE_EVENT_RECORD);
+	void keyPressed(KEY_EVENT_RECORD);
 
-	bool checkItem(int index);
-	bool uncheckItem(int index);
+	bool checkItem(bool toCheck, int index);
 	bool canGetFocus() { return true; }
-	const vector<Item> getCheckedList() const;
-};
+	const vector<string> getCheckedList() const;
 
+	~CheckList() { CCTRL.detachObserver(this); }
+};

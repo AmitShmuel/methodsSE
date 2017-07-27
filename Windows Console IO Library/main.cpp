@@ -50,9 +50,9 @@ void main() {
 	strs[5] = "sixsixsix";
 	strs[6] = "sevenblessings";
 	CheckList* checkList = new CheckList(strs, 7, 5, 5, 10, Solid, BrightOrange, Blue);
-	checkList->checkItem(1);
-	checkList->checkItem(4);
-	checkList->checkItem(6);
+	checkList->checkItem(true, 1);
+	checkList->checkItem(true, 4);
+	checkList->checkItem(true, 6);
 
 	checkList->draw();
 	CCTRL.setPosition({ 3, 3 });
