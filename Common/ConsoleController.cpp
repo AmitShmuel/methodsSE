@@ -139,7 +139,7 @@ void ConsoleController::listenToUserEvents() {
 
 
 						default:
-							if (observers[focusedIndex] && observers[focusedIndex]->canGetFocus()) {
+							if (focusedIndex > -1 && focusedIndex < observers.size() && observers[focusedIndex] && observers[focusedIndex]->canGetFocus()) {
 								observers[focusedIndex]->keyPressed(key);
 							}
 							break;

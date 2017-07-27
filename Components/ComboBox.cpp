@@ -4,7 +4,7 @@ using namespace std;
 
 ComboBox::ComboBox(ComboBox * o) : UIComponent(o->position.X, o->position.Y, o->width, 2, o->borderType, o->textColor, o->backgroundColor, o->parent), _originalState(NULL), options(NULL), selected_index(-1), open_down(o->open_down), open(false) {}
 
-ComboBox::ComboBox(string* options, int len, short pos_x, short pos_y, short width, BorderType border, Color tColor, Color bColor, UIComponent* parent) : UIComponent(pos_x, pos_y, width, 2, border, tColor, bColor, parent) ,options(vector<string>()), selected_index(0), open(false) {
+ComboBox::ComboBox(string* options, int len, short pos_x, short pos_y, short width, BorderType border, Color tColor, Color bColor, UIComponent* parent) : UIComponent(pos_x, pos_y, width, 2, border, tColor, bColor, parent) ,options(vector<string>()), selected_index(-1), open(false) {
 	for (int i = 0; i < len; ++i) {
 		this->options.push_back(options[i]);
 	}
@@ -25,7 +25,8 @@ void ComboBox::draw() {
 			height += options.size() + 1;
 			CCTRL.setPosition({ position.X + 1, position.Y + 1 });
 			CCTRL.setColors(this->textColor, true, this->backgroundColor, false);
-			cout << this->options.at(selected_index).substr(0, width - 3);
+			if (selected_index != -1)
+				cout << this->options.at(selected_index).substr(0, width - 3);
 			CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 			CCTRL.setPosition({ position.X + 1, position.Y + 2 });
 			for (int i = width; i > 0; --i) putchar('-');
@@ -50,7 +51,8 @@ void ComboBox::draw() {
 			for (int i = width; i > 0; --i) putchar('-');
 			CCTRL.setPosition({ position.X + 1, position.Y + height - 1 });
 			CCTRL.setColors(this->textColor, true, this->backgroundColor, false);
-			cout << this->options.at(selected_index).substr(0, width - 3);
+			if (selected_index != -1)
+				cout << this->options.at(selected_index).substr(0, width - 3);
 			CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 			CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + height - 1 });
 		}
@@ -60,7 +62,8 @@ void ComboBox::draw() {
 		CCTRL.setPosition({ this->getXPosition() + 1 , this->getYPosition() + 1 });
 		for (int i = width; i > 0; --i) putchar(' ');
 		CCTRL.setPosition({ this->getXPosition() + 1 , this->getYPosition() + 1 });
-		cout << this->options.at(selected_index).substr(0, width - 3);
+		if (selected_index != -1)
+			cout << this->options.at(selected_index).substr(0, width - 3);
 		CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + 1 });
 		open_down ? cout << "\\/" : cout << "/\\";
 	}
@@ -106,6 +109,23 @@ void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 	}
 }
 
+void ComboBox::keyPressed(KEY_EVENT_RECORD e) {
+	switch (e.wVirtualKeyCode) {
+	case VK_UP:
+		cout << "up";
+		break;
+	case VK_DOWN:
+		cout << "down";
+		break;
+	case VK_RETURN:
+	case VK_SPACE:
+		cout << "enter?";
+		break;
+	default:
+		break;
+	}
+}
+
 void ComboBox::toggle() {
 	open = !open; 
 	if (open) {
@@ -128,6 +148,10 @@ void ComboBox::toggle() {
 		
 		this->getRoot().draw();
 	}
+}
+
+string ComboBox::getValue() const {
+	return selected_index != -1 ? this->options.at(selected_index) : "No item selected";
 }
 
 ComboBox::~ComboBox() {
