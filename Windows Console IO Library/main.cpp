@@ -19,17 +19,20 @@ void main() {
 	CCTRL.setColors(BrightGreen, true, 0, 0);
 	cout << "FG: " << CCTRL.getTextColor() << "\tBG: " << CCTRL.getBackgroundColor();
 	getchar();
-	//UIComponent *m = new MessageWindow("A Message", 0, 0, 50, 5, Solid, Orange, Blue);
-	//m->draw();
 
-	UIComponent *l = new Label("silencio1234567",5, 5, 15, 7, Double, Blue, Green);
+	UIComponent *m = new MessageWindow("A Message", CCTRL.getConsoleSize().X/2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
+	m->draw();
+
+	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
+	numBox->draw();
+
+	/*UIComponent *l = new Label("silencio1234567",5, 5, 15, 7, Double, Blue, Green);
 	l->draw();
 
 	ActionTest at;
 	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, White, Black);
 	button->draw();
 
-	//delete m;
 
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
 	numBox->draw();
@@ -44,14 +47,17 @@ void main() {
 	strs[3] = "four";
 	strs[4] = "five";
 	UIComponent* combo = new ComboBox(strs, 5, 20, 22, 10, Solid, BrightOrange, Blue);
-	combo->draw();
-	//CCTRL.listenToUserEvents();
+	combo->draw();*/
+	CCTRL.listenToUserEvents();
 
-	delete[] strs;
+	delete m;
+	delete numBox;
+
+	/*delete[] strs;
 	delete l;
 	delete button;
 	delete numBox;
-	delete textBox;
+	delete textBox;*/
 	getchar();
 	CCTRLDESTROY;
 }

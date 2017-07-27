@@ -2,14 +2,15 @@
 
 NumericBox::NumericBox(int _val, int _min, int _max, short x_pos, short y_pos,
 	BorderType border, Color tColor, Color bColor, UIComponent * parent)
-	: UIComponent(x_pos, y_pos, 14, 2, border, tColor, bColor, parent), incrementor(*this), decrementor(*this) {
+	: UIComponent(x_pos, y_pos, 14, 2, border, tColor, bColor, parent),
+	incBtn(&incrementor, "+", x_pos + 13, y_pos, 1, 2, border, tColor, bColor),
+	decBtn(&decrementor, "-", x_pos, y_pos, 1, 2, border, tColor, bColor),
+	incrementor(*this), decrementor(*this) {
 
 	if (_val >= _min && _val <= _max) {
 		maximum = _max;
 		minimum = _min;
 		value = _val;
-		decBtn = new Button(&decrementor, "-", x_pos, y_pos, 1,2, border, tColor, bColor);
-		incBtn = new Button(&incrementor, "+", x_pos+13, y_pos, 1, 2, border, tColor, bColor);
 	}
 	else {
 		throw IOConsoleException("Numeric Box: value exceeds limits");
@@ -34,8 +35,8 @@ void NumericBox::drawValue() const {
 }
 
 void NumericBox::draw() {
-	decBtn->draw();
-	incBtn->draw();
+	decBtn.draw();
+	incBtn.draw();
 	UIComponent::draw();
 	auto ctrl = CCTRL;
 	ctrl.setPosition({ position.X + 2, position.Y});
@@ -74,10 +75,6 @@ void NumericBox::setMax(int _max) {
 	}
 }
 
-NumericBox::~NumericBox() {
-	if (incBtn) delete incBtn;
-	if (decBtn) delete decBtn;
-}
 
 void NumericBox::IncrementAction::action() {
 	parent.setValue(parent.getValue() + 1);
