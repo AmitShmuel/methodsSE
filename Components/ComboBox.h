@@ -9,6 +9,7 @@ class ComboBox : public UIComponent {
 	ComboBox* _originalState;
 	vector<string> options;
 	int selected_index;
+	int temp_index;
 	bool open_down;
 	bool open;
 
