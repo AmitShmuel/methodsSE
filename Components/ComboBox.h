@@ -25,6 +25,7 @@ public:
 	bool canGetFocus() { return true; }
 	void mouseClicked(MOUSE_EVENT_RECORD);
 	void keyPressed(KEY_EVENT_RECORD);
+	bool isTraversable() { return true; }
 
 	// ComboBox Specific
 	void toggle();
