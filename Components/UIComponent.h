@@ -21,7 +21,7 @@ class UIComponent {
 protected:
 	UIComponent *parent;
 	COORD position;
-	int width, height;
+	short width, height;
 	BorderType borderType;
 	Color textColor, backgroundColor;
 
@@ -34,16 +34,19 @@ public:
 	UIComponent(short x_pos = 0, short y_pos = 0, int w = 0, int h = 0, BorderType border = None,
 		Color tColor = Black, Color bColor = White, UIComponent *parent = NULL);
 
-	//TODO: Please implement it in Panel Class and avoid: Label.addComponent(...)
 	// Component functionality methods
 	UIComponent& getRoot();
 	virtual void addComponent(UIComponent& component) {};
 	virtual void removeAll() {};
 	virtual void draw() = 0;
 
+	// General UI Methods
+	virtual bool canGetFocus() { return false; }
+
 	// setters:
 	//void setVisible(bool visible) { isVisible = visible; }
 	void setBorderType(BorderType border) { borderType = border; draw(); }
+	void setParent(UIComponent* p) { parent = p; }
 	virtual void setWidth(int _width) { removeFromScreen(); width = _width; draw(); }
 	virtual void setHeight(int _height) { removeFromScreen(); height = _height; draw(); }
 	void setPosition(short _x, short _y) { removeFromScreen(); position = { _x, _y }; draw(); }

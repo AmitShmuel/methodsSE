@@ -2,6 +2,7 @@
 #include "../Components/UIComponent.h"
 #include "../Components/Button.h"
 #include "../Components/TextBox.h"
+#include <algorithm>
 
 // init static
 ConsoleController *ConsoleController::instance = 0;
@@ -58,12 +59,40 @@ COORD ConsoleController::getPosition() const {
 
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
 		COORD coord = { -1,-1 };
-		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi))
+		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
 			coord.X = csbi.dwCursorPosition.X;
-
-		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi))
 			coord.Y = csbi.dwCursorPosition.Y;
+		}
 		return coord;
+}
+
+COORD ConsoleController::getConsoleSize() const {
+	CONSOLE_SCREEN_BUFFER_INFO csbi = { 0 };
+	COORD c = { -1, -1 };
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+		c.X = csbi.srWindow.Right;
+		c.Y = csbi.srWindow.Bottom;;
+	}
+	return c;
+}
+
+short ConsoleController::getTextColor() const {
+	CONSOLE_SCREEN_BUFFER_INFO csbi = { 0 };
+	short result;
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+		result = csbi.wAttributes & 0x000F;
+	}
+	return result;
+}
+
+short ConsoleController::getBackgroundColor() const
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi = { 0 };
+	short result;
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+		result = csbi.wAttributes / 16;
+	}
+	return result;
 }
 
 bool ConsoleController::isMouseEnabled() {
@@ -159,6 +188,12 @@ bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {
 
 void ConsoleController::attachObserver(UIComponent* comp) {
 	observers.push_back(comp);
+}
+
+void ConsoleController::detachObserver(UIComponent *ob) {
+	std::vector<UIComponent*>::iterator position = std::find(this->observers.begin(), this->observers.end(), ob);
+	if (position != this->observers.end())
+		this->observers.erase(position);
 }
 
 ConsoleController::~ConsoleController() {}

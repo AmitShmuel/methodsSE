@@ -13,6 +13,7 @@ public:
 	TextBox(std::string _text, int _maxSize = 100, short x_pos = 0, short y_pos = 0, short w = 0, short h = 0,
 		BorderType border = None, Color tColor = Black, Color bColor = White, UIComponent *parent = NULL);
 	
+	~TextBox();
 	// setters:
 	void setText(std::string);
 

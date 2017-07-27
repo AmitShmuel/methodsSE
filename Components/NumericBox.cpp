@@ -28,7 +28,7 @@ void NumericBox::drawValue() const {
 	}
 
 	// print centered text
-	c = { position.X + static_cast<short>(width / 2) - text_len / 2, position.Y + 1 };
+	c = { position.X + width / 2 - text_len / 2, position.Y + 1 };
 	ctrl.setPosition(c);
 	std::cout << getValue();
 }

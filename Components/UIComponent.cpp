@@ -71,7 +71,7 @@ void UIComponent::drawBorder() const {
 		//SetConsoleCursorPosition(h, c);
 		ctrl.setPosition(c);
 		std::cout << bc.vertical;
-		c = { position.X + static_cast<short>(width) + 1, position.Y + i };
+		c = { position.X + width + 1, position.Y + i };
 		//SetConsoleCursorPosition(h, c);
 		ctrl.setPosition(c);
 		std::cout << bc.vertical;
