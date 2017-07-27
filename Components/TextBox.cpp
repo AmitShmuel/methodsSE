@@ -91,7 +91,7 @@ void TextBox::setText(std::string _text) {
 }
 
 void TextBox::draw() {
-
+	applyColors();
 	UIComponent::draw();
 	ConsoleController ctrl = CCTRL;
 	// clear background

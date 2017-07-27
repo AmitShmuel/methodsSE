@@ -41,7 +41,7 @@ bool RadioBox::clearSelection() {
 }
 
 void RadioBox::draw() {
-
+	applyColors();
 	height = static_cast<short> (options.size() + 1);
 	UIComponent::draw();
 	ConsoleController ctrl = CCTRL;

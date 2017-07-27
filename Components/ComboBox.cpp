@@ -14,10 +14,11 @@ ComboBox::ComboBox(string* options, int len, short pos_x, short pos_y, short wid
 }
 
 void ComboBox::draw() {
+	applyColors();
 	/*short orig_height = height;
 	COORD orig_pos = position;*/
-	short orig_tColor = CCTRL.getTextColor();
-	short orig_bColor = CCTRL.getBackgroundColor();
+	/*short orig_tColor = CCTRL.getTextColor();
+	short orig_bColor = CCTRL.getBackgroundColor();*/
 	CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 	if (open) {
 		if (open_down) {

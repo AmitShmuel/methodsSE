@@ -23,7 +23,7 @@ const vector<string> CheckList::getCheckedList() const {
 }
 
 void CheckList::draw() {
-
+	applyColors();
 	drawn = true;
 	height = list.size() + 1;
 	UIComponent::draw();
@@ -40,6 +40,8 @@ void CheckList::draw() {
 		cout << checkBox << item.text.substr(0, width - 4);
 		ctrl.setPosition({ c.X, ++c.Y });
 	}
+
+	postDraw();
 }
 
 bool CheckList::checkItem(bool toCheck, int index) {

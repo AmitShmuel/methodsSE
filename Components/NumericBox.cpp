@@ -37,6 +37,7 @@ void NumericBox::drawValue() const {
 void NumericBox::draw() {
 	decBtn.draw();
 	incBtn.draw();
+	applyColors();
 	UIComponent::draw();
 	auto ctrl = CCTRL;
 	ctrl.setPosition({ position.X + 2, position.Y});
