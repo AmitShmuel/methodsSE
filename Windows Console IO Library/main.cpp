@@ -34,7 +34,7 @@ void main() {
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
 	numBox->draw();
 
-	TextBox* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 5, Dotted, White, Black);
+	TextBox* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 10, Dotted, White, Black);
 	textBox->draw();
 
 	string* strs = new string[5];
@@ -45,7 +45,7 @@ void main() {
 	strs[4] = "five";
 	UIComponent* combo = new ComboBox(strs, 5, 20, 22, 10, Solid, BrightOrange, Blue);
 	combo->draw();
-	//CCTRL.listenToUserEvents();
+	CCTRL.listenToUserEvents();
 
 	delete[] strs;
 	delete l;

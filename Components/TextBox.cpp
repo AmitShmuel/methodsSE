@@ -45,14 +45,15 @@ void TextBox::draw() {
 		auto currPos = ctrl.getPosition();
 		if (position.Y + height == currPos.Y + 1 &&
 			currPos.X + string.length() + 1 > position.X + width) {
-			return;
+			break;
 		}
 
 		if (currPos.X + string.length() + 1 > position.X + width ) {
 			ctrl.setPosition({ position.X + 1, currPos.Y + 1 });
 		}
-		std::cout << string << " ";
-
+		std::cout << string;
+		lastIndexPosition = ctrl.getPosition();
+		std::cout << " ";
 	}
 	//std::cout << text;
 }

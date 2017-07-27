@@ -71,7 +71,7 @@ COORD ConsoleController::getConsoleSize() const {
 	COORD c = { -1, -1 };
 	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
 		c.X = csbi.srWindow.Right;
-		c.Y = csbi.srWindow.Bottom;;
+		c.Y = csbi.srWindow.Bottom;
 	}
 	return c;
 }
@@ -152,10 +152,20 @@ void ConsoleController::listenToUserEvents() {
 										break;
 									}
 									if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
-										if (mousePos.X > textBox->getXPosition() + textBox->getText().length() - 1) {
-											setPosition({ textBox->getXPosition() + static_cast<short>(textBox->getText().length()) , textBox->getYPosition() });
+										if (mousePos.Y > textBox->getYPosition() &&
+											mousePos.Y < textBox->getYPosition() + textBox->getHeight() &&
+											mousePos.X > textBox->getXPosition() &&
+											mousePos.X < textBox->getXPosition() + textBox->getWidth() + 1) {
+											
+											if (mousePos.Y > textBox->lastIndexPosition.Y ||
+												(mousePos.Y == textBox->lastIndexPosition.Y && 
+												 mousePos.X > textBox->lastIndexPosition.X) ) {
+												setPosition(textBox->lastIndexPosition);
+											}
+											else setPosition(mousePos);
 										}
-										else  setPosition(mousePos);
+										//std::cout << "X = " << textBox->lastIndexPosition.X << " Y = " << textBox->lastIndexPosition.Y;
+
 										break;
 									}
 								}
@@ -179,11 +189,8 @@ end:
 }
 
 bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {
-	if (mousePos.X >= comp->getXPosition() && mousePos.X <= comp->getXPosition() + comp->getWidth() &&
-		mousePos.Y >= comp->getYPosition() && mousePos.Y <= comp->getYPosition() + comp->getHeight()) {
-		return true;
-	}
-	return false;
+	return (mousePos.X >= comp->getXPosition() && mousePos.X <= comp->getXPosition() + comp->getWidth() &&
+		mousePos.Y >= comp->getYPosition() && mousePos.Y <= comp->getYPosition() + comp->getHeight());
 }
 
 void ConsoleController::attachObserver(UIComponent* comp) {
