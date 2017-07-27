@@ -1,7 +1,5 @@
 #include "ConsoleController.h"
-#include "../Components/UIComponent.h"
-#include "../Components/Button.h"
-#include "../Components/TextBox.h"
+#include "../Components/Components.h"
 #include <algorithm>
 
 // init static
@@ -37,6 +35,11 @@ void ConsoleController::setColors(short foregroundColor, bool foregroundIntensit
 	SetConsoleTextAttribute(hOutput, attr);
 }
 
+void ConsoleController::setDefaultColors(Color tColor, Color bColor) {
+	this->defaultTextColor = tColor;
+	this->defaultBackgroundColor = bColor;
+}
+
 void ConsoleController::setMouseEnabled(bool isVisibile) {
 	// TODO: FIXME: this does not seem to have any effect
 	//std::cout << (mode | ENABLE_MOUSE_INPUT) << std::endl;
@@ -57,13 +60,13 @@ void ConsoleController::setCursorSize(DWORD size) {
 
 COORD ConsoleController::getPosition() const {
 
-		CONSOLE_SCREEN_BUFFER_INFO csbi;
-		COORD coord = { -1,-1 };
-		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
-			coord.X = csbi.dwCursorPosition.X;
-			coord.Y = csbi.dwCursorPosition.Y;
-		}
-		return coord;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	COORD coord = { -1,-1 };
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+		coord.X = csbi.dwCursorPosition.X;
+		coord.Y = csbi.dwCursorPosition.Y;
+	}
+	return coord;
 }
 
 COORD ConsoleController::getConsoleSize() const {
@@ -112,25 +115,34 @@ DWORD ConsoleController::getCursorSize() {
 void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
-
+	int counter = 0;
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
 		bool tab_down = false;
 		if (num_read) {
-			for (int i = 0; i< (int) num_read; i++) {
+			for (int i = 0; i< (int)num_read; i++) {
 				switch (ir[i].EventType) {
 				case KEY_EVENT:
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
 						switch (key.wVirtualKeyCode) {
+						
+						//case VK_UP:
+
+						//	break;
+
 						case VK_TAB:
 
 							goto end;
 							break;
+
+
 						default:
-							SetConsoleCursorPosition(hOutput, { 0,0 });
-							printf("x");
+							if (observers[focusedIndex] && observers[focusedIndex]->canGetFocus()) {
+								//std::cout << "BLA BLA BLA BLA";
+								observers[focusedIndex]->keyPressed(key);
+							}
 							break;
 						}
 						setMouseEnabled(false);
@@ -142,25 +154,19 @@ void ConsoleController::listenToUserEvents() {
 				case MOUSE_EVENT:
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
-							SetConsoleCursorPosition(hOutput, { 0,0 });
-							//printf("Mousedown");
-							auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
-							for (auto observer : observers) {
-								if (isIntersects(mousePos, observer)) {
-									//observer->click(ir[i].Event.MouseEvent)
-									if (Button* btn = dynamic_cast<Button*>(observer)) {
-										btn->click();
-										break;
-									}
-									if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
-										if (mousePos.X > textBox->getXPosition() + textBox->getText().length()) {
-											SetConsoleCursorPosition(hOutput, { textBox->getXPosition() + static_cast<short>(textBox->getText().length()) , textBox->getYPosition() });
-										}
-										else  SetConsoleCursorPosition(hOutput, mousePos);
-										break;
-									}
+						SetConsoleCursorPosition(hOutput, { 0,0 });
+						//printf("Mousedown");
+						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
+						for (auto observer : observers) {
+							if (isIntersects(mousePos, observer)) {
+								if (observer->canGetFocus()) {
+									focusedIndex = counter;
 								}
+								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
+							counter++;
+						}
+						counter = 0;
 						break;
 					case RI_MOUSE_LEFT_BUTTON_UP:
 						SetConsoleCursorPosition(hOutput, { 0,0 });

@@ -11,6 +11,31 @@ TextBox::~TextBox() {
 	CCTRL.detachObserver(this);
 }
 
+void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
+	COORD mousePos = mouseRecord.dwMousePosition;
+	if (mousePos.Y > getYPosition() &&
+		mousePos.Y < getYPosition() + getHeight() &&
+		mousePos.X > getXPosition() &&
+		mousePos.X < getXPosition() + getWidth() + 1) {
+
+		if (mousePos.Y > lastIndexPosition.Y ||
+			(mousePos.Y == lastIndexPosition.Y &&
+				mousePos.X > lastIndexPosition.X)) {
+			CCTRL.setPosition(lastIndexPosition);
+		}
+		else CCTRL.setPosition(mousePos);
+
+	}
+}
+
+void TextBox::keyPressed(KEY_EVENT_RECORD key) {
+	switch (key.wVirtualKeyCode) {
+	case VK_UP:
+
+		break;
+	}
+}
+
 void TextBox::setText(std::string _text) {
 	text = _text;
 	if (text.length() > width * height) text = text.substr(0, width * height);
@@ -45,14 +70,15 @@ void TextBox::draw() {
 		auto currPos = ctrl.getPosition();
 		if (position.Y + height == currPos.Y + 1 &&
 			currPos.X + string.length() + 1 > position.X + width) {
-			return;
+			break;
 		}
 
 		if (currPos.X + string.length() + 1 > position.X + width ) {
 			ctrl.setPosition({ position.X + 1, currPos.Y + 1 });
 		}
-		std::cout << string << " ";
-
+		std::cout << string;
+		lastIndexPosition = ctrl.getPosition();
+		std::cout << " ";
 	}
 	//std::cout << text;
 }

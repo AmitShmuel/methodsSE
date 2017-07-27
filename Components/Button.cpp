@@ -14,3 +14,8 @@ void Button::click() const {
 	if(actioner)
 		actioner->action();
 }
+
+void Button::mouseClicked(MOUSE_EVENT_RECORD)
+{
+	click();
+}

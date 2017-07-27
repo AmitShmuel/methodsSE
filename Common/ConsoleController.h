@@ -15,6 +15,12 @@ Use CCTRL to avoid typing ConsoleController everytime
 Yftah
 */
 
+typedef enum BorderType { None, Dotted, Solid, Double } BorderType;
+typedef enum Color {
+	Black = 0x0000, Blue = 0x0001, Green = 0x0002, Red = 0x0004, Cyan = 0x0003, Purple = 0x0005, Orange = 0x0006, White = 0x0007
+	, BrightBlue = 0x0009, BrightGreen = 0x000A, BrightRed = 0x000B, BrightCyan = 0x000C, BrightPurple = 0x000D, BrightOrange = 0x000E, BrightWhite = 0x000F
+} Color;
+
 class UIComponent;	//Handling dependency injection
 
 class ConsoleController {
@@ -28,8 +34,12 @@ private:
 	WORD attr;							// current console text attributes
 	CONSOLE_CURSOR_INFO cursorInfo;		// current console info
 
+	// Default Color
+	Color defaultTextColor = White, defaultBackgroundColor = Black;
+
 	// TODO: add event thread, listeners, etc	--yftah
 	std::vector<UIComponent*> observers;
+	int focusedIndex;
 
 	// CTOR
 	ConsoleController();
@@ -41,9 +51,11 @@ public:
 	// setters
 	void setPosition(COORD c);
 	void setColors(short foregroundColor, bool foregroundIntensity, short backgroundColor, bool backgroundIntensity);
+	void setDefaultColors(Color tColor, Color bColor);
 	void setMouseEnabled(bool isEnabled);
 	void setCursorVisible(bool isVisible);
 	void setCursorSize(DWORD size);
+
 
 	// getters
 	COORD getPosition() const;

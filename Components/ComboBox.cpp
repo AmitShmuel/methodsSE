@@ -68,9 +68,33 @@ void ComboBox::draw() {
 }
 
 
+void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
+	if (CCTRL.isIntersects(e.dwMousePosition, this)) {
+		this->toggle();
+	}
+}
+
 void ComboBox::toggle() {
 	open = !open; 
-	open ? this->draw() : this->getRoot().draw();
+	if (open) {
+		this->draw();
+	} else {
+		bool open_down = CCTRL.getConsoleSize().Y > position.Y + options.size() + 1;
+		if (open_down) {
+			for (short i = 0; i < options.size() + 1; ++i) {
+				CCTRL.setPosition({ position.X, position.Y + 3 + i });
+				for (short j = width + 2; j > 0; --j) putchar(' ');
+			}
+		} else {
+			for (short i = 0; i < options.size() + 1; ++i) {
+				CCTRL.setPosition({ position.X, position.Y - static_cast<short>(options.size()) - 1 + i });
+				for (short j = width + 2; j > 0; --j) putchar(' ');
+			}
+		}
+		
+		
+		this->getRoot().draw();
+	}
 }
 
 ComboBox::~ComboBox() {

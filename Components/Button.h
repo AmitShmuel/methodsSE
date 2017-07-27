@@ -10,4 +10,6 @@ public:
 			BorderType border = None, Color tColor = Black, Color bColor = White, UIComponent* parent = NULL);
 		~Button();
 		void click() const;
+
+		void mouseClicked(MOUSE_EVENT_RECORD);
 };
