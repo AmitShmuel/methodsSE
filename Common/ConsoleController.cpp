@@ -36,7 +36,7 @@ void ConsoleController::setColors(short foregroundColor, bool foregroundIntensit
 }
 
 void ConsoleController::setDefaultColors(Color tColor, Color bColor) {
-	this->defaultTextColor = tColor; 
+	this->defaultTextColor = tColor;
 	this->defaultBackgroundColor = bColor;
 }
 
@@ -60,13 +60,13 @@ void ConsoleController::setCursorSize(DWORD size) {
 
 COORD ConsoleController::getPosition() const {
 
-		CONSOLE_SCREEN_BUFFER_INFO csbi;
-		COORD coord = { -1,-1 };
-		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
-			coord.X = csbi.dwCursorPosition.X;
-			coord.Y = csbi.dwCursorPosition.Y;
-		}
-		return coord;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	COORD coord = { -1,-1 };
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+		coord.X = csbi.dwCursorPosition.X;
+		coord.Y = csbi.dwCursorPosition.Y;
+	}
+	return coord;
 }
 
 COORD ConsoleController::getConsoleSize() const {
@@ -121,7 +121,7 @@ void ConsoleController::listenToUserEvents() {
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
 		bool tab_down = false;
 		if (num_read) {
-			for (int i = 0; i< (int) num_read; i++) {
+			for (int i = 0; i< (int)num_read; i++) {
 				switch (ir[i].EventType) {
 				case KEY_EVENT:
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
@@ -145,25 +145,38 @@ void ConsoleController::listenToUserEvents() {
 				case MOUSE_EVENT:
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
-							SetConsoleCursorPosition(hOutput, { 0,0 });
-							//printf("Mousedown");
-							auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
-							for (auto observer : observers) {
-								if (isIntersects(mousePos, observer)) {
-									//observer->click(ir[i].Event.MouseEvent)
-									if (Button* btn = dynamic_cast<Button*>(observer)) {
-										btn->click();
-									} else if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
-										if (mousePos.X > textBox->getXPosition() + textBox->getText().length()) {
-											SetConsoleCursorPosition(hOutput, { textBox->getXPosition() + static_cast<short>(textBox->getText().length()) , textBox->getYPosition() });
-										}
-										else  
-											SetConsoleCursorPosition(hOutput, mousePos);
-									} else if (ComboBox* comboBox = dynamic_cast<ComboBox*>(observer)) {
-										comboBox->mouseClicked(ir[i].Event.MouseEvent);
-									}
+						SetConsoleCursorPosition(hOutput, { 0,0 });
+						//printf("Mousedown");
+						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
+						for (auto observer : observers) {
+							if (isIntersects(mousePos, observer)) {
+								//observer->click(ir[i].Event.MouseEvent)
+								if (Button* btn = dynamic_cast<Button*>(observer)) {
+									btn->click();
 								}
+								else if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
+									if (mousePos.Y > textBox->getYPosition() &&
+										mousePos.Y < textBox->getYPosition() + textBox->getHeight() &&
+										mousePos.X > textBox->getXPosition() &&
+										mousePos.X < textBox->getXPosition() + textBox->getWidth() + 1) {
+
+										if (mousePos.Y > textBox->lastIndexPosition.Y ||
+											(mousePos.Y == textBox->lastIndexPosition.Y &&
+												mousePos.X > textBox->lastIndexPosition.X)) {
+											setPosition(textBox->lastIndexPosition);
+										}
+										else setPosition(mousePos);
+										
+									}
+									//std::cout << "X = " << textBox->lastIndexPosition.X << " Y = " << textBox->lastIndexPosition.Y;
+								} else if (ComboBox* comboBox = dynamic_cast<ComboBox*>(observer)) {
+									comboBox->mouseClicked(ir[i].Event.MouseEvent);
+								}
+								else
+									SetConsoleCursorPosition(hOutput, mousePos);
 							}
+							
+						}
 						break;
 					case RI_MOUSE_LEFT_BUTTON_UP:
 						SetConsoleCursorPosition(hOutput, { 0,0 });
