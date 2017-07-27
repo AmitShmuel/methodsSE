@@ -28,8 +28,12 @@ void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
 	}
 }
 
-void TextBox::keyPressed(KEY_EVENT_RECORD) {
+void TextBox::keyPressed(KEY_EVENT_RECORD key) {
+	switch (key.wVirtualKeyCode) {
+	case VK_UP:
 
+		break;
+	}
 }
 
 void TextBox::setText(std::string _text) {
