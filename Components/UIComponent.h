@@ -19,6 +19,7 @@ protected:
 	short width, height;
 	BorderType borderType;
 	Color textColor, backgroundColor;
+	bool focus;
 
 	//bool isVisible;
 	void removeFromScreen() const;
@@ -39,6 +40,9 @@ public:
 	virtual bool canGetFocus() { return false; }
 	virtual void mouseClicked(MOUSE_EVENT_RECORD) {}
 	virtual void keyPressed(KEY_EVENT_RECORD) {}
+	virtual void setFocus(bool focus) { this->focus = focus; }
+	void invertColors();
+	void applyColors();
 
 	// setters:
 	//void setVisible(bool visible) { isVisible = visible; }
@@ -55,10 +59,13 @@ public:
 	BorderType getBorderType()		const { return borderType; }
 	int		   getWidth()			const { return width; }
 	int		   getHeight()			const { return height; }
+	COORD      getDimentions()		const { return { width, height }; }
+	COORD	   getPosition()		const { return position; }
 	short	   getXPosition()		const { return position.X; }
 	short	   getYPosition()		const { return position.Y; }
 	Color	   getTextColor()		const { return textColor; }
 	Color	   getBackgroundColor() const { return backgroundColor; }
+	bool	   hasFocus() { return this->focus; }
 };
 
 

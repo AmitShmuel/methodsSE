@@ -122,6 +122,7 @@
     <ClCompile Include="MessageWindow.cpp" />
     <ClCompile Include="NumericBox.cpp" />
     <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="RadioBox.cpp" />
     <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="UIComponent.cpp" />
   </ItemGroup>
@@ -135,6 +136,7 @@
     <ClInclude Include="MessageWindow.h" />
     <ClInclude Include="NumericBox.h" />
     <ClInclude Include="Panel.h" />
+    <ClInclude Include="RadioBox.h" />
     <ClInclude Include="TextBox.h" />
     <ClInclude Include="UIComponent.h" />
   </ItemGroup>

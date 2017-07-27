@@ -2,7 +2,7 @@
 
 UIComponent::UIComponent(short x_pos, short y_pos, int w, int h, BorderType border, Color tColor, Color bColor, UIComponent *parent):
 position{ x_pos, y_pos }, width(w), height(h), borderType(border),
-textColor(tColor), backgroundColor(bColor) {}
+textColor(tColor), backgroundColor(bColor), focus(false) {}
 
 UIComponent & UIComponent::getRoot() {
 	UIComponent *result = this;
@@ -34,6 +34,16 @@ void UIComponent::removeFromScreen() const {
 void UIComponent::draw() {
 
 	drawBorder();
+}
+
+void UIComponent::invertColors() {
+	Color tmp = this->backgroundColor;
+	this->backgroundColor = this->textColor;
+	this->textColor = tmp;
+}
+
+void UIComponent::applyColors() {
+	CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 }
 
 void UIComponent::drawBorder() const {
