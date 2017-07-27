@@ -81,7 +81,10 @@ void ComboBox::toggle() {
 	} else {
 		bool open_down = CCTRL.getConsoleSize().Y > position.Y + options.size() + 1;
 		if (open_down) {
-			CCTRL.setPosition(position);
+			for (short i = 0; i < options.size() + 1; ++i) {
+				CCTRL.setPosition({ position.X, position.Y + 3 + i });
+				for (short j = width + 2; j > 0; --j) putchar(' ');
+			}
 		} else {
 			for (short i = 0; i < options.size() + 1; ++i) {
 				CCTRL.setPosition({ position.X, position.Y - static_cast<short>(options.size()) - 1 + i });
