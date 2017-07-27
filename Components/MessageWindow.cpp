@@ -4,9 +4,12 @@
 MessageWindow::MessageWindow(std::string _text, short x_pos, short y_pos, short w, short h,
 	BorderType border, Color tColor, Color bColor, UIComponent *parent) 
 	: UIComponent(x_pos, y_pos, w, h, border, tColor, bColor), text(_text),
-	okBtn(NULL, "OK", x_pos + w/6, y_pos + h - 3, w / 6, 2, Solid, Orange, Blue),
-	cancelBtn(NULL, "Cancel", x_pos + w -w/3, y_pos + h - 3, w / 6, 2, Solid, Orange, Blue) {
+	okBtn(&okAction, "OK", x_pos + w/6, y_pos + h - 3, w / 6, 2, Solid, Orange, Blue),
+	cancelBtn(&cancelAction, "Cancel", x_pos + w -w/3, y_pos + h - 3, w / 6, 2, Solid, Orange, Blue),
+	okAction(*this), cancelAction(*this) {
 
+	CCTRL.attachObserver(&okBtn);
+	CCTRL.attachObserver(&cancelBtn);
 }
 
 void MessageWindow::draw() {
@@ -30,15 +33,4 @@ void MessageWindow::draw() {
 
 	okBtn.draw();
 	cancelBtn.draw();
-
-	//listen();
-}
-
-bool MessageWindow::listen() {
-
-	// TODO: button press
-	for (;;) {
-		//if(okBtn pressed) return true;
-		//if(cancelBtn pressed) return false;
-	}
 }

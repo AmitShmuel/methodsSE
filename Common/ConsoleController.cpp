@@ -1,7 +1,5 @@
 #include "ConsoleController.h"
-#include "../Components/UIComponent.h"
-#include "../Components/Button.h"
-#include "../Components/TextBox.h"
+#include "../Components/Components.h"
 #include <algorithm>
 
 // init static
@@ -35,6 +33,11 @@ void ConsoleController::setPosition(COORD c) {
 void ConsoleController::setColors(short foregroundColor, bool foregroundIntensity, short backgroundColor, bool backgroundIntensity) {
 	attr = foregroundColor | FOREGROUND_INTENSITY * foregroundIntensity | 16 * backgroundColor | BACKGROUND_INTENSITY * backgroundIntensity;
 	SetConsoleTextAttribute(hOutput, attr);
+}
+
+void ConsoleController::setDefaultColors(Color tColor, Color bColor) {
+	this->defaultTextColor = tColor; 
+	this->defaultBackgroundColor = bColor;
 }
 
 void ConsoleController::setMouseEnabled(bool isVisibile) {
@@ -71,7 +74,7 @@ COORD ConsoleController::getConsoleSize() const {
 	COORD c = { -1, -1 };
 	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
 		c.X = csbi.srWindow.Right;
-		c.Y = csbi.srWindow.Bottom;
+		c.Y = csbi.srWindow.Bottom;;
 	}
 	return c;
 }
@@ -130,6 +133,7 @@ void ConsoleController::listenToUserEvents() {
 							break;
 						default:
 							SetConsoleCursorPosition(hOutput, { 0,0 });
+							printf("x");
 							break;
 						}
 						setMouseEnabled(false);
@@ -149,24 +153,14 @@ void ConsoleController::listenToUserEvents() {
 									//observer->click(ir[i].Event.MouseEvent)
 									if (Button* btn = dynamic_cast<Button*>(observer)) {
 										btn->click();
-										break;
-									}
-									if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
-										if (mousePos.Y > textBox->getYPosition() &&
-											mousePos.Y < textBox->getYPosition() + textBox->getHeight() &&
-											mousePos.X > textBox->getXPosition() &&
-											mousePos.X < textBox->getXPosition() + textBox->getWidth() + 1) {
-											
-											if (mousePos.Y > textBox->lastIndexPosition.Y ||
-												(mousePos.Y == textBox->lastIndexPosition.Y && 
-												 mousePos.X > textBox->lastIndexPosition.X) ) {
-												setPosition(textBox->lastIndexPosition);
-											}
-											else setPosition(mousePos);
+									} else if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
+										if (mousePos.X > textBox->getXPosition() + textBox->getText().length()) {
+											SetConsoleCursorPosition(hOutput, { textBox->getXPosition() + static_cast<short>(textBox->getText().length()) , textBox->getYPosition() });
 										}
-										//std::cout << "X = " << textBox->lastIndexPosition.X << " Y = " << textBox->lastIndexPosition.Y;
-
-										break;
+										else  
+											SetConsoleCursorPosition(hOutput, mousePos);
+									} else if (ComboBox* comboBox = dynamic_cast<ComboBox*>(observer)) {
+										comboBox->mouseClicked(ir[i].Event.MouseEvent);
 									}
 								}
 							}

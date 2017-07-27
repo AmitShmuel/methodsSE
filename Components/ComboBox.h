@@ -15,6 +15,7 @@ public:
 
 	// General UI Methods
 	bool canGetFocus() { return true; }
+	void mouseClicked(MOUSE_EVENT_RECORD);
 
 	// ComboBox Specific
 	void toggle();

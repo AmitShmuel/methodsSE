@@ -26,12 +26,16 @@ void main() {
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
 	numBox->draw();
 
-	UIComponent *l = new Label("silencio1234567",5, 5, 15, 7, Double, Blue, Green);
+	/*UIComponent *l = new Label("silencio1234567",5, 5, 15, 7, Double, Blue, Green);
 	l->draw();
 
 	ActionTest at;
 	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, White, Black);
 	button->draw();
+
+
+	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
+	numBox->draw();
 
 	TextBox* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 5, Dotted, White, Black);
 	textBox->draw();
@@ -43,14 +47,17 @@ void main() {
 	strs[3] = "four";
 	strs[4] = "five";
 	UIComponent* combo = new ComboBox(strs, 5, 20, 22, 10, Solid, BrightOrange, Blue);
-	combo->draw();
+	combo->draw();*/
 	CCTRL.listenToUserEvents();
 
-	delete[] strs;
+	delete m;
+	delete numBox;
+
+	/*delete[] strs;
 	delete l;
 	delete button;
 	delete numBox;
-	delete textBox;
+	delete textBox;*/
 	getchar();
 	CCTRLDESTROY;
 }
