@@ -6,7 +6,7 @@
 ConsoleController *ConsoleController::instance = 0;
 
 // private CTOR for jesus
-ConsoleController::ConsoleController() : hOutput(GetStdHandle(STD_OUTPUT_HANDLE)), hInput(GetStdHandle(STD_INPUT_HANDLE)) {
+ConsoleController::ConsoleController() : hOutput(GetStdHandle(STD_OUTPUT_HANDLE)), hInput(GetStdHandle(STD_INPUT_HANDLE)), focusedIndex(-1) {
 	GetConsoleMode(hInput, &mode);
 	GetConsoleCursorInfo(hOutput, &cursorInfo);
 }
@@ -140,7 +140,6 @@ void ConsoleController::listenToUserEvents() {
 
 						default:
 							if (observers[focusedIndex] && observers[focusedIndex]->canGetFocus()) {
-								//std::cout << "BLA BLA BLA BLA";
 								observers[focusedIndex]->keyPressed(key);
 							}
 							break;
@@ -154,6 +153,7 @@ void ConsoleController::listenToUserEvents() {
 				case MOUSE_EVENT:
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
+						focusedIndex = -1;
 						SetConsoleCursorPosition(hOutput, { 0,0 });
 						//printf("Mousedown");
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
