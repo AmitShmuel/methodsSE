@@ -116,6 +116,9 @@ void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
 	int counter = 0;
+
+	this->setCursorVisible(false);
+
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
@@ -127,14 +130,11 @@ void ConsoleController::listenToUserEvents() {
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
 						switch (key.wVirtualKeyCode) {
-						
-						//case VK_UP:
-
-						//	break;
 
 						case VK_TAB:
-
-							goto end;
+							while (focusedIndex != -1 && !observers[focusedIndex]->canGetFocus()) {
+								focusedIndex = (++focusedIndex) % observers.size();
+							}
 							break;
 
 
@@ -173,11 +173,6 @@ void ConsoleController::listenToUserEvents() {
 						counter = 0;
 						break;
 					case RI_MOUSE_LEFT_BUTTON_UP:
-						SetConsoleCursorPosition(hOutput, { 0,0 });
-						printf("         ");
-						/*SetConsoleCursorPosition(h, { 0,0 });
-						printf("\b                   \b");
-						printf("Mouseup");*/
 						break;
 					}
 					
@@ -186,8 +181,6 @@ void ConsoleController::listenToUserEvents() {
 			}
 		}
 	}
-end:
-	return;
 }
 
 bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {

@@ -50,6 +50,7 @@ bool CheckList::checkItem(bool toCheck, int index) {
 		return false;
 
 	if (drawn) {
+		applyColors();
 		ConsoleController ctrl = CCTRL;
 		COORD c = { position.X + 2, position.Y + index + 1 };
 		ctrl.setPosition(c);

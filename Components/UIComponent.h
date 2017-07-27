@@ -41,8 +41,10 @@ public:
 	virtual bool canGetFocus() { return false; }
 	virtual void mouseClicked(MOUSE_EVENT_RECORD) {}
 	virtual void keyPressed(KEY_EVENT_RECORD) {}
-	virtual bool isTraversable() { return false; }
+	//virtual bool isTraversable() { return false; }
+
 	virtual void setFocus(bool focus) { this->focus = focus; }
+
 	virtual void postDraw() { CCTRL.restoreDefaultColors(); }
 	void invertColors();
 	void applyColors();
