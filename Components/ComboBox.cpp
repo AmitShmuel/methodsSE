@@ -75,7 +75,7 @@ void ComboBox::draw() {
 	UIComponent::draw();
 	//height = orig_height;
 	//position = orig_pos;
-	CCTRL.setColors(orig_tColor, false, orig_bColor, false);
+	postDraw();
 }
 
 

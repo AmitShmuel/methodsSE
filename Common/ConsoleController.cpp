@@ -180,6 +180,7 @@ void ConsoleController::listenToUserEvents() {
 						printf("Mouseup");*/
 						break;
 					}
+					
 					break;
 				}
 			}

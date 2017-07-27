@@ -33,4 +33,6 @@ void MessageWindow::draw() {
 
 	okBtn.draw();
 	cancelBtn.draw();
+
+	postDraw();
 }

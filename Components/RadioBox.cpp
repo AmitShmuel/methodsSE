@@ -56,6 +56,7 @@ void RadioBox::draw() {
 		cout << checkMark << options.at(i).substr(0, width - 4);
 		ctrl.setPosition({ c.X, ++c.Y });
 	}
+	postDraw();
 }
 
 void RadioBox::mouseClicked(MOUSE_EVENT_RECORD mouseEvent) {

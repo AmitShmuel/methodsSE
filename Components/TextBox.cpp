@@ -128,4 +128,5 @@ void TextBox::draw() {
 		std::cout << " ";
 	}
 	//std::cout << text;
+	postDraw();
 }

@@ -28,6 +28,8 @@ void Label::draw() {
 	ctrl.setPosition(c);
 	//GFX.moveTo(c.X, c.Y);
 	std::cout << text;
+
+	postDraw();
 }
 
 void Label::setText(std::string _text) {

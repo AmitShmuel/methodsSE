@@ -55,6 +55,7 @@ public:
 	void setMouseEnabled(bool isEnabled);
 	void setCursorVisible(bool isVisible);
 	void setCursorSize(DWORD size);
+	void restoreDefaultColors() { setColors(defaultTextColor, false, defaultBackgroundColor, false); };
 
 
 	// getters

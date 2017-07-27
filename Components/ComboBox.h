@@ -5,8 +5,10 @@
 using namespace std;
 
 class ComboBox : public UIComponent {
-
+	// Instance to keep original state
 	ComboBox* _originalState;
+
+	// Selection options
 	vector<string> options;
 	int selected_index;
 	int temp_index;

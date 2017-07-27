@@ -48,6 +48,7 @@ void NumericBox::draw() {
 	ctrl.setPosition({ position.X + 13, position.Y + 2 });
 	std::cout << "\xC1";
 	drawValue();
+	postDraw();
 }
 
 void NumericBox::setValue(int _val) {

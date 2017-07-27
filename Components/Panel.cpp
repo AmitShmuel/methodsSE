@@ -29,6 +29,7 @@ void Panel::draw() {
 	for (vector<UIComponent *>::iterator it = components.begin(); it != components.end(); ++it) {
 		(*it)->draw();
 	}
+	postDraw();
 }
 
 
