@@ -60,14 +60,7 @@ void main() {
 	//numBox->draw();
 
 	//l->draw();
-
 	//button->draw();
-
-
-	
-	
-
-
 	//checkList->draw();
 	//cout << "checked items: " << checkList->getCheckedList().size();
 
