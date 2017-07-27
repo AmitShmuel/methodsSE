@@ -36,6 +36,16 @@ void UIComponent::draw() {
 	drawBorder();
 }
 
+void UIComponent::invertColors() {
+	Color tmp = this->backgroundColor;
+	this->backgroundColor = this->textColor;
+	this->textColor = tmp;
+}
+
+void UIComponent::applyColors() {
+	CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
+}
+
 void UIComponent::drawBorder() const {
 	// SetConsoleCursorPosition(h, position);
 	ConsoleController ctrl = CCTRL;
