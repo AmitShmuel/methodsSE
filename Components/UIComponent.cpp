@@ -2,7 +2,7 @@
 
 UIComponent::UIComponent(short x_pos, short y_pos, int w, int h, BorderType border, Color tColor, Color bColor, UIComponent *parent):
 position{ x_pos, y_pos }, width(w), height(h), borderType(border),
-textColor(tColor), backgroundColor(bColor) {}
+textColor(tColor), backgroundColor(bColor), hasFocus(false) {}
 
 UIComponent & UIComponent::getRoot() {
 	UIComponent *result = this;

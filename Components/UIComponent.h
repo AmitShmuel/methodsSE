@@ -19,6 +19,7 @@ protected:
 	short width, height;
 	BorderType borderType;
 	Color textColor, backgroundColor;
+	bool focus;
 
 	//bool isVisible;
 	void removeFromScreen() const;
@@ -49,6 +50,7 @@ public:
 	void setPosition(short _x, short _y) { removeFromScreen(); position = { _x, _y }; draw(); }
 	void setTextColor(Color color) { textColor = color; draw(); }
 	void setBackgroundColor(Color color) { backgroundColor = color; draw(); }
+	void setFocus(bool focus) { this->focus = focus; }
 
 	// getters:
 	//	bool isVisible() const { return isVisible; }
@@ -61,6 +63,7 @@ public:
 	short	   getYPosition()		const { return position.Y; }
 	Color	   getTextColor()		const { return textColor; }
 	Color	   getBackgroundColor() const { return backgroundColor; }
+	bool	   hasFocus() { return this->focus; }
 };
 
 
