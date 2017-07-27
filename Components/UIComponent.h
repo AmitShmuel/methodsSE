@@ -40,6 +40,9 @@ public:
 	virtual bool canGetFocus() { return false; }
 	virtual void mouseClicked(MOUSE_EVENT_RECORD) {}
 	virtual void keyPressed(KEY_EVENT_RECORD) {}
+	virtual void setFocus(bool focus) { this->focus = focus; }
+	void invertColors();
+	void applyColors();
 
 	// setters:
 	//void setVisible(bool visible) { isVisible = visible; }
@@ -50,7 +53,6 @@ public:
 	void setPosition(short _x, short _y) { removeFromScreen(); position = { _x, _y }; draw(); }
 	void setTextColor(Color color) { textColor = color; draw(); }
 	void setBackgroundColor(Color color) { backgroundColor = color; draw(); }
-	void setFocus(bool focus) { this->focus = focus; }
 
 	// getters:
 	//	bool isVisible() const { return isVisible; }

@@ -22,7 +22,7 @@ void ComboBox::draw() {
 	if (open) {
 		if (open_down) {
 			// Box opens downwards
-			height += options.size() + 1;
+			//height += options.size() + 1;
 			CCTRL.setPosition({ position.X + 1, position.Y + 1 });
 			CCTRL.setColors(this->textColor, true, this->backgroundColor, false);
 			if (selected_index != -1)
@@ -31,21 +31,26 @@ void ComboBox::draw() {
 			CCTRL.setPosition({ position.X + 1, position.Y + 2 });
 			for (int i = width; i > 0; --i) putchar('-');
 			for (vector<string>::iterator it = options.begin(); it != options.end(); ++it) {
+				if (it - options.begin() == selected_index) invertColors(), applyColors();
 				CCTRL.setPosition({ position.X + 1, position.Y + 3 + static_cast<short>(it - options.begin()) });
 				for (int i = width; i > 0; --i) putchar(' ');
 				CCTRL.setPosition({ position.X + 1, position.Y + 3 + static_cast<short>(it - options.begin()) });
 				cout << it->substr(0, width);
+				if (it - options.begin() == selected_index) invertColors(), applyColors();
 			}
 			CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + 1 });
 		} else {
 			// Box opens upwards
-			position.Y = position.Y - options.size() - 1;
-			height += options.size() + 1;
+			//position.Y = position.Y - options.size() - 1;
+			//height += options.size() + 1;
 			for (vector<string>::iterator it = options.begin(); it != options.end(); ++it) {
+				if (it - options.begin() == selected_index) invertColors(), applyColors();
 				CCTRL.setPosition({ position.X + 1, position.Y + 1 + static_cast<short>(it - options.begin())});
 				for (int i = width; i > 0; --i) putchar(' ');
 				CCTRL.setPosition({ position.X + 1, position.Y + 1 + static_cast<short>(it - options.begin()) });
 				cout << it->substr(0, width);
+				if (it - options.begin() == selected_index) invertColors(), applyColors();
+
 			}
 			CCTRL.setPosition({ position.X + 1, position.Y + height - 2 });
 			for (int i = width; i > 0; --i) putchar('-');
@@ -112,10 +117,14 @@ void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 void ComboBox::keyPressed(KEY_EVENT_RECORD e) {
 	switch (e.wVirtualKeyCode) {
 	case VK_UP:
-		cout << "up";
+	case VK_NUMPAD8:
+		if (this->open && this->selected_index > 0)
+			this->selected_index--;
 		break;
 	case VK_DOWN:
-		cout << "down";
+	case VK_NUMPAD2:
+		if (this->open && this->selected_index + 1 < this->options.size())
+			this->selected_index++;
 		break;
 	case VK_RETURN:
 	case VK_SPACE:
@@ -124,11 +133,16 @@ void ComboBox::keyPressed(KEY_EVENT_RECORD e) {
 	default:
 		break;
 	}
+	this->draw();
 }
 
 void ComboBox::toggle() {
 	open = !open; 
 	if (open) {
+		height += options.size() + 1;
+		if (!open_down) {
+			position.Y = position.Y - options.size() - 1;
+		}
 		this->draw();
 	} else {
 		height = _originalState->height;
