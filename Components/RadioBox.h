@@ -12,7 +12,7 @@ class RadioBox : public UIComponent {
 
 public:
 
-	RadioBox(string* options, int len, short pos_x, short pos_y, short width, BorderType border = Double, Color tColor = White, Color bColor = Black, UIComponent* parent = NULL);
+	RadioBox(string* options, int len, short pos_x, short pos_y, short width, BorderType border = Solid, Color tColor = White, Color bColor = Black, UIComponent* parent = NULL);
 
 	void draw();
 	void mouseClicked(MOUSE_EVENT_RECORD);

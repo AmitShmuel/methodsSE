@@ -117,6 +117,8 @@ void ConsoleController::listenToUserEvents() {
 	DWORD num_read;
 	int counter = 0;
 
+	//UIComponent* currentFocusedObserver = 0;
+
 	this->setCursorVisible(false);
 
 	while (1) {
@@ -132,9 +134,14 @@ void ConsoleController::listenToUserEvents() {
 						switch (key.wVirtualKeyCode) {
 
 						case VK_TAB:
-							while (focusedIndex != -1 && !observers[focusedIndex]->canGetFocus()) {
-								focusedIndex = (++focusedIndex) % observers.size();
+							if (focusedIndex == -1) ++focusedIndex;
+							if (observers[focusedIndex]) observers[focusedIndex]->onBlur();
+							focusedIndex = ++focusedIndex % observers.size();
+
+							while (observers[focusedIndex]  &&  !observers[focusedIndex]->canGetFocus() ) {
+								focusedIndex = ++focusedIndex % observers.size();
 							}
+							observers[focusedIndex]->onFocus();
 							break;
 
 
@@ -154,8 +161,7 @@ void ConsoleController::listenToUserEvents() {
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
 						focusedIndex = -1;
-						SetConsoleCursorPosition(hOutput, { 0,0 });
-						//printf("Mousedown");
+						//this->setCursorVisible(false);
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
@@ -168,12 +174,13 @@ void ConsoleController::listenToUserEvents() {
 								}
 								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
+							else if (observer->hasFocus()) observer->onBlur();
 							counter++;
 						}
 						counter = 0;
 						break;
-					case RI_MOUSE_LEFT_BUTTON_UP:
-						break;
+					//case RI_MOUSE_LEFT_BUTTON_UP:
+					//	break;
 					}
 					
 					break;

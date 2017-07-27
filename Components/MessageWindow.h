@@ -10,14 +10,14 @@ private:
 		MessageWindow& parent;
 	public:
 		OkAction(MessageWindow& m) : parent(m) {}
-		virtual void action() override { parent.result = 1; std::cout << "OK!"; }
+		virtual void action() override { parent.result = 1; /*std::cout << "OK!"; */}
 	};
 
 	class CancelAction : public Action {
 		MessageWindow& parent; 
 	public:
 		CancelAction(MessageWindow& m) : parent(m) {}
-		virtual void action() override {parent.result = 0; std::cout << "CANCEL!";}
+		virtual void action() override {parent.result = 0; /*std::cout << "CANCEL!";*/}
 	};
 
 	int result = -1;

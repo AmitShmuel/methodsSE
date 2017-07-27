@@ -86,6 +86,19 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 	}
 }
 
+void TextBox::onFocus() {
+	auto ctrl = CCTRL;
+	this->setFocus(true);
+	ctrl.setPosition({position.X + 1, position.Y + 1});
+	ctrl.setCursorVisible(true);
+}
+
+void TextBox::onBlur() {
+	auto ctrl = CCTRL;
+	this->setFocus(false);
+	CCTRL.setCursorVisible(false);
+}
+
 void TextBox::setText(std::string _text) {
 	text = _text;
 	if (text.length() > width * height) text = text.substr(0, width * height);

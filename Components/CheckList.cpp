@@ -77,20 +77,29 @@ void CheckList::mouseClicked(MOUSE_EVENT_RECORD mouseEvent) {
 }
 
 void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
-
 	switch (keyEvent.wVirtualKeyCode) {
 	case VK_UP:
-		current = (++current) % list.size();
-		CCTRL.setPosition({ position.X + 2, position.Y + current +1 });
-		break;
-	//case VK_TAB: should behave the same
-	case VK_DOWN:
 		if (--current == -1) current = list.size() - 1;
-		CCTRL.setPosition({ position.X + 2, position.Y + current +1 });
+		CCTRL.setPosition({ position.X + 2, position.Y + current + 1 });
+		break;
+	case VK_TAB: //should behave the same
+	case VK_DOWN:
+
+		current = (++current) % list.size();
+		CCTRL.setPosition({ position.X + 2, position.Y + current + 1 });
 		break;
 	case VK_SPACE:
 	case VK_RETURN:
 		checkItem(!list[current].checked, current);
 		break;
 	}
+}
+
+void CheckList::onFocus() {
+	CCTRL.setPosition({ position.X + 2, position.Y + 1 });
+	CCTRL.setCursorVisible(true);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
+}
+
+void CheckList::onBlur() {
+	CCTRL.setCursorVisible(false);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
 }

@@ -35,6 +35,8 @@ public:
 	void toggle();
 	string getValue() const;
 	
+	void onFocus() override;
+	void onBlur() override;
 
 	~ComboBox();
 };

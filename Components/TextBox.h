@@ -22,6 +22,9 @@ public:
 	void mouseClicked(MOUSE_EVENT_RECORD);
 	void keyPressed(KEY_EVENT_RECORD);
 
+	void onFocus() override;
+	void onBlur() override;
+
 	// setters:
 	void setText(std::string);
 

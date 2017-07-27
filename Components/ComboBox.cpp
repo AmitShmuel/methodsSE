@@ -125,12 +125,10 @@ void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 void ComboBox::keyPressed(KEY_EVENT_RECORD e) {
 	switch (e.wVirtualKeyCode) {
 	case VK_UP:
-	case VK_NUMPAD8:
 		if (this->open && this->temp_index > 0)
 			this->temp_index--;
 		break;
 	case VK_DOWN:
-	case VK_NUMPAD2:
 		if (this->open && this->temp_index + 1 < this->options.size())
 			this->temp_index++;
 		break;
@@ -178,6 +176,19 @@ void ComboBox::toggle() {
 
 string ComboBox::getValue() const {
 	return selected_index != -1 ? this->options.at(selected_index) : "No item selected";
+}
+
+void ComboBox::onFocus() {
+	this->toggle();
+	if (this->open) {
+		this->temp_index = 0;
+		this->draw();
+	}
+}
+
+void ComboBox::onBlur() {
+	if (this->open)
+		this->toggle();
 }
 
 ComboBox::~ComboBox() {

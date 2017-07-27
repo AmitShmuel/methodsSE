@@ -44,6 +44,8 @@ public:
 	//virtual bool isTraversable() { return false; }
 
 	virtual void setFocus(bool focus) { this->focus = focus; }
+	virtual void onFocus() {}
+	virtual void onBlur() {}
 
 	virtual void postDraw() { CCTRL.restoreDefaultColors(); }
 	void invertColors();

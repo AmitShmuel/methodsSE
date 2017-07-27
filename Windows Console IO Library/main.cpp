@@ -18,20 +18,26 @@ class ActionTest : public Action {
 
 void main() {
 
-	string* strings = new string[4];
-	string* strs = new string[7];
-	strings[0] = "one";
-	strings[1] = "two";
-	strings[2] = "four";
-	strings[3] = "five";
+	string* comboOptions = new string[4];
+	comboOptions[0] = "one";
+	comboOptions[1] = "two";
+	comboOptions[2] = "four";
+	comboOptions[3] = "five";
 
-	strs[0] = "123456789*+-";
-	strs[1] = "two";
-	strs[2] = "thrdfghshgsdfgjfsdee";
-	strs[3] = "four";
-	strs[4] = "five";
-	strs[5] = "sixsixsix";
-	strs[6] = "sevenblessings";
+	string* checkListOptions = new string[7];
+	checkListOptions[0] = "123456789*+-";
+	checkListOptions[1] = "two";
+	checkListOptions[2] = "thrdfghshgsdfgjfsdee";
+	checkListOptions[3] = "four";
+	checkListOptions[4] = "five";
+	checkListOptions[5] = "sixsixsix";
+	checkListOptions[6] = "sevenblessings";
+
+	string* radioOptions = new string[3];
+	radioOptions[0] = "Amit Shmuel";
+	radioOptions[1] = "Edan Haoun";
+	radioOptions[2] = "Yoav Saroya";
+
 	
 	UIComponent* panel = new Panel(0, 0, CCTRL.getConsoleSize().X - 1, CCTRL.getConsoleSize().Y - 1, Double, White, Black, NULL);
 	UIComponent *m = new MessageWindow("A Message", CCTRL.getConsoleSize().X / 2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
@@ -39,13 +45,16 @@ void main() {
 	UIComponent *l = new Label("silencio1234567", 5, 15, 15, 7, Double, Blue, Green);
 	ActionTest at;
 	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, White, Black);
-	UIComponent* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 5, 20, 5, Dotted, White, Black);
-	UIComponent* comboBox = new ComboBox(strings, 4, 50, 0, 10, Double, White, Black);
-	CheckList* checkList = new CheckList(strs, 7, 5, 5, 10, Solid, BrightOrange, Blue);
+	UIComponent* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 3, 30, 6, Dotted, White, Black);
+	UIComponent* comboBox = new ComboBox(comboOptions, 4, 50, 0, 10, Double, White, Black);
+	CheckList* checkList = new CheckList(checkListOptions, 7, 5, 5, 10, Solid, BrightOrange, Blue);
 	checkList->checkItem(true, 1);
 	checkList->checkItem(true, 4);
 	checkList->checkItem(true, 6);
-	//textBox->draw();
+
+	RadioBox* radioBox = new RadioBox(radioOptions,3,40, 15, 20);
+
+
 	panel->addComponent(comboBox);
 	panel->addComponent(button);
 	panel->addComponent(checkList);
@@ -53,6 +62,7 @@ void main() {
 	panel->addComponent(l);
 	panel->addComponent(m);
 	panel->addComponent(textBox);
+	panel->addComponent(radioBox);
 	
 	panel->draw();
 	//m->draw();
@@ -66,8 +76,9 @@ void main() {
 
 	CCTRL.listenToUserEvents();
 
-	delete[] strs;
-	delete[] strings;
+	delete[] comboOptions;
+	delete[] checkListOptions;
+	delete[] radioOptions;
 	delete panel;
 	getchar();
 	CCTRLDESTROY;

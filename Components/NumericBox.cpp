@@ -63,6 +63,7 @@ void NumericBox::setValue(int _val) {
 	if (_val < getMin()) value = getMin();
 	else if (_val > getMax()) value = getMax();
 	else value = _val;
+	applyColors();
 	drawValue();
 }
 
