@@ -43,6 +43,7 @@ public:
 
 	virtual void setHeight(int _h) override {};
 	virtual void setWidth(int _w)  override {};
+	virtual void setPosition(short pos_x, short pos_y, bool special = false)  override;
 
 	// setters
 	void setValue(int);

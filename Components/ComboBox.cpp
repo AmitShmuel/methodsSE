@@ -79,6 +79,13 @@ void ComboBox::draw() {
 	postDraw();
 }
 
+void ComboBox::setPosition(short pos_x, short pos_y, bool special) {
+	this->position.X = pos_x;
+	this->position.Y = pos_y;
+	if (special)
+		this->_originalState->position = position;;
+}
+
 
 void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 	//open_down = CCTRL.getConsoleSize().Y > position.Y + options.size() + 1;

@@ -52,6 +52,13 @@ void NumericBox::draw() {
 	postDraw();
 }
 
+void NumericBox::setPosition(short pos_x, short pos_y, bool special) {
+	this->position = { pos_x, pos_y };
+	incBtn.setPosition (pos_x + 13, pos_y );
+	decBtn.setPosition (pos_x, pos_y );
+	
+}
+
 void NumericBox::setValue(int _val) {
 	if (_val < getMin()) value = getMin();
 	else if (_val > getMax()) value = getMax();
