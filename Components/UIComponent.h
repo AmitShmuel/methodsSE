@@ -38,7 +38,7 @@ public:
 	// General UI Methods
 	virtual bool canGetFocus() { return false; }
 	virtual void mouseClicked(MOUSE_EVENT_RECORD) {}
-	virtual void keyPressed() {}
+	virtual void keyPressed(KEY_EVENT_RECORD) {}
 
 	// setters:
 	//void setVisible(bool visible) { isVisible = visible; }
