@@ -160,7 +160,11 @@ void ConsoleController::listenToUserEvents() {
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
 								if (observer->canGetFocus()) {
+									if (focusedIndex != -1)
+										observers[focusedIndex]->setFocus(false);
 									focusedIndex = counter;
+									if (focusedIndex != -1)
+										observers[focusedIndex]->setFocus(true);
 								}
 								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
