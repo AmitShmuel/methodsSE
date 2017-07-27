@@ -29,9 +29,56 @@ void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
 }
 
 void TextBox::keyPressed(KEY_EVENT_RECORD key) {
+	auto ctrl = CCTRL;
+	COORD currPos = ctrl.getPosition();
 	switch (key.wVirtualKeyCode) {
 	case VK_UP:
+		if (currPos.Y != position.Y + 1)
+			ctrl.setPosition({ currPos.X, currPos.Y - 1 });
+		break;
+	case VK_LEFT:
+		if (currPos.X != position.X + 1)
+			ctrl.setPosition({ currPos.X - 1, currPos.Y});
+		break;
+	case VK_DOWN:
+		if (currPos.Y != position.Y + height - 1) {
+			if (currPos.Y == lastIndexPosition.Y  || currPos.Y + 1 == lastIndexPosition.Y && currPos.X > lastIndexPosition.X ) {
+				ctrl.setPosition(lastIndexPosition);
+			}
+			else ctrl.setPosition({ currPos.X, currPos.Y + 1 });
+		}
+		break;
+	case VK_RIGHT:
+		if (currPos.X != position.X + width) {
+			if (currPos.Y == lastIndexPosition.Y && currPos.X == lastIndexPosition.X) {
+				ctrl.setPosition(lastIndexPosition);
+			}
+			else ctrl.setPosition({ currPos.X + 1, currPos.Y });
 
+		}
+		break;
+	case VK_BACK:
+		std::cout << " ";
+		//text.erase(currPos.X + currPos.Y, 1);	//Need to know which character to delete, and then it's complete
+		ctrl.setPosition({ currPos.X - 1, currPos.Y });
+		currPos = ctrl.getPosition();
+		if (currPos.X == position.X) {
+			if (currPos.Y - 1 == position.Y) ctrl.setPosition({currPos.X + 1, currPos.Y});
+			else ctrl.setPosition({ currPos.X + width - 1 ,currPos.Y - 1 });
+		}
+		//draw();
+		break;
+
+	case VK_DELETE:
+		std::cout << " ";
+		//text.erase(currPos.X + currPos.Y, 1);	//Need to know which character to delete, and then it's complete
+		ctrl.setPosition({ currPos.X + 1, currPos.Y });
+		currPos = ctrl.getPosition();
+		if (currPos.X == position.X + width + 1) {
+			if (currPos.Y == lastIndexPosition.Y) ctrl.setPosition({ currPos.X - 1 ,currPos.Y});
+			else ctrl.setPosition({ position.X + 1  ,currPos.Y + 1 });
+		}
+		//draw();
 		break;
 	}
 }

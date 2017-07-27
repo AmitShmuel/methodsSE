@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CheckList.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="MessageWindow.cpp" />
@@ -126,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="CheckList.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="DimensionException.h" />

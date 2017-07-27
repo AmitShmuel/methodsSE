@@ -9,6 +9,7 @@
     <ClCompile Include="UIComponent.cpp" />
     <ClCompile Include="NumericBox.cpp" />
     <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="CheckList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -21,5 +22,6 @@
     <ClInclude Include="TextBox.h" />
     <ClInclude Include="DimensionException.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="CheckList.h" />
   </ItemGroup>
 </Project>
