@@ -2,7 +2,7 @@
 
 
 CheckList::CheckList(string* options, int len, short pos_x, short pos_y, short width, BorderType border, Color tColor, Color bColor, UIComponent* parent) 
-	: UIComponent(pos_x, pos_y, width+3, 2, border, tColor, bColor, parent), list(vector<Item>()) {
+	: UIComponent(pos_x, pos_y, width+3, 2, border, tColor, bColor, parent) {
 
 	for (int i = 0; i < len; ++i) {
 		list.push_back({ options[i], false });

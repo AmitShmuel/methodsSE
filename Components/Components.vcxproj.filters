@@ -10,6 +10,7 @@
     <ClCompile Include="NumericBox.cpp" />
     <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="CheckList.cpp" />
+    <ClCompile Include="RadioBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -23,5 +24,6 @@
     <ClInclude Include="DimensionException.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="CheckList.h" />
+    <ClInclude Include="RadioBox.h" />
   </ItemGroup>
 </Project>

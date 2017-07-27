@@ -5,6 +5,7 @@
 #include "../Components/TextBox.h"
 #include "../Components/Components.h"
 #include "../Components/CheckList.h"
+#include "../Components/RadioBox.h"
 #include <iostream>
 using namespace std;
 
@@ -18,8 +19,8 @@ class ActionTest : public Action {
 void main() {
 
 	CCTRL.setColors(BrightGreen, true, 0, 0);
-	cout << "FG: " << CCTRL.getTextColor() << "\tBG: " << CCTRL.getBackgroundColor();
-	getchar();
+	/*cout << "FG: " << CCTRL.getTextColor() << "\tBG: " << CCTRL.getBackgroundColor();
+	getchar();*/
 
 	/*UIComponent *m = new MessageWindow("A Message", CCTRL.getConsoleSize().X/2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
 	m->draw();
@@ -42,25 +43,21 @@ void main() {
 	combo->draw();*/
 
 	string* strs = new string[7];
-	strs[0] = "oneaaaaaaaaaaaa";
+	strs[0] = "123456789*+-";
 	strs[1] = "two";
 	strs[2] = "thrdfghshgsdfgjfsdee";
 	strs[3] = "four";
 	strs[4] = "five";
 	strs[5] = "sixsixsix";
 	strs[6] = "sevenblessings";
-	CheckList* checkList = new CheckList(strs, 7, 5, 5, 10, Solid, BrightOrange, Blue);
-	checkList->checkItem(1);
-	checkList->checkItem(4);
-	checkList->checkItem(6);
-
-	checkList->draw();
-	CCTRL.setPosition({ 3, 3 });
-	cout << "checked items: " << checkList->getCheckedList().size();
+	RadioBox* radiButton = new RadioBox(strs, 7, 5, 5, 10, Solid, BrightOrange, Blue);
+	radiButton->draw();
+	/*CCTRL.setPosition({ 3, 3 });
+	cout << "checked items: " << checkList->getCheckedList().size();*/
 
 	CCTRL.listenToUserEvents();
 
-	delete checkList;
+	delete radiButton;
 	//delete numBox;
 
 	/*delete[] strs;
