@@ -45,7 +45,7 @@ void main() {
 	strs[4] = "five";
 	UIComponent* combo = new ComboBox(strs, 5, 20, 22, 10, Solid, BrightOrange, Blue);
 	combo->draw();
-	//CCTRL.listenToUserEvents();
+	CCTRL.listenToUserEvents();
 
 	delete[] strs;
 	delete l;

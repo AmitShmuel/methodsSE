@@ -1,7 +1,5 @@
 #include "ConsoleController.h"
-#include "../Components/UIComponent.h"
-#include "../Components/Button.h"
-#include "../Components/TextBox.h"
+#include "../Components/Components.h"
 #include <algorithm>
 
 // init static
@@ -35,6 +33,11 @@ void ConsoleController::setPosition(COORD c) {
 void ConsoleController::setColors(short foregroundColor, bool foregroundIntensity, short backgroundColor, bool backgroundIntensity) {
 	attr = foregroundColor | FOREGROUND_INTENSITY * foregroundIntensity | 16 * backgroundColor | BACKGROUND_INTENSITY * backgroundIntensity;
 	SetConsoleTextAttribute(hOutput, attr);
+}
+
+void ConsoleController::setDefaultColors(Color tColor, Color bColor) {
+	this->defaultTextColor = tColor; 
+	this->defaultBackgroundColor = bColor;
 }
 
 void ConsoleController::setMouseEnabled(bool isVisibile) {
@@ -150,14 +153,14 @@ void ConsoleController::listenToUserEvents() {
 									//observer->click(ir[i].Event.MouseEvent)
 									if (Button* btn = dynamic_cast<Button*>(observer)) {
 										btn->click();
-										break;
-									}
-									if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
+									} else if (TextBox* textBox = dynamic_cast<TextBox*>(observer)) {
 										if (mousePos.X > textBox->getXPosition() + textBox->getText().length()) {
 											SetConsoleCursorPosition(hOutput, { textBox->getXPosition() + static_cast<short>(textBox->getText().length()) , textBox->getYPosition() });
 										}
-										else  SetConsoleCursorPosition(hOutput, mousePos);
-										break;
+										else  
+											SetConsoleCursorPosition(hOutput, mousePos);
+									} else if (ComboBox* comboBox = dynamic_cast<ComboBox*>(observer)) {
+										comboBox->mouseClicked(ir[i].Event.MouseEvent);
 									}
 								}
 							}
