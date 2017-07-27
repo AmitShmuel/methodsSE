@@ -39,6 +39,7 @@ private:
 
 	// TODO: add event thread, listeners, etc	--yftah
 	std::vector<UIComponent*> observers;
+	int focusedIndex;
 
 	// CTOR
 	ConsoleController();

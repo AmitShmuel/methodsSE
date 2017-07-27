@@ -115,7 +115,7 @@ DWORD ConsoleController::getCursorSize() {
 void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
-
+	int counter = 0;
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
@@ -127,13 +127,22 @@ void ConsoleController::listenToUserEvents() {
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
 						switch (key.wVirtualKeyCode) {
+						
+						//case VK_UP:
+
+						//	break;
+
 						case VK_TAB:
 
 							goto end;
 							break;
+
+
 						default:
-							SetConsoleCursorPosition(hOutput, { 0,0 });
-							printf("x");
+							if (observers[focusedIndex] && observers[focusedIndex]->canGetFocus()) {
+								//std::cout << "BLA BLA BLA BLA";
+								observers[focusedIndex]->keyPressed(key);
+							}
 							break;
 						}
 						setMouseEnabled(false);
@@ -150,9 +159,14 @@ void ConsoleController::listenToUserEvents() {
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
+								if (observer->canGetFocus()) {
+									focusedIndex = counter;
+								}
 								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
+							counter++;
 						}
+						counter = 0;
 						break;
 					case RI_MOUSE_LEFT_BUTTON_UP:
 						SetConsoleCursorPosition(hOutput, { 0,0 });
