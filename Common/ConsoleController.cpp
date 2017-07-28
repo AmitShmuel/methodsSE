@@ -111,16 +111,14 @@ DWORD ConsoleController::getCursorSize() {
 }
 
 // test code for events 
-// TODO: event thread and attach listeners
+// TODO: event thread
 void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
 	int counter = 0;
 
-	//UIComponent* currentFocusedObserver = 0;
-
 	this->setCursorVisible(false);
-
+	int countrr = 0;
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
@@ -132,7 +130,17 @@ void ConsoleController::listenToUserEvents() {
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
 						switch (key.wVirtualKeyCode) {
-
+						/* a Test to see how many component in focus (should always be 1 ! )
+						case VK_CONTROL:
+							for (auto observer : observers) {
+								if (observer->hasFocus()) {
+									countrr++;
+								}
+							}
+							cout << "Focused Components = " << countrr;
+							countrr = 0;
+							break;
+							*/
 						case VK_TAB:
 							if (focusedIndex == -1) ++focusedIndex;
 							if (observers[focusedIndex]) observers[focusedIndex]->onBlur();
@@ -153,36 +161,27 @@ void ConsoleController::listenToUserEvents() {
 						}
 						setMouseEnabled(false);
 					}
-					/*printf("key %s it's virtual key code value %d\n",
-					ir[i].Event.KeyEvent.bKeyDown ? "down" : "up",
-					ir[i].Event.KeyEvent.wVirtualKeyCode);*/
 					break;
 				case MOUSE_EVENT:
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
 						focusedIndex = -1;
-						//this->setCursorVisible(false);
+						this->setCursorVisible(false);
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
 								if (observer->canGetFocus()) {
-									if (focusedIndex != -1)
-										observers[focusedIndex]->setFocus(false);
+									if (focusedIndex != -1 && observers[focusedIndex]->hasFocus() )
+										observers[focusedIndex]->onBlur();
 									focusedIndex = counter;
-									if (focusedIndex != -1)
-										observers[focusedIndex]->setFocus(true);
 								}
 								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
-							else if (observer->hasFocus()) observer->onBlur();
 							counter++;
 						}
 						counter = 0;
 						break;
-					//case RI_MOUSE_LEFT_BUTTON_UP:
-					//	break;
-					}
-					
+					}	
 					break;
 				}
 			}

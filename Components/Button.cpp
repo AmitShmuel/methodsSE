@@ -15,7 +15,6 @@ void Button::click() const {
 		actioner->action();
 }
 
-void Button::mouseClicked(MOUSE_EVENT_RECORD)
-{
+void Button::mouseClicked(MOUSE_EVENT_RECORD) {
 	click();
 }

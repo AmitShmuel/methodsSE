@@ -13,6 +13,7 @@ TextBox::~TextBox() {
 
 void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
 	CCTRL.setCursorVisible(true);
+	setFocus(true);
 	COORD mousePos = mouseRecord.dwMousePosition;
 	if (mousePos.Y > getYPosition() &&
 		mousePos.Y < getYPosition() + getHeight() &&

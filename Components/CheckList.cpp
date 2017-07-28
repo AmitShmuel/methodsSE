@@ -66,7 +66,7 @@ bool CheckList::checkItem(bool toCheck, int index) {
 }
 
 void CheckList::mouseClicked(MOUSE_EVENT_RECORD mouseEvent) {
-
+	setFocus(true);
 	COORD pos = mouseEvent.dwMousePosition;
 
 	if (pos.Y != position.Y && pos.Y != position.Y + height && pos.X != position.X) {
@@ -96,10 +96,12 @@ void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 }
 
 void CheckList::onFocus() {
+	setFocus(true);
 	CCTRL.setPosition({ position.X + 2, position.Y + 1 });
 	CCTRL.setCursorVisible(true);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
 }
 
 void CheckList::onBlur() {
+	setFocus(false);
 	CCTRL.setCursorVisible(false);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
 }

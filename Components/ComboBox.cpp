@@ -89,7 +89,7 @@ void ComboBox::setPosition(short pos_x, short pos_y, bool special) {
 
 void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 	//open_down = CCTRL.getConsoleSize().Y > position.Y + options.size() + 1;
-
+	setFocus(true);
 	if (open) {
 		if (CCTRL.isIntersects(e.dwMousePosition, this->_originalState)) {
 			if (e.dwMousePosition.X > this->_originalState->position.X
@@ -114,9 +114,9 @@ void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 	else {
 		if (CCTRL.isIntersects(e.dwMousePosition, this)
 			&& e.dwMousePosition.X > position.X
-			&& e.dwMousePosition.X < position.X + width
-			&& e.dwMousePosition.Y > position.Y
-			&& e.dwMousePosition.Y < position.Y + height) {
+			&& e.dwMousePosition.X <= position.X + width
+			&& e.dwMousePosition.Y >= position.Y
+			&& e.dwMousePosition.Y <= position.Y + height) {
 			this->toggle();
 		}
 	}
@@ -179,6 +179,7 @@ string ComboBox::getValue() const {
 }
 
 void ComboBox::onFocus() {
+	setFocus(true);
 	this->toggle();
 	if (this->open) {
 		this->temp_index = 0;
@@ -187,6 +188,7 @@ void ComboBox::onFocus() {
 }
 
 void ComboBox::onBlur() {
+	setFocus(false);
 	if (this->open)
 		this->toggle();
 }

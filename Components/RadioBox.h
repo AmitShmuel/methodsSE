@@ -9,6 +9,7 @@ class RadioBox : public UIComponent {
 
 	vector<string> options;
 	int selected_index;
+	short current;
 
 public:
 
@@ -16,8 +17,12 @@ public:
 
 	void draw();
 	void mouseClicked(MOUSE_EVENT_RECORD);
+	void keyPressed(KEY_EVENT_RECORD);
 
-	bool slectedItem(int index);
+	void onFocus() override;
+	void onBlur()  override;
+
+	bool selectedItem(int index);
 	bool clearSelection();
 	bool canGetFocus() { return true; }
 	const string getCheckedString() const;
