@@ -121,7 +121,6 @@ void ConsoleController::listenToUserEvents() {
 	int counter = 0;
 	setMouseEnabled(true);
 	this->setCursorVisible(false);
-	int countrr = 0;
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
@@ -169,11 +168,12 @@ void ConsoleController::listenToUserEvents() {
 				case MOUSE_EVENT:
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
-						focusedIndex = -1;
 						this->setCursorVisible(false);
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
+						bool intersect = false;
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
+								intersect = true;
 								if (observer->canGetFocus()) {
 									if (focusedIndex != -1 && observers[focusedIndex]->hasFocus() )
 										observers[focusedIndex]->onBlur();
@@ -182,6 +182,10 @@ void ConsoleController::listenToUserEvents() {
 								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
 							counter++;
+						}
+						if (false == intersect) {
+							if (focusedIndex != -1 && observers[focusedIndex]->hasFocus()) 
+								observers[focusedIndex]->onBlur();
 						}
 						counter = 0;
 						break;

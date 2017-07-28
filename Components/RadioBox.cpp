@@ -124,7 +124,7 @@ void RadioBox::onFocus() {
 }
 
 void RadioBox::onBlur() {
-	current = -1;
+	hovered_index = -1;
 	setFocus(false);
 	draw();
 	CCTRL.setCursorVisible(false);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
