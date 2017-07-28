@@ -14,7 +14,7 @@ class CheckList : public UIComponent {
 
 	vector<Item> list;
 	short current;
-	bool drawn;
+	bool drawn, mouseEvent;
 
 public:
 
@@ -23,6 +23,7 @@ public:
 	void draw();
 	void mouseClicked(MOUSE_EVENT_RECORD);
 	void keyPressed(KEY_EVENT_RECORD);
+	void drawLine(Item item);
 
 	void onFocus() override;
 	void onBlur()  override;
