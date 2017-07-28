@@ -40,9 +40,9 @@ void main() {
 
 	
 	UIComponent* panel = new Panel(0, 0, CCTRL.getConsoleSize().X - 1, CCTRL.getConsoleSize().Y - 1, Double, White, Black, NULL);
-	UIComponent *m = new MessageWindow("A Message", CCTRL.getConsoleSize().X / 2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
+	UIComponent *messageWindow = new MessageWindow("A Message", CCTRL.getConsoleSize().X / 2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
-	UIComponent *l = new Label("silencio1234567", 5, 15, 15, 7, Double, Blue, Green);
+	UIComponent *label = new Label("silencio1234567", 5, 15, 15, 7, Double, Blue, Green);
 	ActionTest at;
 	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, White, Black);
 	UIComponent* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 3, 30, 6, Dotted, White, Black);
@@ -59,8 +59,8 @@ void main() {
 	panel->addComponent(button);
 	panel->addComponent(checkList);
 	panel->addComponent(numBox);
-	panel->addComponent(l);
-	panel->addComponent(m);
+	panel->addComponent(label);
+	panel->addComponent(messageWindow);
 	panel->addComponent(textBox);
 	panel->addComponent(radioBox);
 	

@@ -97,8 +97,8 @@ void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 
 void CheckList::onFocus() {
 	setFocus(true);
-	CCTRL.setPosition({ position.X + 2, position.Y + 1 });
 	CCTRL.setCursorVisible(true);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
+	CCTRL.setPosition({ position.X + 2, position.Y + 1 });
 }
 
 void CheckList::onBlur() {

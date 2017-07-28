@@ -87,7 +87,6 @@ void RadioBox::keyPressed(KEY_EVENT_RECORD keyEvent) {
 		break;
 	case VK_TAB: //should behave the same
 	case VK_DOWN:
-
 		current = (++current) % options.size();
 		CCTRL.setPosition({ position.X + 2, position.Y + current + 1 });
 		break;

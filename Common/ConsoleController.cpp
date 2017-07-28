@@ -1,6 +1,8 @@
 #include "ConsoleController.h"
 #include "../Components/Components.h"
 #include <algorithm>
+#include "../Components/CheckList.h"
+#include "../Components/RadioBox.h"
 
 // init static
 ConsoleController *ConsoleController::instance = 0;
@@ -143,13 +145,28 @@ void ConsoleController::listenToUserEvents() {
 							*/
 						case VK_TAB:
 							if (focusedIndex == -1) ++focusedIndex;
+
+							if (dynamic_cast<CheckList*>(observers[focusedIndex]) || dynamic_cast<RadioBox*>(observers[focusedIndex]) ) {
+								if (observers[focusedIndex]->hasFocus()) {
+									if (observers[focusedIndex]->getYPosition() + observers[focusedIndex]->getHeight() - 1 == getPosition().Y) {
+										goto nextFocusElement;
+									}
+									observers[focusedIndex]->keyPressed(key);
+									break;
+								}
+							}
+							nextFocusElement:
 							if (observers[focusedIndex]) observers[focusedIndex]->onBlur();
 							focusedIndex = ++focusedIndex % observers.size();
 
 							while (observers[focusedIndex]  &&  !observers[focusedIndex]->canGetFocus() ) {
 								focusedIndex = ++focusedIndex % observers.size();
 							}
+
 							observers[focusedIndex]->onFocus();
+
+							//if(observers[focusedIndex] is RadioBox OR CheckList) observers[focusedIndex]->keyPressed(key);
+
 							break;
 
 
