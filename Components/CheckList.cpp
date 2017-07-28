@@ -138,5 +138,7 @@ void CheckList::onFocus() {
 }
 
 void CheckList::onBlur() {
+	current = -1;
+	draw();
 	setFocus(false);
 }

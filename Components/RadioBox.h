@@ -20,6 +20,7 @@ public:
 	void keyPressed(KEY_EVENT_RECORD);
 
 	bool isTraversable() override { return true; }
+	bool isAtEnd() override { return options.size() - 1 == current; };
 	void onFocus() override;
 	void onBlur()  override;
 

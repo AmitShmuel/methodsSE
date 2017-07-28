@@ -15,15 +15,11 @@ ComboBox::ComboBox(string* options, int len, short pos_x, short pos_y, short wid
 
 void ComboBox::draw() {
 	applyColors();
-	/*short orig_height = height;
-	COORD orig_pos = position;*/
-	/*short orig_tColor = CCTRL.getTextColor();
-	short orig_bColor = CCTRL.getBackgroundColor();*/
+
 	CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 	if (open) {
 		if (open_down) {
 			// Box opens downwards
-			//height += options.size() + 1;
 			CCTRL.setPosition({ position.X + 1, position.Y + 1 });
 			CCTRL.setColors(this->textColor, true, this->backgroundColor, false);
 			if (selected_index != -1)
@@ -42,8 +38,6 @@ void ComboBox::draw() {
 			CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + 1 });
 		} else {
 			// Box opens upwards
-			//position.Y = position.Y - options.size() - 1;
-			//height += options.size() + 1;
 			for (vector<string>::iterator it = options.begin(); it != options.end(); ++it) {
 				if (it - options.begin() == temp_index) invertColors(), applyColors();
 				CCTRL.setPosition({ position.X + 1, position.Y + 1 + static_cast<short>(it - options.begin())});
@@ -74,8 +68,6 @@ void ComboBox::draw() {
 		open_down ? cout << "\\/" : cout << "/\\";
 	}
 	UIComponent::draw();
-	//height = orig_height;
-	//position = orig_pos;
 	postDraw();
 }
 

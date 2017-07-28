@@ -26,6 +26,7 @@ public:
 	void drawLine(Item item);
 
 	bool isTraversable() override { return true; }
+	bool isAtEnd() override { return list.size() - 1 == current; };
 	void onFocus() override;
 	void onBlur()  override;
 

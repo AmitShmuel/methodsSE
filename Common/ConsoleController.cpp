@@ -133,23 +133,12 @@ void ConsoleController::listenToUserEvents() {
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
 						switch (key.wVirtualKeyCode) {
-						/* a Test to see how many component in focus (should always be 1 ! )
-						case VK_CONTROL:
-							for (auto observer : observers) {
-								if (observer->hasFocus()) {
-									countrr++;
-								}
-							}
-							cout << "Focused Components = " << countrr;
-							countrr = 0;
-							break;
-							*/
 						case VK_TAB:
 							if (focusedIndex == -1) ++focusedIndex;
 
 							if (observers[focusedIndex]->isTraversable()) {
 								if (observers[focusedIndex]->hasFocus()) {
-									if (observers[focusedIndex]->getYPosition() + observers[focusedIndex]->getHeight() - 1 == getPosition().Y) {
+									if (observers[focusedIndex]->isAtEnd()) {
 										goto nextFocusElement;
 									}
 									observers[focusedIndex]->keyPressed(key);
@@ -165,8 +154,6 @@ void ConsoleController::listenToUserEvents() {
 							}
 
 							observers[focusedIndex]->onFocus();
-
-							//if(observers[focusedIndex] is RadioBox OR CheckList) observers[focusedIndex]->keyPressed(key);
 
 							break;
 
