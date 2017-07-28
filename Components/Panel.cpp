@@ -7,7 +7,7 @@ Panel::Panel(short pos_x, short pos_y, short width, short height, BorderType bor
 }
 
 void Panel::addComponent(UIComponent * component) {
-	if (component->getHeight() + 2 > this->getHeight() || component->getWidth() + 2 + component->getXPosition() > this->getWidth())
+	if (component->getYPosition() + component->getHeight() + 2 > this->getHeight() || component->getWidth() + 2 + component->getXPosition() > this->getWidth())
 		throw new DimentionException();
 
 	if (component) {
@@ -45,6 +45,16 @@ void Panel::draw() {
 	postDraw();
 }
 
+
+void Panel::setPosition(short pos_x, short pos_y, bool special) {
+	removeFromScreen();
+	for each (UIComponent* component in components) {
+		component->setPosition(component->getXPosition() - position.X + pos_x, component->getYPosition() - position.Y + pos_y, true);
+	}
+	this->position.X = pos_x;
+	this->position.Y = pos_y;
+	draw();
+}
 
 Panel::~Panel() {
 	this->removeAll();
