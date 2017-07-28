@@ -58,8 +58,7 @@ bool CheckList::checkItem(bool toCheck, int index) {
 			cout << ' ';
 		CCTRL.setPosition(c);
 	}
-
-	return list[index].checked = toCheck;
+	return true;
 }
 
 void CheckList::mouseClicked(MOUSE_EVENT_RECORD mouseEvent) {
@@ -78,16 +77,15 @@ void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 	switch (keyEvent.wVirtualKeyCode) {
 	case VK_UP:
 		current = (++current) % list.size();
-		CCTRL.setPosition({ position.X + 2, position.Y + current +1 });
 		break;
 	//case VK_TAB: should behave the same
 	case VK_DOWN:
 		if (--current == -1) current = list.size() - 1;
-		CCTRL.setPosition({ position.X + 2, position.Y + current +1 });
 		break;
 	case VK_SPACE:
 	case VK_RETURN:
 		checkItem(!list[current].checked, current);
 		break;
 	}
+	CCTRL.setPosition({ position.X + 2, position.Y + current + 1 });
 }
