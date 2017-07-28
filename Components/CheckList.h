@@ -32,6 +32,6 @@ public:
 	bool canGetFocus() { return true; }
 	const vector<string> getCheckedList() const;
 
-
+	void setHeight(int _height) {}
 	~CheckList() { CCTRL.detachObserver(this); }
 };

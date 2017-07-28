@@ -103,8 +103,15 @@ void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 			CCTRL.setPosition({ position.X + 1, position.Y + current + 2 });
 		drawLine(list[current + 1 == list.size() ? 0 : current + 1]);
 		break;
+	case VK_TAB: 
+		if (current + 1 == list.size()) {
+			//invertColors(), applyColors();
+			CCTRL.setPosition({ position.X + 1, position.Y + static_cast<short>(list.size()) });
+			drawLine(list[list.size() - 1]);
+			current++;
+			break;
+		}
 	case VK_DOWN:
-	case VK_TAB: //should behave the same
 		current = (++current) % list.size();
 		CCTRL.setPosition({ position.X + 1, position.Y + current + 1 });
 		invertColors(), applyColors();
@@ -115,10 +122,12 @@ void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 		else 
 			CCTRL.setPosition({ position.X + 1, position.Y + static_cast<short>(list.size()) });
 		drawLine(list[current - 1 < 0 ? list.size() - 1 : current - 1]);
+		//CCTRL.setPosition({ position.X + 1, position.Y + current + 1 });
 		break;
 	case VK_SPACE:
 	case VK_RETURN:
-		checkItem(!list[current].checked, current);
+		if(current < list.size())
+			checkItem(!list[current].checked, current);
 		break;
 	}
 }
