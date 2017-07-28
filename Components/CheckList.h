@@ -25,6 +25,7 @@ public:
 	void keyPressed(KEY_EVENT_RECORD);
 	void drawLine(Item item);
 
+	bool isTraversable() override { return true; }
 	void onFocus() override;
 	void onBlur()  override;
 
