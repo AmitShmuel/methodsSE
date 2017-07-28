@@ -24,6 +24,7 @@ public:
 	void mouseClicked(MOUSE_EVENT_RECORD);
 	void keyPressed(KEY_EVENT_RECORD);
 
+	bool isTraversable() override { return true; }
 	void onFocus() override;
 	void onBlur()  override;
 

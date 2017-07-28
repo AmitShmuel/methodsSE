@@ -146,7 +146,7 @@ void ConsoleController::listenToUserEvents() {
 						case VK_TAB:
 							if (focusedIndex == -1) ++focusedIndex;
 
-							if (dynamic_cast<CheckList*>(observers[focusedIndex]) || dynamic_cast<RadioBox*>(observers[focusedIndex]) ) {
+							if (observers[focusedIndex]->isTraversable()) {
 								if (observers[focusedIndex]->hasFocus()) {
 									if (observers[focusedIndex]->getYPosition() + observers[focusedIndex]->getHeight() - 1 == getPosition().Y) {
 										goto nextFocusElement;
