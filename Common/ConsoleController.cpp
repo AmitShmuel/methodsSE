@@ -11,6 +11,7 @@ ConsoleController *ConsoleController::instance = 0;
 ConsoleController::ConsoleController() : hOutput(GetStdHandle(STD_OUTPUT_HANDLE)), hInput(GetStdHandle(STD_INPUT_HANDLE)), focusedIndex(-1) {
 	GetConsoleMode(hInput, &mode);
 	GetConsoleCursorInfo(hOutput, &cursorInfo);
+	setCursorVisible(false);
 }
 
 // Init console controller
@@ -47,7 +48,7 @@ void ConsoleController::setMouseEnabled(bool isVisibile) {
 	//std::cout << (mode | ENABLE_MOUSE_INPUT) << std::endl;
 	mode = (isVisibile) ? mode | ENABLE_MOUSE_INPUT : mode & ~ENABLE_MOUSE_INPUT;
 	//std::cout << mode << std::endl;
-	SetConsoleMode(hInput, ENABLE_MOUSE_INPUT);
+	SetConsoleMode(hInput, mode);
 }
 
 void ConsoleController::setCursorVisible(bool isVisible) {
@@ -118,7 +119,7 @@ void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
 	int counter = 0;
-
+	setMouseEnabled(true);
 	this->setCursorVisible(false);
 	int countrr = 0;
 	while (1) {
@@ -176,7 +177,6 @@ void ConsoleController::listenToUserEvents() {
 							}
 							break;
 						}
-						setMouseEnabled(false);
 					}
 					break;
 				case MOUSE_EVENT:
