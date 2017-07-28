@@ -10,6 +10,7 @@ CheckList::CheckList(string* options, int len, short pos_x, short pos_y, short w
 	CCTRL.attachObserver(this);
 }
 
+
 const vector<string> CheckList::getCheckedList() const {
 	
 	vector<string> checked;
@@ -20,6 +21,7 @@ const vector<string> CheckList::getCheckedList() const {
 	
 	return checked;
 }
+
 
 void CheckList::draw() {
 
@@ -43,11 +45,13 @@ void CheckList::draw() {
 	postDraw();
 }
 
+
 void CheckList::drawLine(Item item) {
 
 	string checkBox = item.checked ? "[x] " : "[ ] ";
 	cout << checkBox << item.text.substr(0, width - 4);
 }
+
 
 bool CheckList::checkItem(bool toCheck, int index) {
 
@@ -59,12 +63,12 @@ bool CheckList::checkItem(bool toCheck, int index) {
 		ConsoleController ctrl = CCTRL;
 		COORD c = { position.X + 2, position.Y + index + 1 };
 		ctrl.setPosition(c);
-		
+
 		char drawChar = toCheck ? 'x' : ' ';
 		if (mouseEvent) {
 			cout << drawChar;
 			mouseEvent = false;
-		} 
+		}
 		else { // pressed return or space, we want to use the inverted color
 			invertColors(), applyColors();
 			cout << drawChar;
@@ -75,6 +79,7 @@ bool CheckList::checkItem(bool toCheck, int index) {
 	list[index].checked = toCheck;
 	return true;
 }
+
 
 void CheckList::mouseClicked(MOUSE_EVENT_RECORD ev) {
 	setFocus(true);
@@ -88,41 +93,22 @@ void CheckList::mouseClicked(MOUSE_EVENT_RECORD ev) {
 	}
 }
 
+
 void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 
 	switch (keyEvent.wVirtualKeyCode) {
 	case VK_UP:
-		if (--current == -1) current = list.size() - 1;
-		CCTRL.setPosition({ position.X + 1, position.Y + current + 1 });
-		invertColors(), applyColors();
-		drawLine(list[current]);
-		invertColors(), applyColors();
-		if (current == list.size() - 1)
-			CCTRL.setPosition({ position.X + 1, position.Y + 1 });
-		else
-			CCTRL.setPosition({ position.X + 1, position.Y + current + 2 });
-		drawLine(list[current + 1 == list.size() ? 0 : current + 1]);
+		traverse(Up);
 		break;
 	case VK_TAB: 
 		if (current + 1 == list.size()) {
-			//invertColors(), applyColors();
 			CCTRL.setPosition({ position.X + 1, position.Y + static_cast<short>(list.size()) });
 			drawLine(list[list.size() - 1]);
 			current++;
 			break;
 		}
 	case VK_DOWN:
-		current = (++current) % list.size();
-		CCTRL.setPosition({ position.X + 1, position.Y + current + 1 });
-		invertColors(), applyColors();
-		drawLine(list[current]);
-		invertColors(), applyColors();
-		if(current != 0)
-			CCTRL.setPosition({ position.X + 1, position.Y + current });
-		else 
-			CCTRL.setPosition({ position.X + 1, position.Y + static_cast<short>(list.size()) });
-		drawLine(list[current - 1 < 0 ? list.size() - 1 : current - 1]);
-		//CCTRL.setPosition({ position.X + 1, position.Y + current + 1 });
+		traverse(Down);
 		break;
 	case VK_SPACE:
 	case VK_RETURN:
@@ -132,10 +118,42 @@ void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 	}
 }
 
+
+void CheckList::traverse(Direction direction) {
+
+	if(direction == Down) 
+		current = (++current) % list.size();
+	else 
+		if (--current == -1) current = list.size() - 1;
+
+	CCTRL.setPosition({ position.X + 1, position.Y + current + 1 });
+	invertColors(), applyColors();
+	drawLine(list[current]);
+	invertColors(), applyColors();
+
+	if (direction == Down) {
+		if (current != 0)
+			CCTRL.setPosition({ position.X + 1, position.Y + current });
+		else
+			CCTRL.setPosition({ position.X + 1, position.Y + static_cast<short>(list.size()) });
+		drawLine(list[current - 1 < 0 ? list.size() - 1 : current - 1]);
+	}
+	else {
+		if (current == list.size() - 1)
+			CCTRL.setPosition({ position.X + 1, position.Y + 1 });
+		else
+			CCTRL.setPosition({ position.X + 1, position.Y + current + 2 });
+		drawLine(list[current + 1 == list.size() ? 0 : current + 1]);
+		CCTRL.setPosition({ position.X + width, position.Y + current + 1 });
+	}
+}
+
+
 void CheckList::onFocus() {
 	setFocus(true);
 	CCTRL.setPosition({ position.X + 2, position.Y + 1 });
 }
+
 
 void CheckList::onBlur() {
 	current = -1;

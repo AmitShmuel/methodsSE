@@ -4,6 +4,7 @@
 #include <string>
 using namespace std;
 
+typedef enum {Up, Down} Direction;
 
 class CheckList : public UIComponent {
 
@@ -24,6 +25,7 @@ public:
 	void mouseClicked(MOUSE_EVENT_RECORD);
 	void keyPressed(KEY_EVENT_RECORD);
 	void drawLine(Item item);
+	void traverse(Direction d);
 
 	bool isTraversable() override { return true; }
 	bool isAtEnd() override { return list.size() - 1 == current; };
