@@ -6,10 +6,7 @@ ScreenMock *ScreenMock::instance = 0;
 
 ScreenMock::ScreenMock() {
 	int rows = CCTRL.getConsoleSize().Y - 1;
-	int cols = CCTRL.getConsoleSize().X - 1;
-
 	screen = new std::stringstream[rows];
-
 	for (int i = 0; i < rows; ++i)
 		screen[i].str("");
 }
