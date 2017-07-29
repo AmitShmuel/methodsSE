@@ -256,7 +256,9 @@ bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {
 }
 
 void ConsoleController::attachObserver(UIComponent* comp) {
-	observers.push_back(comp);
+	std::vector<UIComponent*>::iterator position = std::find(this->observers.begin(), this->observers.end(), comp);
+	if (position == observers.end())
+		observers.push_back(comp);
 }
 
 void ConsoleController::detachObserver(UIComponent *ob) {

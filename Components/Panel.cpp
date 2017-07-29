@@ -103,7 +103,9 @@ void Panel::draw() {
 }
 
 void Panel::setVisible(bool visible) {
+	bool prev = this->is_visible;
 	UIComponent::setVisible(visible);
+	if (this->is_visible == prev) return;
 	for each (UIComponent* comp in components) {
 		comp->setVisible(visible);
 	}

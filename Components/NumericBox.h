@@ -44,6 +44,8 @@ public:
 	virtual void setHeight(int _h) override {};
 	virtual void setWidth(int _w)  override {};
 	virtual void setPosition(short pos_x, short pos_y, bool special = false)  override;
+	void setVisible(bool visible) override;
+	bool isInteractable() override { return true; }
 
 	// setters
 	void setValue(int);
