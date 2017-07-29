@@ -20,8 +20,8 @@ protected:
 	BorderType borderType;
 	Color textColor, backgroundColor;
 	bool focus;
+	bool is_visible;
 
-	//bool isVisible;
 	void removeFromScreen() const;
 	void drawBorder() const;
 
@@ -44,6 +44,8 @@ public:
 	virtual void keyPressed(KEY_EVENT_RECORD) {}
 	virtual bool isTraversable() { return false; }
 	virtual bool isAtEnd() { return true; };
+	virtual bool isInteractable() { return false; }
+	virtual void setVisible(bool visible);
 
 	virtual void setFocus(bool focus) { this->focus = focus; }
 	virtual void onFocus() {}
@@ -51,7 +53,7 @@ public:
 
 	virtual void postDraw() { CCTRL.restoreDefaultColors(); }
 	void invertColors();
-	void applyColors();
+	void applyColors(bool fg = true, bool bg = false);
 
 	// setters:
 	//void setVisible(bool visible) { isVisible = visible; }

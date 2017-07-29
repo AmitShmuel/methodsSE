@@ -102,6 +102,13 @@ void Panel::draw() {
 	postDraw();
 }
 
+void Panel::setVisible(bool visible) {
+	UIComponent::setVisible(visible);
+	for each (UIComponent* comp in components) {
+		comp->setVisible(visible);
+	}
+}
+
 
 void Panel::setPosition(short pos_x, short pos_y, bool special) {
 	if (pos_x >= 0 && pos_y >= 0) {

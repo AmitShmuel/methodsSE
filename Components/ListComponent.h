@@ -31,6 +31,7 @@ public:
 	virtual bool clearSelection(int index) = 0;
 	virtual bool isChecked(int index) = 0;
 	bool canGetFocus() { return true; }
+	bool isInteractable() { return true; }
 
 	void setHeight(int _height) { throw new HeightNotOverrideable(); }
 };
