@@ -54,8 +54,12 @@ void main() {
 
 	//panel->addComponent(messageWindow);
 	panel->addComponent(comboBox);
+	panel->addComponent(numBox);
+	panel->addComponent(checkList);
+	panel->addComponent(button);
 	panel->addComponent(textBox);
 	panel->addComponent(radioBox);
+	panel->addComponent(label);
 	//
 	CCTRL.setView(panel);
 	//panel->draw();
