@@ -1,7 +1,8 @@
 # Windows Console IO Library
 
-### Developed by:
-- Yoav Saroya
-- Amit Shmuel
-- Yftah Livny
-- Edan Hauon
+#### - C++ library for developing a window form application easly
+##### Developed by:
+- [Yoav Saroya](https://github.com/SaroyaMan)
+- [Amit Shmuel](https://github.com/AmitShmuel)
+- [Yftah Livny](https://github.com/shachmatos)
+- [Edan Hauon](https://github.com/edanhauon)
