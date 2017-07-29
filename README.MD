@@ -1,6 +1,6 @@
 # Windows Console IO Library
 
-### Develop by:
+### Developed by:
 - Yoav Saroya
 - Amit Shmuel
 - Yftah Livny

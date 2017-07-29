@@ -132,7 +132,6 @@
     <ClInclude Include="CheckList.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="Components.h" />
-    <ClInclude Include="DimensionException.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ListComponent.h" />
     <ClInclude Include="MessageWindow.h" />
