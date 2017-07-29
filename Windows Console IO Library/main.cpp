@@ -52,13 +52,8 @@ void main() {
 
 	RadioBox* radioBox = new RadioBox(checkListOptions,7,40, 12, 20);
 
-
-	panel->addComponent(comboBox);
-	panel->addComponent(button);
-	panel->addComponent(checkList);
-	panel->addComponent(numBox);
-	panel->addComponent(label);
 	//panel->addComponent(messageWindow);
+	panel->addComponent(comboBox);
 	panel->addComponent(textBox);
 	panel->addComponent(radioBox);
 	//
@@ -69,10 +64,18 @@ void main() {
 	CCTRL.messageDialog("Are you really certain? for seriously?");
 	//panel->setPosition(5, 7);
 	//dynamic_cast<Panel*>(panel)->printMap();
+
+	//m->draw();
+	//numBox->draw();
+	//panel->addComponent(messageWindow);
+	//panel->addComponent(textBox);
+	//panel->addComponent(radioBox);
+	
+	//panel->draw();
+	//panel->setPosition(5, 7);
+	//dynamic_cast<Panel*>(panel)->printMap();
 	//
 	//m->draw();
-
-
 	//l->draw();
 	//button->draw();
 	//checkList->draw();

@@ -189,12 +189,12 @@ bool CheckList::clearSelection(int index) {
 	return false;
 }
 
-bool CheckList::isChecked(int index)
+bool CheckList::isChecked(int index) 
 {
 	return selected_items[index];
 }
 
-const vector<string> CheckList::getCheckedStrings() const
+const vector<string> CheckList::getCheckedStrings() const 
 {
 	vector<string> current_selected_items;
 	for (int i = 0; i < selected_items.size(); i++) 

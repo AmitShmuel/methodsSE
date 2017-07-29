@@ -59,9 +59,9 @@ public:
 	//void setVisible(bool visible) { isVisible = visible; }
 	void setBorderType(BorderType border) { borderType = border; draw(); }
 	void setParent(UIComponent* p) { parent = p; }
-	virtual void setWidth(int _width) { removeFromScreen(); width = _width; draw(); }
-	virtual void setHeight(int _height) { removeFromScreen(); height = _height; draw(); }
-	virtual void setPosition(short _x, short _y, bool special = false) { removeFromScreen(); position = { _x, _y }; draw(); }
+	virtual void setWidth(int _width) { if (_width >= 0) { removeFromScreen(); width = _width; draw(); } }
+	virtual void setHeight(int _height) { if (_height >= 0) { removeFromScreen(); height = _height; draw(); } }
+	virtual void setPosition(short _x, short _y, bool special = false) { if (_x >= 0 && _y >= 0) { removeFromScreen(); position = { _x, _y }; draw(); } }
 	void setTextColor(Color color) { textColor = color; draw(); }
 	void setBackgroundColor(Color color) { backgroundColor = color; draw(); }
 
