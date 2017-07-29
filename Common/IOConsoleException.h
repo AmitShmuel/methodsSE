@@ -12,5 +12,5 @@ public:
 };
 
 class DimentionException : public std::exception {};
-class OverlapExceptions : public std::exception {};
+class OverlapException : public std::exception {};
 class HeightNotOverrideable : public std::exception {};

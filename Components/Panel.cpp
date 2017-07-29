@@ -8,6 +8,10 @@ void Panel::markOnMap(UIComponent *component) {
 	for (int i = 0; i < component->getHeight() + 1; ++i) {
 		for (int j = 0; j < component->getWidth(); ++j) {
 			safe = isInRange(component, i, j);
+			if (safe == false) {
+				i = component->getHeight() + 1;
+				break;
+			}
 		}
 	}
 	if (safe) {
@@ -17,23 +21,25 @@ void Panel::markOnMap(UIComponent *component) {
 				component_map[rel_pos.Y + i][rel_pos.X + j] = index;
 			}
 		}
+		1;
+	} else {
+		throw new OverlapException();
 	}
 	
 }
 
 void Panel::unmarkOnMap(UIComponent * component) {
 	COORD rel_pos = getRelativePosition(component);
-	bool safe = true;
-	for (int i = 0; i < component->getHeight(); ++i) {
+	for (int i = 0; i < component->getHeight() + 1; ++i) {
 		for (int j = 0; j < component->getWidth(); ++j) {
-			component_map[rel_pos.Y + i][rel_pos.X + j] = 0;
+			component_map[rel_pos.Y + i][rel_pos.X + j] = -1;
 		}
 	}
 }
 
 bool Panel::isInRange(UIComponent * component, int y, int x) {
 	COORD rel_pos = getRelativePosition(component);
-	return rel_pos.Y + y < height && rel_pos.X + x < width && component_map[rel_pos.Y + y][rel_pos.X + x] == 0;
+	return rel_pos.Y + y < height && rel_pos.X + x < width && component_map[rel_pos.Y + y][rel_pos.X + x] == -1;
 }
 
 COORD Panel::getRelativePosition(UIComponent * component) {
@@ -44,7 +50,7 @@ Panel::Panel(short pos_x, short pos_y, short width, short height, BorderType bor
 	for (int i = 0; i < height + 1; ++i) {
 		component_map.push_back(new int[width]);
 		for (int j = 0; j < width; ++j) {
-			component_map[i][j] = 0;
+			component_map[i][j] = -1;
 		}
 	}
 }
@@ -68,6 +74,13 @@ void Panel::removeComponent(UIComponent * component) {
 		this->components.erase(position);
 		delete component;
 	}
+}
+
+UIComponent * Panel::getComponentAt(int x, int y) {
+	if (x > -1 && y > - 1 && x < getWidth() && y < getHeight() && component_map[y][x] > -1 && component_map[y][x] < components.size()) {
+		return components[component_map[y][x]];
+	}
+	return NULL;
 }
 
 void Panel::removeAll() {

@@ -50,7 +50,7 @@ void main() {
 	CheckList* checkList = new CheckList(checkListOptions, 7, 5, 5, 10, Solid, BrightOrange, Blue);
 	checkList->checkItems({ 1, 3, 5 });
 
-	RadioBox* radioBox = new RadioBox(checkListOptions,7,40, 15, 20);
+	RadioBox* radioBox = new RadioBox(checkListOptions,7,40, 17, 20);
 
 
 	panel->addComponent(comboBox);
@@ -61,9 +61,9 @@ void main() {
 	panel->addComponent(messageWindow);
 	panel->addComponent(textBox);
 	panel->addComponent(radioBox);
-	
+	//
 	panel->draw();
-	panel->setPosition(5, 7);
+	//panel->setPosition(5, 7);
 	//dynamic_cast<Panel*>(panel)->printMap();
 
 	//m->draw();
