@@ -63,6 +63,9 @@ void main() {
 	panel->addComponent(radioBox);
 	
 	panel->draw();
+	panel->setPosition(5, 7);
+	//dynamic_cast<Panel*>(panel)->printMap();
+
 	//m->draw();
 
 	//numBox->draw();
@@ -78,6 +81,6 @@ void main() {
 	delete[] checkListOptions;
 	delete[] radioOptions;
 	delete panel;
-	getchar();
+	//getchar();
 	CCTRLDESTROY;
 }
