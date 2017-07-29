@@ -33,15 +33,17 @@ void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
 void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 	auto ctrl = CCTRL;
 	COORD currPos = ctrl.getPosition();
-	int indexToDelete = 0;
+	int currentStringIndex = 0;
 	switch (key.wVirtualKeyCode) {
 	case VK_UP:
 		if (currPos.Y != position.Y + 1)
 			ctrl.setPosition({ currPos.X, currPos.Y - 1 });
 		break;
 	case VK_LEFT:
-		if (currPos.X != position.X + 1)
+		if (currPos.X == position.X + 1 && currPos.Y == position.Y + 1) break;
+		else if (currPos.X != position.X + 1)
 			ctrl.setPosition({ currPos.X - 1, currPos.Y});
+		else ctrl.setPosition({ currPos.X + width - 1, currPos.Y - 1 });
 		break;
 	case VK_DOWN:
 		if (currPos.Y != position.Y + height - 1) {
@@ -53,11 +55,12 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		break;
 	case VK_RIGHT:
 		if (currPos.X != position.X + width) {
-			if (currPos.Y == lastIndexPosition.Y && currPos.X == lastIndexPosition.X) {
-				ctrl.setPosition(lastIndexPosition);
+			if (currPos.Y != lastIndexPosition.Y || currPos.X != lastIndexPosition.X) {
+				ctrl.setPosition({ currPos.X + 1, currPos.Y });
 			}
-			else ctrl.setPosition({ currPos.X + 1, currPos.Y });
-
+		}
+		else {
+			ctrl.setPosition({ position.X + 1, currPos.Y + 1 });
 		}
 		break;
 
@@ -70,10 +73,10 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		break;
 
 	case VK_BACK:
-		indexToDelete = (currPos.Y - position.Y - 1)*(width)+ currPos.X - position.X - 1;
-		if (indexToDelete == 0) break;
-		while (indexToDelete - 1 > text.size()) indexToDelete--;
-		text.erase(indexToDelete - 1, 1);
+		currentStringIndex = (currPos.Y - position.Y - 1)*(width)+ currPos.X - position.X - 1;
+		if (currentStringIndex == 0) break;
+		while (currentStringIndex - 1 > text.size()) currentStringIndex--;
+		text.erase(currentStringIndex - 1, 1);
 		draw();
 		if (currPos.X - 1 == position.X) {
 			ctrl.setPosition({ position.X + width,currPos.Y - 1 });
@@ -82,40 +85,42 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		break;
 
 	case VK_DELETE:
-		//std::cout << " ";
-		////text.erase(currPos.X + currPos.Y, 1);	//Need to know which character to delete, and then it's complete
-		//ctrl.setPosition({ currPos.X + 1, currPos.Y });
-		//currPos = ctrl.getPosition();
-		//if (currPos.X == position.X + width + 1) {
-		//	if (currPos.Y == lastIndexPosition.Y) ctrl.setPosition({ currPos.X - 1 ,currPos.Y});
-		//	else ctrl.setPosition({ position.X + 1  ,currPos.Y + 1 });
-		//}
-		////draw();
-		//break;
-		indexToDelete = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X - 1;
-		//for (int i = indexToDelete; i % width != 0; i++) {
+		currentStringIndex = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X - 1;
+		//for (int i = currentStringIndex; i % width != 0; i++) {
 		//	if (text[i] != ' ') {
-		//		indexToDelete = (currPos.Y - position.Y)*(width)+position.X - 1;
+		//		currentStringIndex = (currPos.Y - position.Y)*(width)+position.X - 1;
 		//		break;
 		//	}
 		//}
-		text.erase(indexToDelete, 1);
+		text.erase(currentStringIndex, 1);
 		draw();
 		ctrl.setPosition({ currPos.X,currPos.Y });
 		break;
 
 	default: 
 		WORD currCharacter = key.wVirtualKeyCode;
-		indexToDelete = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X - 1;
-		applyColors();
+		short offset = 0;
+		currentStringIndex = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X - 1;
 		if (isprint(currCharacter)) {
 			if (!GetKeyState(VK_CAPITAL)) {
 				currCharacter = tolower(currCharacter);
 			}
-			text.insert(indexToDelete, std::string( 1, char(currCharacter)) );
+			text.insert(currentStringIndex, std::string( 1, char(currCharacter)) );
 			setText(text);
-			ctrl.setPosition({ currPos.X,currPos.Y });
-			//std::cout << char(currCharacter);
+
+			if (currPos.X != position.X + width) {
+				if (currPos.Y != lastIndexPosition.Y || currPos.X != lastIndexPosition.X) {
+					ctrl.setPosition({ currPos.X + 1, currPos.Y });
+				}
+			}
+			else {
+				ctrl.setPosition({ position.X + 1, currPos.Y + 1 });
+				currentStringIndex = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X - 1;
+				while (isprint(text[++currentStringIndex]) && text[currentStringIndex] != ' ' ) ++offset;
+				ctrl.setPosition({ position.X + offset + 1, currPos.Y + 1 });
+			}
+
+			//ctrl.setPosition({ currPos.X,currPos.Y });
 		}
 	}
 }
@@ -178,9 +183,9 @@ void TextBox::draw() {
 			break;
 		}
 
-		if (currPos.X + word.length() + 1 > position.X + width ) {
+		if (currPos.X + word.length() > position.X + width ) {
 			ctrl.setPosition({ position.X + 1, currPos.Y + 1 });
-			for (int i = 0; i <= position.X + width - currPos.X; i++)
+			for (int i = 0; i <= position.X + width - currPos.X ; i++)
 				text.push_back(' ');
 		}
 		std::cout << word;
