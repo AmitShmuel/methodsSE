@@ -165,9 +165,6 @@ void ConsoleController::listenToUserEvents() {
 							}
 
 							observers[focusedIndex]->onFocus();
-
-							//if(observers[focusedIndex] is RadioBox OR CheckList) observers[focusedIndex]->keyPressed(key);
-
 							break;
 
 

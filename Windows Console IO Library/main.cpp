@@ -54,7 +54,6 @@ void main() {
 
 	RadioBox* radioBox = new RadioBox(radioOptions,3,40, 15, 20);
 
-
 	panel->addComponent(comboBox);
 	panel->addComponent(button);
 	panel->addComponent(checkList);
