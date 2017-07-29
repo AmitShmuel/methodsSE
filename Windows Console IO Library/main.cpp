@@ -39,7 +39,7 @@ void main() {
 	radioOptions[2] = "Yoav Saroya";
 
 	
-	UIComponent* panel = new Panel(0, 0, CCTRL.getConsoleSize().X - 1, CCTRL.getConsoleSize().Y - 1, Double, White, Black, NULL);
+	//UIComponent* panel = new Panel(0, 0, CCTRL.getConsoleSize().X - 1, CCTRL.getConsoleSize().Y - 1, Double, White, Black, NULL);
 	UIComponent *messageWindow = new MessageWindow("A Message", CCTRL.getConsoleSize().X / 2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
 	UIComponent *label = new Label("silencio1234567", 5, 15, 15, 7, Double, Blue, Green);
@@ -68,7 +68,6 @@ void main() {
 
 	//m->draw();
 
-	//numBox->draw();
 
 	//l->draw();
 	//button->draw();
@@ -80,7 +79,7 @@ void main() {
 	delete[] comboOptions;
 	delete[] checkListOptions;
 	delete[] radioOptions;
-	delete panel;
+	//delete panel;
 	//getchar();
 	CCTRLDESTROY;
 }
