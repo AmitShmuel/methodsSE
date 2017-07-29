@@ -176,6 +176,10 @@ void ConsoleController::listenToUserEvents() {
 						this->setCursorVisible(false);
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
 						bool intersect = false;
+						if (focusedIndex != -1 && isIntersects(mousePos, observers[focusedIndex])) {
+							observers[focusedIndex]->mouseClicked(ir[i].Event.MouseEvent);
+							break;
+						}
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
 								intersect = true;

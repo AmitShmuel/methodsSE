@@ -10,6 +10,8 @@ class TextBox : public UIComponent {
 	int maxSize;
 	COORD lastIndexPosition;
 
+	void deleteChar(COORD currPos) const;
+
 public:
 
 	TextBox(std::string _text, int _maxSize = 100, short x_pos = 0, short y_pos = 0, short w = 0, short h = 0,

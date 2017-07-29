@@ -33,4 +33,6 @@ public:
 	void draw() override;
 	void addComponent(UIComponent* component) {};
 	void removeAll() {};
+
+	void setPosition(short pos_x, short pos_y, bool special = false) override;
 };
