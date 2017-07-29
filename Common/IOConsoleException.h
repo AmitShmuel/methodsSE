@@ -13,5 +13,5 @@ public:
 };
 
 class DimentionException	: public IOConsoleException {};
-class OverlapExceptions     : public IOConsoleException {};
+class OverlapException     : public IOConsoleException {};
 class HeightNotOverrideable : public IOConsoleException {};
