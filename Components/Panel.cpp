@@ -2,8 +2,51 @@
 #include "DimensionException.h"
 #include <algorithm>
 
-Panel::Panel(short pos_x, short pos_y, short width, short height, BorderType border, Color tColor, Color bColor, UIComponent* parent) : UIComponent(pos_x, pos_y, width, height, border, tColor, bColor, parent) {
+void Panel::markOnMap(UIComponent *component) {
+	int index = std::find(this->components.begin(), this->components.end(), component) - components.begin();
+	bool safe = true;
+	for (int i = 0; i < component->getHeight() + 1; ++i) {
+		for (int j = 0; j < component->getWidth(); ++j) {
+			safe = isInRange(component, i, j);
+		}
+	}
+	if (safe) {
+		COORD rel_pos = getRelativePosition(component);
+		for (int i = 0; i < component->getHeight() + 1; ++i) {
+			for (int j = 0; j < component->getWidth(); ++j) {
+				component_map[rel_pos.Y + i][rel_pos.X + j] = index;
+			}
+		}
+	}
+	
+}
 
+void Panel::unmarkOnMap(UIComponent * component) {
+	COORD rel_pos = getRelativePosition(component);
+	bool safe = true;
+	for (int i = 0; i < component->getHeight(); ++i) {
+		for (int j = 0; j < component->getWidth(); ++j) {
+			component_map[rel_pos.Y + i][rel_pos.X + j] = 0;
+		}
+	}
+}
+
+bool Panel::isInRange(UIComponent * component, int y, int x) {
+	COORD rel_pos = getRelativePosition(component);
+	return rel_pos.Y + y < height && rel_pos.X + x < width && component_map[rel_pos.Y + y][rel_pos.X + x] == 0;
+}
+
+COORD Panel::getRelativePosition(UIComponent * component) {
+	return {component->getXPosition() - this->getXPosition(), component->getYPosition() - this->getYPosition() };
+}
+
+Panel::Panel(short pos_x, short pos_y, short width, short height, BorderType border, Color tColor, Color bColor, UIComponent* parent) : UIComponent(pos_x, pos_y, width, height, border, tColor, bColor, parent) {
+	for (int i = 0; i < height + 1; ++i) {
+		component_map.push_back(new int[width]);
+		for (int j = 0; j < width; ++j) {
+			component_map[i][j] = 0;
+		}
+	}
 }
 
 void Panel::addComponent(UIComponent * component) {
@@ -14,12 +57,14 @@ void Panel::addComponent(UIComponent * component) {
 		component->setParent(this);
 		component->setPosition(this->getXPosition() + component->getXPosition() + 1, this->getYPosition() + component->getYPosition() + 1, true);
 		this->components.push_back(component);
+		this->markOnMap(component);
 	}
 }
 
 void Panel::removeComponent(UIComponent * component) {
 	std::vector<UIComponent*>::iterator position = std::find(this->components.begin(), this->components.end(), component);
 	if (position != this->components.end()) {
+		this->unmarkOnMap(this->components[position - this->components.begin()]);
 		this->components.erase(position);
 		delete component;
 	}
@@ -27,8 +72,7 @@ void Panel::removeComponent(UIComponent * component) {
 
 void Panel::removeAll() {
 	while (components.size() > 0) {
-		delete components.back();
-		components.pop_back();
+		this->removeComponent(components[0]);
 	}
 }
 
@@ -58,4 +102,7 @@ void Panel::setPosition(short pos_x, short pos_y, bool special) {
 
 Panel::~Panel() {
 	this->removeAll();
+	for (int i = 0; i < height; ++i) {
+		if (component_map[i]) delete [] component_map[i];
+	}
 }

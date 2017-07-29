@@ -132,6 +132,9 @@ void ConsoleController::listenToUserEvents() {
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
 						switch (key.wVirtualKeyCode) {
+						case VK_ESCAPE:
+							goto end;
+							break;
 						case VK_TAB:
 							if (focusedIndex == -1) ++focusedIndex;
 
@@ -199,6 +202,8 @@ void ConsoleController::listenToUserEvents() {
 			}
 		}
 	}
+end:
+	return;
 }
 
 bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {
