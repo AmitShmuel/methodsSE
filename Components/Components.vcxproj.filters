@@ -21,9 +21,9 @@
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="NumericBox.h" />
     <ClInclude Include="TextBox.h" />
-    <ClInclude Include="DimensionException.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="CheckList.h" />
     <ClInclude Include="RadioBox.h" />
+    <ClInclude Include="DimensionException.h" />
   </ItemGroup>
 </Project>

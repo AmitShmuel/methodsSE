@@ -1,5 +1,5 @@
 #include "Panel.h"
-#include "DimensionException.h"
+#include "../Common/IOConsoleException.h"
 #include <algorithm>
 
 void Panel::markOnMap(UIComponent *component) {

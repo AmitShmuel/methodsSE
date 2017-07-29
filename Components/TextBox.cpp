@@ -59,17 +59,27 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 
 		}
 		break;
+
+	case VK_HOME:
+		ctrl.setPosition({ position.X + 1, currPos.Y });
+		break;
+		
+	case VK_END:
+		ctrl.setPosition({ lastIndexPosition.Y == currPos.Y ?  lastIndexPosition.X : position.X + width , currPos.Y });
+		break;
+
 	case VK_BACK:
-		std::cout << " ";
 		//text.erase(currPos.X + currPos.Y, 1);	//Need to know which character to delete, and then it's complete
-		ctrl.setPosition({ currPos.X - 1, currPos.Y });
+
+		deleteChar(currPos);
 		currPos = ctrl.getPosition();
 		if (currPos.X == position.X) {
 			if (currPos.Y - 1 == position.Y) ctrl.setPosition({currPos.X + 1, currPos.Y});
-			else ctrl.setPosition({ currPos.X + width - 1 ,currPos.Y - 1 });
+			else ctrl.setPosition({ currPos.X + width ,currPos.Y - 1 });
 		}
 		//draw();
 		break;
+
 
 	case VK_DELETE:
 		std::cout << " ";
@@ -87,6 +97,15 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 	}
 }
 
+void TextBox::deleteChar(COORD currPos) const {
+	if (currPos.X > position.X + 1) {
+		CCTRL.setPosition({ currPos.X - 1, currPos.Y });
+		std::cout << " ";
+	}
+	CCTRL.setPosition({ currPos.X - 1, currPos.Y });
+
+}
+
 void TextBox::onFocus() {
 	auto ctrl = CCTRL;
 	this->setFocus(true);
@@ -97,7 +116,7 @@ void TextBox::onFocus() {
 void TextBox::onBlur() {
 	auto ctrl = CCTRL;
 	this->setFocus(false);
-	//CCTRL.setCursorVisible(false);
+	CCTRL.setCursorVisible(false); //re-enbaled
 }
 
 void TextBox::setText(std::string _text) {
