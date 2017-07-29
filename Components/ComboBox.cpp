@@ -160,9 +160,25 @@ void ComboBox::toggle() {
 				for (short j = width + 2; j > 0; --j) putchar(' ');
 			}
 		}
-		
-		
-		this->getRoot().draw();
+		this->draw();
+
+		UIComponent *curr = NULL;
+		vector<UIComponent*> redrawn_items;
+		std::vector<UIComponent*>::iterator pos;
+		for (int i = height + 1; i < height + options.size() + 1; ++i) {
+			for (int j = 0; j < width; ++j) {
+				curr = this->getRoot().getComponentAt(position.X + j, position.Y + i);
+				
+				if (curr != NULL) {
+					pos = std::find(redrawn_items.begin(), redrawn_items.end(), curr);
+					if (redrawn_items.size() == 0 || pos == redrawn_items.end()) {
+						redrawn_items.push_back(curr);
+						curr->draw();
+					}
+				}
+			}
+		}
+		//this->getRoot().draw();
 	}
 }
 

@@ -34,6 +34,7 @@ public:
 	UIComponent& getRoot();
 	virtual void addComponent(UIComponent* component) {};
 	virtual void removeComponent(UIComponent* component) {};
+	virtual UIComponent* getComponentAt(int x, int y) { return NULL; };
 	virtual void removeAll() {};
 	virtual void draw() = 0;
 

@@ -22,6 +22,7 @@ public:
 	// General UI Methods
 	virtual void addComponent(UIComponent* component);
 	virtual void removeComponent(UIComponent* component);
+	UIComponent* getComponentAt(int x, int y);
 	virtual void removeAll();
 	virtual void draw();
 
@@ -30,9 +31,11 @@ public:
 
 	// Debug method
 	void printMap() {
+		cout << endl;
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
-				cout << component_map[i][j] << " ";
+				component_map[i][j] > -1 ? cout << "c" : cout << "-";
+				
 			}
 			cout << endl;
 		}
