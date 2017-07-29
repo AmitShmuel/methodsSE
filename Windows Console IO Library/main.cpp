@@ -39,20 +39,19 @@ void main() {
 	radioOptions[2] = "Yoav Saroya";
 
 	
-	UIComponent* panel = new Panel(0, 0, CCTRL.getConsoleSize().X - 1, CCTRL.getConsoleSize().Y - 1, Double, White, Black, NULL);
+	UIComponent* panel = new Panel(0, 0, CCTRL.getConsoleSize().X -1, CCTRL.getConsoleSize().Y - 1, Double, White, Black, NULL);
 	UIComponent *messageWindow = new MessageWindow("A Message", CCTRL.getConsoleSize().X / 2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
-	UIComponent *label = new Label("silencio1234567", 5, 15, 15, 7, Double, Blue, Green);
+	UIComponent *label = new Label("silencio1234567", 5, 15, 15, 2, Double, Blue, Green);
 	ActionTest at;
 	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, White, Black);
 	UIComponent* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 3, 30, 6, Dotted, White, Black);
 	UIComponent* comboBox = new ComboBox(comboOptions, 4, 50, 0, 10, Double, White, Black);
-	CheckList* checkList = new CheckList(checkListOptions, 7, 5, 5, 10, Solid, BrightOrange, Blue);
+	CheckList* checkList = new CheckList(checkListOptions, 7, 5, 15, 10, Solid, BrightOrange, Blue);
 	checkList->checkItem(true, 1);
 	checkList->checkItem(true, 4);
 	checkList->checkItem(true, 6);
-
-	RadioBox* radioBox = new RadioBox(radioOptions,3,40, 15, 20);
+	RadioBox* radioBox = new RadioBox(radioOptions,3,40, 5, 5);
 
 	panel->addComponent(comboBox);
 	panel->addComponent(button);
@@ -64,6 +63,8 @@ void main() {
 	panel->addComponent(radioBox);
 	
 	panel->draw();
+	//panel->setPosition(5, 7);
+
 	//m->draw();
 
 	//numBox->draw();

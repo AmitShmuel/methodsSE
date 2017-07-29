@@ -36,3 +36,9 @@ void MessageWindow::draw() {
 
 	postDraw();
 }
+
+void MessageWindow::setPosition(short pos_x, short pos_y, bool special) {
+	this->position = { pos_x, pos_y };
+	okBtn.setPosition(pos_x + width / 6, pos_y + height - 3, pos_y);
+	cancelBtn.setPosition(pos_x + width - width / 3, pos_y + height - 3);
+}
