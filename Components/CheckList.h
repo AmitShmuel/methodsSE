@@ -1,41 +1,25 @@
 #pragma once
-#include "UIComponent.h"
+#include "ListComponent.h"
 #include <vector>
 #include <string>
 using namespace std;
 
-typedef enum {Up, Down} Direction;
 
-class CheckList : public UIComponent {
+class CheckList : public ListComponent {
 
-	struct Item {
-		string text;
-		bool checked;
-	};
-
-	vector<Item> list;
-	short current;
-	bool drawn, mouseEvent;
+	vector<bool> selected_items;
 
 public:
 
-	CheckList(string* options, int len, short pos_x, short pos_y, short width, BorderType border = Double, Color tColor = White, Color bColor = Black, UIComponent* parent = NULL);
+	CheckList(string* options, int len, short pos_x, short pos_y, short width, BorderType border = Solid, Color tColor = White, Color bColor = Black, UIComponent* parent = NULL);
 
-	void draw();
-	void mouseClicked(MOUSE_EVENT_RECORD);
-	void keyPressed(KEY_EVENT_RECORD);
-	void drawLine(Item item);
-	void traverse(Direction d);
+	bool selectedItem(int index) override;
+	bool clearSelection(int index) override;
+	bool isChecked(int index) override;
 
-	bool isTraversable() override { return true; }
-	bool isAtEnd() override { return list.size() - 1 == current; };
-	void onFocus() override;
-	void onBlur()  override;
-
-	bool checkItem(bool toCheck, int index);
-	bool canGetFocus() { return true; }
-	const vector<string> getCheckedList() const;
-
-	void setHeight(int _height) {}
-	~CheckList() { CCTRL.detachObserver(this); }
+	//Special methids for RadioBox
+	const vector<string> getCheckedStrings() const;
+	bool addSelectedItem(string item);
+	bool removeSelectedItem(string item);
+	bool checkItems(vector<int> indexes);
 };

@@ -153,6 +153,11 @@ void ConsoleController::listenToUserEvents() {
 							}
 
 							observers[focusedIndex]->onFocus();
+							if (observers[focusedIndex]->isTraversable()) {
+								if (observers[focusedIndex]->hasFocus()) {
+									observers[focusedIndex]->keyPressed(key);
+								}
+							}
 
 							break;
 

@@ -48,11 +48,9 @@ void main() {
 	UIComponent* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 3, 30, 6, Dotted, White, Black);
 	UIComponent* comboBox = new ComboBox(comboOptions, 4, 50, 0, 10, Double, White, Black);
 	CheckList* checkList = new CheckList(checkListOptions, 7, 5, 5, 10, Solid, BrightOrange, Blue);
-	checkList->checkItem(true, 1);
-	checkList->checkItem(true, 4);
-	checkList->checkItem(true, 6);
+	checkList->checkItems({ 1, 3, 5 });
 
-	RadioBox* radioBox = new RadioBox(radioOptions,3,40, 15, 20);
+	RadioBox* radioBox = new RadioBox(checkListOptions,7,40, 15, 20);
 
 
 	panel->addComponent(comboBox);

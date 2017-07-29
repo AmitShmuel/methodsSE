@@ -97,7 +97,7 @@ void TextBox::onFocus() {
 void TextBox::onBlur() {
 	auto ctrl = CCTRL;
 	this->setFocus(false);
-	//CCTRL.setCursorVisible(false);
+	CCTRL.setCursorVisible(false); //re-enbaled
 }
 
 void TextBox::setText(std::string _text) {

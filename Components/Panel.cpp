@@ -1,5 +1,5 @@
 #include "Panel.h"
-#include "DimensionException.h"
+#include "../Common/IOConsoleException.h"
 #include <algorithm>
 
 Panel::Panel(short pos_x, short pos_y, short width, short height, BorderType border, Color tColor, Color bColor, UIComponent* parent) : UIComponent(pos_x, pos_y, width, height, border, tColor, bColor, parent) {
