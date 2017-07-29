@@ -65,7 +65,7 @@ void main() {
 	panel->draw();
 	//panel->setPosition(5, 7);
 	//dynamic_cast<Panel*>(panel)->printMap();
-
+	//
 	//m->draw();
 
 
@@ -79,7 +79,7 @@ void main() {
 	delete[] comboOptions;
 	delete[] checkListOptions;
 	delete[] radioOptions;
-	//delete panel;
+	delete panel;
 	//getchar();
 	CCTRLDESTROY;
 }
