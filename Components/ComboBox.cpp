@@ -14,10 +14,11 @@ ComboBox::ComboBox(string* options, int len, short pos_x, short pos_y, short wid
 }
 
 void ComboBox::draw() {
+	applyColors();
 	/*short orig_height = height;
 	COORD orig_pos = position;*/
-	short orig_tColor = CCTRL.getTextColor();
-	short orig_bColor = CCTRL.getBackgroundColor();
+	/*short orig_tColor = CCTRL.getTextColor();
+	short orig_bColor = CCTRL.getBackgroundColor();*/
 	CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 	if (open) {
 		if (open_down) {
@@ -75,13 +76,20 @@ void ComboBox::draw() {
 	UIComponent::draw();
 	//height = orig_height;
 	//position = orig_pos;
-	CCTRL.setColors(orig_tColor, false, orig_bColor, false);
+	postDraw();
+}
+
+void ComboBox::setPosition(short pos_x, short pos_y, bool special) {
+	this->position.X = pos_x;
+	this->position.Y = pos_y;
+	if (special)
+		this->_originalState->position = position;;
 }
 
 
 void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 	//open_down = CCTRL.getConsoleSize().Y > position.Y + options.size() + 1;
-
+	setFocus(true);
 	if (open) {
 		if (CCTRL.isIntersects(e.dwMousePosition, this->_originalState)) {
 			if (e.dwMousePosition.X > this->_originalState->position.X
@@ -106,9 +114,9 @@ void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 	else {
 		if (CCTRL.isIntersects(e.dwMousePosition, this)
 			&& e.dwMousePosition.X > position.X
-			&& e.dwMousePosition.X < position.X + width
-			&& e.dwMousePosition.Y > position.Y
-			&& e.dwMousePosition.Y < position.Y + height) {
+			&& e.dwMousePosition.X <= position.X + width
+			&& e.dwMousePosition.Y >= position.Y
+			&& e.dwMousePosition.Y <= position.Y + height) {
 			this->toggle();
 		}
 	}
@@ -117,12 +125,10 @@ void ComboBox::mouseClicked(MOUSE_EVENT_RECORD e) {
 void ComboBox::keyPressed(KEY_EVENT_RECORD e) {
 	switch (e.wVirtualKeyCode) {
 	case VK_UP:
-	case VK_NUMPAD8:
 		if (this->open && this->temp_index > 0)
 			this->temp_index--;
 		break;
 	case VK_DOWN:
-	case VK_NUMPAD2:
 		if (this->open && this->temp_index + 1 < this->options.size())
 			this->temp_index++;
 		break;
@@ -170,6 +176,21 @@ void ComboBox::toggle() {
 
 string ComboBox::getValue() const {
 	return selected_index != -1 ? this->options.at(selected_index) : "No item selected";
+}
+
+void ComboBox::onFocus() {
+	setFocus(true);
+	this->toggle();
+	if (this->open) {
+		this->temp_index = 0;
+		this->draw();
+	}
+}
+
+void ComboBox::onBlur() {
+	setFocus(false);
+	if (this->open)
+		this->toggle();
 }
 
 ComboBox::~ComboBox() {

@@ -20,13 +20,23 @@ const string RadioBox::getCheckedString() const {
 	return options.at(selected_index);
 }
 
-bool RadioBox::slectedItem(int index) {
+bool RadioBox::selectedItem(int index) {
 	
 	if (index < 0 || index >= options.size() || index == selected_index) {
 		return false;
 	}
 	selected_index = index;
-	draw();
+	applyColors();
+	ConsoleController ctrl = CCTRL;
+	COORD c = { position.X + 2, position.Y + 1 };
+	COORD originPos = ctrl.getPosition();
+	ctrl.setPosition(c);
+	for (int i = 0; i < options.size(); i++) {
+		string checkMark = i == selected_index ? "x" : " ";
+		cout << checkMark;
+		ctrl.setPosition({ c.X, ++c.Y });
+	}
+	ctrl.setPosition(originPos);
 	return true;
 }
 
@@ -36,12 +46,11 @@ bool RadioBox::clearSelection() {
 		return false;
 	}
 	selected_index = -1;
-	draw();
 	return true;
 }
 
 void RadioBox::draw() {
-
+	applyColors();
 	height = static_cast<short> (options.size() + 1);
 	UIComponent::draw();
 	ConsoleController ctrl = CCTRL;
@@ -56,19 +65,45 @@ void RadioBox::draw() {
 		cout << checkMark << options.at(i).substr(0, width - 4);
 		ctrl.setPosition({ c.X, ++c.Y });
 	}
+	postDraw();
 }
 
 void RadioBox::mouseClicked(MOUSE_EVENT_RECORD mouseEvent) {
+	setFocus(true);
 
 	COORD pos = mouseEvent.dwMousePosition;
 
 	if (pos.Y != position.Y && pos.Y != position.Y + height && pos.X != position.X) {
 		int index = pos.Y - position.Y - 1;
-		clearSelection();
-		slectedItem(index);
-		
-		draw();
-		COORD c = { position.X + 2, position.Y + index + 1 };
-		CCTRL.setPosition(c);
+		selectedItem(current = index);
 	}
+}
+
+void RadioBox::keyPressed(KEY_EVENT_RECORD keyEvent) {
+	switch (keyEvent.wVirtualKeyCode) {
+	case VK_UP:
+		if (--current == -1) current = options.size() - 1;
+		CCTRL.setPosition({ position.X + 2, position.Y + current + 1 });
+		break;
+	case VK_TAB: //should behave the same
+	case VK_DOWN:
+		current = (++current) % options.size();
+		CCTRL.setPosition({ position.X + 2, position.Y + current + 1 });
+		break;
+	case VK_SPACE:
+	case VK_RETURN:
+		selectedItem(current);
+		break;
+	}
+}
+
+void RadioBox::onFocus() {
+	setFocus(true);
+	CCTRL.setCursorVisible(true);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
+	CCTRL.setPosition({ position.X + 2, position.Y + 1 + current });
+}
+
+void RadioBox::onBlur() {
+	setFocus(false);
+	CCTRL.setCursorVisible(false);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
 }

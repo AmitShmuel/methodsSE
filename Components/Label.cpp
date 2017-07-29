@@ -8,7 +8,7 @@ Label::Label(std::string _text, short x_pos, short y_pos, short w, short h, Bord
 
 
 void Label::draw() {
-
+	applyColors();
 	UIComponent::draw();
 	ConsoleController ctrl = CCTRL;
 	// clear background
@@ -28,6 +28,8 @@ void Label::draw() {
 	ctrl.setPosition(c);
 	//GFX.moveTo(c.X, c.Y);
 	std::cout << text;
+
+	postDraw();
 }
 
 void Label::setText(std::string _text) {

@@ -37,6 +37,7 @@ void NumericBox::drawValue() const {
 void NumericBox::draw() {
 	decBtn.draw();
 	incBtn.draw();
+	applyColors();
 	UIComponent::draw();
 	auto ctrl = CCTRL;
 	ctrl.setPosition({ position.X + 2, position.Y});
@@ -48,12 +49,21 @@ void NumericBox::draw() {
 	ctrl.setPosition({ position.X + 13, position.Y + 2 });
 	std::cout << "\xC1";
 	drawValue();
+	postDraw();
+}
+
+void NumericBox::setPosition(short pos_x, short pos_y, bool special) {
+	this->position = { pos_x, pos_y };
+	incBtn.setPosition (pos_x + 13, pos_y );
+	decBtn.setPosition (pos_x, pos_y );
+	
 }
 
 void NumericBox::setValue(int _val) {
 	if (_val < getMin()) value = getMin();
 	else if (_val > getMax()) value = getMax();
 	else value = _val;
+	applyColors();
 	drawValue();
 }
 

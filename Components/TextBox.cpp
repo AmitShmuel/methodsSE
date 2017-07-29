@@ -12,6 +12,8 @@ TextBox::~TextBox() {
 }
 
 void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
+	CCTRL.setCursorVisible(true);
+	setFocus(true);
 	COORD mousePos = mouseRecord.dwMousePosition;
 	if (mousePos.Y > getYPosition() &&
 		mousePos.Y < getYPosition() + getHeight() &&
@@ -80,7 +82,22 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		}
 		//draw();
 		break;
+
+	default: break;
 	}
+}
+
+void TextBox::onFocus() {
+	auto ctrl = CCTRL;
+	this->setFocus(true);
+	ctrl.setPosition({position.X + 1, position.Y + 1});
+	ctrl.setCursorVisible(true);
+}
+
+void TextBox::onBlur() {
+	auto ctrl = CCTRL;
+	this->setFocus(false);
+	//CCTRL.setCursorVisible(false);
 }
 
 void TextBox::setText(std::string _text) {
@@ -91,7 +108,7 @@ void TextBox::setText(std::string _text) {
 }
 
 void TextBox::draw() {
-
+	applyColors();
 	UIComponent::draw();
 	ConsoleController ctrl = CCTRL;
 	// clear background
@@ -128,4 +145,5 @@ void TextBox::draw() {
 		std::cout << " ";
 	}
 	//std::cout << text;
+	postDraw();
 }

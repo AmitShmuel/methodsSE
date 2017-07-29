@@ -1,6 +1,8 @@
 #include "ConsoleController.h"
 #include "../Components/Components.h"
 #include <algorithm>
+#include "../Components/CheckList.h"
+#include "../Components/RadioBox.h"
 
 // init static
 ConsoleController *ConsoleController::instance = 0;
@@ -111,11 +113,14 @@ DWORD ConsoleController::getCursorSize() {
 }
 
 // test code for events 
-// TODO: event thread and attach listeners
+// TODO: event thread
 void ConsoleController::listenToUserEvents() {
 	INPUT_RECORD ir[5] = { 0 };
 	DWORD num_read;
 	int counter = 0;
+
+	this->setCursorVisible(false);
+	int countrr = 0;
 	while (1) {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
@@ -127,14 +132,41 @@ void ConsoleController::listenToUserEvents() {
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
 						switch (key.wVirtualKeyCode) {
-						
-						//case VK_UP:
-
-						//	break;
-
+						/* a Test to see how many component in focus (should always be 1 ! )
+						case VK_CONTROL:
+							for (auto observer : observers) {
+								if (observer->hasFocus()) {
+									countrr++;
+								}
+							}
+							cout << "Focused Components = " << countrr;
+							countrr = 0;
+							break;
+							*/
 						case VK_TAB:
+							if (focusedIndex == -1) ++focusedIndex;
 
-							goto end;
+							if (dynamic_cast<CheckList*>(observers[focusedIndex]) || dynamic_cast<RadioBox*>(observers[focusedIndex]) ) {
+								if (observers[focusedIndex]->hasFocus()) {
+									if (observers[focusedIndex]->getYPosition() + observers[focusedIndex]->getHeight() - 1 == getPosition().Y) {
+										goto nextFocusElement;
+									}
+									observers[focusedIndex]->keyPressed(key);
+									break;
+								}
+							}
+							nextFocusElement:
+							if (observers[focusedIndex]) observers[focusedIndex]->onBlur();
+							focusedIndex = ++focusedIndex % observers.size();
+
+							while (observers[focusedIndex]  &&  !observers[focusedIndex]->canGetFocus() ) {
+								focusedIndex = ++focusedIndex % observers.size();
+							}
+
+							observers[focusedIndex]->onFocus();
+
+							//if(observers[focusedIndex] is RadioBox OR CheckList) observers[focusedIndex]->keyPressed(key);
+
 							break;
 
 
@@ -146,25 +178,19 @@ void ConsoleController::listenToUserEvents() {
 						}
 						setMouseEnabled(false);
 					}
-					/*printf("key %s it's virtual key code value %d\n",
-					ir[i].Event.KeyEvent.bKeyDown ? "down" : "up",
-					ir[i].Event.KeyEvent.wVirtualKeyCode);*/
 					break;
 				case MOUSE_EVENT:
 					switch (ir[i].Event.MouseEvent.dwButtonState) {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
 						focusedIndex = -1;
-						SetConsoleCursorPosition(hOutput, { 0,0 });
-						//printf("Mousedown");
+						this->setCursorVisible(false);
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
 						for (auto observer : observers) {
 							if (isIntersects(mousePos, observer)) {
 								if (observer->canGetFocus()) {
-									if (focusedIndex != -1)
-										observers[focusedIndex]->setFocus(false);
+									if (focusedIndex != -1 && observers[focusedIndex]->hasFocus() )
+										observers[focusedIndex]->onBlur();
 									focusedIndex = counter;
-									if (focusedIndex != -1)
-										observers[focusedIndex]->setFocus(true);
 								}
 								observer->mouseClicked(ir[i].Event.MouseEvent);
 							}
@@ -172,21 +198,12 @@ void ConsoleController::listenToUserEvents() {
 						}
 						counter = 0;
 						break;
-					case RI_MOUSE_LEFT_BUTTON_UP:
-						SetConsoleCursorPosition(hOutput, { 0,0 });
-						printf("         ");
-						/*SetConsoleCursorPosition(h, { 0,0 });
-						printf("\b                   \b");
-						printf("Mouseup");*/
-						break;
-					}
+					}	
 					break;
 				}
 			}
 		}
 	}
-end:
-	return;
 }
 
 bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {

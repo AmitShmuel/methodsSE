@@ -13,7 +13,7 @@ MessageWindow::MessageWindow(std::string _text, short x_pos, short y_pos, short 
 }
 
 void MessageWindow::draw() {
-
+	applyColors();
 	UIComponent::draw();
 	ConsoleController ctrl = CCTRL;
 	COORD c = { position.X + 1, position.Y + 1 };
@@ -33,4 +33,6 @@ void MessageWindow::draw() {
 
 	okBtn.draw();
 	cancelBtn.draw();
+
+	postDraw();
 }

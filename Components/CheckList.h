@@ -24,9 +24,13 @@ public:
 	void mouseClicked(MOUSE_EVENT_RECORD);
 	void keyPressed(KEY_EVENT_RECORD);
 
+	void onFocus() override;
+	void onBlur()  override;
+
 	bool checkItem(bool toCheck, int index);
 	bool canGetFocus() { return true; }
 	const vector<string> getCheckedList() const;
+
 
 	~CheckList() { CCTRL.detachObserver(this); }
 };

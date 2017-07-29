@@ -23,7 +23,7 @@ const vector<string> CheckList::getCheckedList() const {
 }
 
 void CheckList::draw() {
-
+	applyColors();
 	drawn = true;
 	height = list.size() + 1;
 	UIComponent::draw();
@@ -40,6 +40,8 @@ void CheckList::draw() {
 		cout << checkBox << item.text.substr(0, width - 4);
 		ctrl.setPosition({ c.X, ++c.Y });
 	}
+
+	postDraw();
 }
 
 bool CheckList::checkItem(bool toCheck, int index) {
@@ -48,6 +50,7 @@ bool CheckList::checkItem(bool toCheck, int index) {
 		return false;
 
 	if (drawn) {
+		applyColors();
 		ConsoleController ctrl = CCTRL;
 		COORD c = { position.X + 2, position.Y + index + 1 };
 		ctrl.setPosition(c);
@@ -62,7 +65,7 @@ bool CheckList::checkItem(bool toCheck, int index) {
 }
 
 void CheckList::mouseClicked(MOUSE_EVENT_RECORD mouseEvent) {
-
+	setFocus(true);
 	COORD pos = mouseEvent.dwMousePosition;
 
 	if (pos.Y != position.Y && pos.Y != position.Y + height && pos.X != position.X) {
@@ -73,14 +76,14 @@ void CheckList::mouseClicked(MOUSE_EVENT_RECORD mouseEvent) {
 }
 
 void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
-
 	switch (keyEvent.wVirtualKeyCode) {
 	case VK_UP:
-		current = (++current) % list.size();
-		break;
-	//case VK_TAB: should behave the same
-	case VK_DOWN:
 		if (--current == -1) current = list.size() - 1;
+		break;
+	case VK_TAB: //should behave the same
+	case VK_DOWN:
+		current = (++current) % list.size();
+
 		break;
 	case VK_SPACE:
 	case VK_RETURN:
@@ -88,4 +91,15 @@ void CheckList::keyPressed(KEY_EVENT_RECORD keyEvent) {
 		break;
 	}
 	CCTRL.setPosition({ position.X + 2, position.Y + current + 1 });
+}
+
+void CheckList::onFocus() {
+	setFocus(true);
+	CCTRL.setCursorVisible(true);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
+	CCTRL.setPosition({ position.X + 2, position.Y + 1 });
+}
+
+void CheckList::onBlur() {
+	setFocus(false);
+	CCTRL.setCursorVisible(false);	//temporary - Remove it when done drawing lines with color ! Reference to do it : ComboBox.cpp
 }
