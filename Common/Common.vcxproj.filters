@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ConsoleController.cpp" />
-    <ClCompile Include="IOConsoleException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
