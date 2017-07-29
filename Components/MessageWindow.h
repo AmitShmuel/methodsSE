@@ -34,5 +34,14 @@ public:
 	void addComponent(UIComponent* component) {};
 	void removeAll() {};
 
+	bool isInteractable() { return true; }
+
+	UIComponent& getOkBtn() { return okBtn; }
+	UIComponent& getCancelBtn() { return cancelBtn; }
+
+	void setVisible(bool visible) override;
+
 	void setPosition(short pos_x, short pos_y, bool special = false) override;
+
+	int getResult() { return result; }
 };

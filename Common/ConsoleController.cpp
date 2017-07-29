@@ -8,7 +8,7 @@
 ConsoleController *ConsoleController::instance = 0;
 
 // private CTOR for jesus
-ConsoleController::ConsoleController() : hOutput(GetStdHandle(STD_OUTPUT_HANDLE)), hInput(GetStdHandle(STD_INPUT_HANDLE)), focusedIndex(-1) {
+ConsoleController::ConsoleController() : hOutput(GetStdHandle(STD_OUTPUT_HANDLE)), hInput(GetStdHandle(STD_INPUT_HANDLE)), view(NULL), focusedIndex(-1), last_msg_response(-1) {
 	GetConsoleMode(hInput, &mode);
 	GetConsoleCursorInfo(hOutput, &cursorInfo);
 	setCursorVisible(false);
@@ -27,14 +27,22 @@ void ConsoleController::destroy() {
 	if (instance != 0) delete instance;
 }
 
+// Prompt user to confirm with message
+void ConsoleController::messageDialog(std::string message) {
+	if (message.length() == 0) message = "Are you sure?";
+	MessageWindow *messageWindow = new MessageWindow(message, getConsoleSize().X / 2 - 25, getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
+	messages.push_back(messageWindow);
+	messages[0]->draw();
+}
+
 // sets current cursor position
 void ConsoleController::setPosition(COORD c) {
 	SetConsoleCursorPosition(hOutput, c);
 }
 
 // sets text console attribute
-void ConsoleController::setColors(short foregroundColor, bool foregroundIntensity, short backgroundColor, bool backgroundIntensity) {
-	attr = foregroundColor | FOREGROUND_INTENSITY * foregroundIntensity | 16 * backgroundColor | BACKGROUND_INTENSITY * backgroundIntensity;
+void ConsoleController::setColors(short foregroundColor, short backgroundColor, bool foreground_intensity, bool background_intensity) {
+	attr = foregroundColor | FOREGROUND_INTENSITY * foreground_intensity | 16 * backgroundColor | BACKGROUND_INTENSITY * background_intensity;
 	SetConsoleTextAttribute(hOutput, attr);
 }
 
@@ -59,6 +67,11 @@ void ConsoleController::setCursorVisible(bool isVisible) {
 void ConsoleController::setCursorSize(DWORD size) {
 	cursorInfo.dwSize = size;
 	SetConsoleCursorInfo(hOutput, &cursorInfo);
+}
+
+void ConsoleController::setView(UIComponent * component) {
+	this->view = component;
+	if (this->view) this->view->setVisible(true);
 }
 
 COORD ConsoleController::getPosition() const {
@@ -125,18 +138,34 @@ void ConsoleController::listenToUserEvents() {
 		ReadConsoleInput(hInput, ir, 5, &num_read);
 		CONSOLE_SCREEN_BUFFER_INFO cursor;
 		bool tab_down = false;
+
+		if (messages.size() > 0 && messages[0]->getResult() != -1) {
+			messages[0]->setVisible(false);
+			delete messages[0];
+			messages.erase(messages.begin());
+			view != NULL ? view->setVisible(true) : 1;
+			if (messages.size() > 0)
+				messages[0]->draw();
+		}
+
 		if (num_read) {
-			for (int i = 0; i< (int)num_read; i++) {
+			for (int i = 0; i < (int)num_read; i++) {
 				switch (ir[i].EventType) {
 				case KEY_EVENT:
 					KEY_EVENT_RECORD key = ir[i].Event.KeyEvent;
 					if (key.bKeyDown) {
+						// Block key events when message window is open
+						if (messages.size() > 0) {
+							continue;
+						}
 						switch (key.wVirtualKeyCode) {
 						case VK_ESCAPE:
 							goto end;
 							break;
 						case VK_TAB:
-							if (focusedIndex == -1) ++focusedIndex;
+							if (observers.size() == 0) continue;
+							if (focusedIndex == -1)
+								++focusedIndex;
 
 							if (observers[focusedIndex]->isTraversable()) {
 								if (observers[focusedIndex]->hasFocus()) {
@@ -178,6 +207,16 @@ void ConsoleController::listenToUserEvents() {
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
 						this->setCursorVisible(false);
 						auto mousePos = ir[i].Event.MouseEvent.dwMousePosition;
+						// Trap all mouse events if message window is open
+						if (messages.size() > 0) {
+							if (isIntersects(mousePos, &messages[0]->getOkBtn())) {
+								messages[0]->getOkBtn().mouseClicked(ir[i].Event.MouseEvent);
+							}
+							if (isIntersects(mousePos, &messages[0]->getCancelBtn()))
+								messages[0]->getOkBtn().mouseClicked(ir[i].Event.MouseEvent);
+							continue;
+						}
+
 						bool intersect = false;
 						if (focusedIndex != -1 && isIntersects(mousePos, observers[focusedIndex])) {
 							observers[focusedIndex]->mouseClicked(ir[i].Event.MouseEvent);

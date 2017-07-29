@@ -26,6 +26,7 @@ public:
 
 	void onFocus() override;
 	void onBlur() override;
+	bool isInteractable() { return true; }
 
 	// setters:
 	void setText(std::string);

@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <string>
 #define CCTRL ConsoleController::init()
 #define CCTRLDESTROY ConsoleController::destroy()
 
@@ -22,6 +23,7 @@ typedef enum Color {
 } Color;
 
 class UIComponent;	//Handling dependency injection
+class MessageWindow;
 
 class ConsoleController {
 private:
@@ -34,12 +36,17 @@ private:
 	WORD attr;							// current console text attributes
 	CONSOLE_CURSOR_INFO cursorInfo;		// current console info
 
+	// View to draw
+	UIComponent* view;
+
 	// Default Color
 	Color defaultTextColor = White, defaultBackgroundColor = Black;
 
 	// TODO: add event thread, listeners, etc	--yftah
 	std::vector<UIComponent*> observers;
+	std::vector<MessageWindow*> messages;	// messages requiring user input
 	int focusedIndex;
+	int last_msg_response;
 
 	// CTOR
 	ConsoleController();
@@ -48,14 +55,18 @@ public:
 	static ConsoleController& init();
 	static void destroy();
 
+	// Message Window Popup
+	void messageDialog(std::string message);
+
 	// setters
 	void setPosition(COORD c);
-	void setColors(short foregroundColor, bool foregroundIntensity, short backgroundColor, bool backgroundIntensity);
+	void setColors(short foregroundColor, short backgroundColor, bool foreground_intensity = true, bool background_intensity = false);
 	void setDefaultColors(Color tColor, Color bColor);
 	void setMouseEnabled(bool isEnabled);
 	void setCursorVisible(bool isVisible);
 	void setCursorSize(DWORD size);
-	void restoreDefaultColors() { setColors(defaultTextColor, false, defaultBackgroundColor, false); };
+	void setView(UIComponent* component);
+	void restoreDefaultColors() { setColors(defaultTextColor, defaultBackgroundColor); };
 
 
 	// getters

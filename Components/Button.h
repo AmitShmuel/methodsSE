@@ -11,5 +11,7 @@ public:
 		~Button();
 		void click() const;
 
+		bool isInteractable() { return true; }
+
 		void mouseClicked(MOUSE_EVENT_RECORD);
 };

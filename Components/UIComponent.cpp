@@ -19,7 +19,7 @@ void UIComponent::removeFromScreen() const {
 	//SetConsoleTextAttribute(h, 0);
 
 	// FIXME: this assumes the UI is black -Yftah
-	ctrl.setColors(0, false, 0, false);
+	ctrl.setColors(0, 0);
 	COORD c = { position.X, position.Y };
 	for (short i = 0; i < height + 1; i++) {
 		for (short j = 0; j < width + 2; j++) {
@@ -36,14 +36,30 @@ void UIComponent::draw() {
 	drawBorder();
 }
 
+void UIComponent::setVisible(bool visible) {
+	this->is_visible = visible;
+	if (visible) {
+		if (this->isInteractable()) {
+			CCTRL.attachObserver(this);
+		}
+		draw();
+	}
+	else {
+		if (this->isInteractable()) {
+			CCTRL.detachObserver(this);
+		}
+		removeFromScreen();
+	}
+}
+
 void UIComponent::invertColors() {
 	Color tmp = this->backgroundColor;
 	this->backgroundColor = this->textColor;
 	this->textColor = tmp;
 }
 
-void UIComponent::applyColors() {
-	CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
+void UIComponent::applyColors(bool fg, bool bg) {
+	CCTRL.setColors(this->textColor, this->backgroundColor, fg, bg);
 }
 
 void UIComponent::drawBorder() const {
@@ -51,7 +67,7 @@ void UIComponent::drawBorder() const {
 	ConsoleController ctrl = CCTRL;
 	ctrl.setPosition(position);
 	// SetConsoleTextAttribute(h, textColor | FOREGROUND_INTENSITY | backgroundColor * 16);
-	ctrl.setColors(textColor, true, backgroundColor, false);
+	ctrl.setColors(textColor, backgroundColor, focus);
 	short i;
 	COORD c;
 	BorderCharacters bc;
