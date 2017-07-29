@@ -22,9 +22,10 @@ public:
 	// General UI Methods
 	virtual void addComponent(UIComponent* component);
 	virtual void removeComponent(UIComponent* component);
-	UIComponent* getComponentAt(int x, int y);
+	virtual UIComponent* getComponentAt(int x, int y);
 	virtual void removeAll();
 	virtual void draw();
+	void setVisible(bool visible) override;
 
 	// Setters
 	void setPosition(short pos_x, short pos_y, bool special = false) override;

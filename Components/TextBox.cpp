@@ -4,7 +4,7 @@ TextBox::TextBox(std::string _text, int _maxSize, short x_pos, short y_pos, shor
 	Color tColor, Color bColor, UIComponent *parent) : UIComponent(x_pos, y_pos, w, h, border, tColor, bColor), text(_text), maxSize(_maxSize) {
 	if (text.length() > width * height)   text = text.substr(0, width * height);
 	if (text.length() > maxSize) text = text.substr(0, maxSize);
-	CCTRL.attachObserver(this);
+	//CCTRL.attachObserver(this);
 }
 
 TextBox::~TextBox() {

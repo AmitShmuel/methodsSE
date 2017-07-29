@@ -7,7 +7,7 @@ ListComponent::ListComponent(string * options, int len, short pos_x, short pos_y
 		this->options.push_back(options[i]);
 	}
 	height = this->options.size() + 2;
-	CCTRL.attachObserver(this);
+	//CCTRL.attachObserver(this);
 }
 
 void ListComponent::draw()

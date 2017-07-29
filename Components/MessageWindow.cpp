@@ -8,8 +8,8 @@ MessageWindow::MessageWindow(std::string _text, short x_pos, short y_pos, short 
 	cancelBtn(&cancelAction, "Cancel", x_pos + w -w/3, y_pos + h - 3, w / 6, 2, Solid, Orange, Blue),
 	okAction(*this), cancelAction(*this) {
 
-	CCTRL.attachObserver(&okBtn);
-	CCTRL.attachObserver(&cancelBtn);
+	//CCTRL.attachObserver(&okBtn);
+	//CCTRL.attachObserver(&cancelBtn);
 }
 
 void MessageWindow::draw() {
@@ -35,6 +35,24 @@ void MessageWindow::draw() {
 	cancelBtn.draw();
 
 	postDraw();
+}
+
+void MessageWindow::setVisible(bool visible) {
+	this->is_visible = visible;
+	if (visible) {
+		if (this->isInteractable()) {
+			CCTRL.attachObserver(&okBtn);
+			CCTRL.attachObserver(&cancelBtn);
+		}
+		draw();
+	}
+	else {
+		if (this->isInteractable()) {
+			CCTRL.detachObserver(&okBtn);
+			CCTRL.detachObserver(&cancelBtn);
+		}
+		removeFromScreen();
+	}
 }
 
 void MessageWindow::setPosition(short pos_x, short pos_y, bool special) {

@@ -10,21 +10,18 @@ ComboBox::ComboBox(string* options, int len, short pos_x, short pos_y, short wid
 	}
 	open_down = CCTRL.getConsoleSize().Y > position.Y + this->options.size() + 1;
 	_originalState = new ComboBox(this);
-	CCTRL.attachObserver(this);
+	//CCTRL.attachObserver(this);
 }
 
 void ComboBox::draw() {
 	applyColors();
 
-	CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 	if (open) {
 		if (open_down) {
 			// Box opens downwards
 			CCTRL.setPosition({ position.X + 1, position.Y + 1 });
-			CCTRL.setColors(this->textColor, true, this->backgroundColor, false);
 			if (selected_index != -1)
 				cout << this->options.at(selected_index).substr(0, width - 3);
-			CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 			CCTRL.setPosition({ position.X + 1, position.Y + 2 });
 			for (int i = width; i > 0; --i) putchar('-');
 			for (vector<string>::iterator it = options.begin(); it != options.end(); ++it) {
@@ -50,10 +47,8 @@ void ComboBox::draw() {
 			CCTRL.setPosition({ position.X + 1, position.Y + height - 2 });
 			for (int i = width; i > 0; --i) putchar('-');
 			CCTRL.setPosition({ position.X + 1, position.Y + height - 1 });
-			CCTRL.setColors(this->textColor, true, this->backgroundColor, false);
 			if (selected_index != -1)
 				cout << this->options.at(selected_index).substr(0, width - 3);
-			CCTRL.setColors(this->textColor, false, this->backgroundColor, false);
 			CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + height - 1 });
 		}
 		

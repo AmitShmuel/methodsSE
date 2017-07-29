@@ -40,13 +40,13 @@ void main() {
 
 	
 	UIComponent* panel = new Panel(0, 0, CCTRL.getConsoleSize().X - 1, CCTRL.getConsoleSize().Y - 1, Double, White, Black, NULL);
-	UIComponent *messageWindow = new MessageWindow("A Message", CCTRL.getConsoleSize().X / 2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
+	//UIComponent *messageWindow = new MessageWindow("A Message", CCTRL.getConsoleSize().X / 2 - 25, CCTRL.getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
 	UIComponent* numBox = new NumericBox(10, 0, 30, 0, 0, Solid, White, Black);
 	UIComponent *label = new Label("silencio1234567", 5, 15, 15, 2, Double, Blue, Green);
 	ActionTest at;
-	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, White, Black);
+	Button *button = new Button(&at, "Button", 30, 0, 8, 2, Solid, BrightWhite, Black);
 	UIComponent* textBox = new TextBox("Yoav Saroya and messi are friends, we love you man. i think we could be friends forever and ever forever", 170, 25, 3, 30, 6, Dotted, White, Black);
-	UIComponent* comboBox = new ComboBox(comboOptions, 4, 50, 0, 10, Double, White, Black);
+	UIComponent* comboBox = new ComboBox(comboOptions, 4, 50, 0, 10, Double, BrightWhite, Black);
 	CheckList* checkList = new CheckList(checkListOptions, 7, 5, 5, 10, Solid, BrightOrange, Blue);
 	checkList->checkItems({ 1, 3, 5 });
 
@@ -62,7 +62,11 @@ void main() {
 	panel->addComponent(textBox);
 	panel->addComponent(radioBox);
 	//
-	panel->draw();
+	CCTRL.setView(panel);
+	//panel->draw();
+	CCTRL.messageDialog("Are you certain?");
+	CCTRL.messageDialog("Are you really certain?");
+	CCTRL.messageDialog("Are you really certain? for seriously?");
 	//panel->setPosition(5, 7);
 	//dynamic_cast<Panel*>(panel)->printMap();
 	//
