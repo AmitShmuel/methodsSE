@@ -59,6 +59,24 @@ void NumericBox::setPosition(short pos_x, short pos_y, bool special) {
 	
 }
 
+void NumericBox::setVisible(bool visible) {
+	this->is_visible = visible;
+	if (visible) {
+		if (this->isInteractable()) {
+			CCTRL.attachObserver(&decBtn);
+			CCTRL.attachObserver(&incBtn);
+		}
+		draw();
+	}
+	else {
+		if (this->isInteractable()) {
+			CCTRL.detachObserver(&decBtn);
+			CCTRL.detachObserver(&incBtn);
+		}
+		removeFromScreen();
+	}
+}
+
 void NumericBox::setValue(int _val) {
 	if (_val < getMin()) value = getMin();
 	else if (_val > getMax()) value = getMax();

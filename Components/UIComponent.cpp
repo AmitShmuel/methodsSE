@@ -37,15 +37,16 @@ void UIComponent::draw() {
 }
 
 void UIComponent::setVisible(bool visible) {
+	bool prev = this->is_visible;
 	this->is_visible = visible;
 	if (visible) {
-		if (this->isInteractable()) {
+		if (this->isInteractable() && !prev) {
 			CCTRL.attachObserver(this);
 		}
 		draw();
 	}
 	else {
-		if (this->isInteractable()) {
+		if (this->isInteractable() && prev) {
 			CCTRL.detachObserver(this);
 		}
 		removeFromScreen();

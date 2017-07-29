@@ -103,7 +103,9 @@ void Panel::draw() {
 }
 
 void Panel::setVisible(bool visible) {
+	bool prev = this->is_visible;
 	UIComponent::setVisible(visible);
+	if (this->is_visible == prev) return;
 	for each (UIComponent* comp in components) {
 		comp->setVisible(visible);
 	}
@@ -111,13 +113,15 @@ void Panel::setVisible(bool visible) {
 
 
 void Panel::setPosition(short pos_x, short pos_y, bool special) {
-	removeFromScreen();
-	for each (UIComponent* component in components) {
-		component->setPosition(component->getXPosition() - position.X + pos_x, component->getYPosition() - position.Y + pos_y, true);
+	if (pos_x >= 0 && pos_y >= 0) {
+		removeFromScreen();
+		for each (UIComponent* component in components) {
+			component->setPosition(component->getXPosition() - position.X + pos_x, component->getYPosition() - position.Y + pos_y, true);
+		}
+		this->position.X = pos_x;
+		this->position.Y = pos_y;
+		draw();
 	}
-	this->position.X = pos_x;
-	this->position.Y = pos_y;
-	draw();
 }
 
 Panel::~Panel() {
