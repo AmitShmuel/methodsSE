@@ -11,6 +11,7 @@
     <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="CheckList.cpp" />
     <ClCompile Include="RadioBox.cpp" />
+    <ClCompile Include="ListComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -21,9 +22,10 @@
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="NumericBox.h" />
     <ClInclude Include="TextBox.h" />
+    <ClInclude Include="DimensionException.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="CheckList.h" />
     <ClInclude Include="RadioBox.h" />
-    <ClInclude Include="DimensionException.h" />
+    <ClInclude Include="ListComponent.h" />
   </ItemGroup>
 </Project>
