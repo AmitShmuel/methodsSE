@@ -74,7 +74,7 @@ void main() {
 	comboBox->draw();
 	checkList->draw();
 	radioBox->draw();
-
+	
 	CCTRL.listenToUserEvents();
 
 	delete[] comboOptions;

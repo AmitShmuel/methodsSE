@@ -140,14 +140,14 @@ void ConsoleController::listenToUserEvents() {
 
 							if (observers[focusedIndex]->isTraversable()) {
 								if (observers[focusedIndex]->hasFocus()) {
-									if (observers[focusedIndex]->isAtEnd()) {
-										goto nextFocusElement;
+									if (!observers[focusedIndex]->isAtEnd()) {
+										observers[focusedIndex]->keyPressed(key);
+										break;
 									}
-									observers[focusedIndex]->keyPressed(key);
-									break;
+
 								}
 							}
-							nextFocusElement:
+							//nextFocusElement:
 							if (observers[focusedIndex]) observers[focusedIndex]->onBlur();
 							focusedIndex = ++focusedIndex % observers.size();
 
