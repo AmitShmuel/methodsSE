@@ -56,7 +56,7 @@ public:
 	static void destroy();
 
 	// Message Window Popup
-	void messageDialog(std::string message);
+	void messageDialog(std::string message, BorderType border = Solid, Color tColor = Orange, Color bColor = Blue);
 
 	// setters
 	void setPosition(COORD c);
@@ -77,6 +77,7 @@ public:
 	bool isMouseEnabled();
 	bool isCursorVisible();
 	DWORD getCursorSize();
+	int getLastMessageResponse() const;
 
 	~ConsoleController();
 

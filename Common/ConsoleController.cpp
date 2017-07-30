@@ -28,9 +28,9 @@ void ConsoleController::destroy() {
 }
 
 // Prompt user to confirm with message
-void ConsoleController::messageDialog(std::string message) {
+void ConsoleController::messageDialog(std::string message, BorderType border, Color tColor, Color bColor) {
 	if (message.length() == 0) message = "Are you sure?";
-	MessageWindow *messageWindow = new MessageWindow(message, getConsoleSize().X / 2 - 25, getConsoleSize().Y / 2 - 2.5, 50, 5, Solid, Orange, Blue);
+	MessageWindow *messageWindow = new MessageWindow(message, getConsoleSize().X / 2 - 25, getConsoleSize().Y / 2 - 2.5, 50, 5, border, tColor, bColor);
 	messages.push_back(messageWindow);
 	messages[0]->draw();
 }
@@ -126,6 +126,11 @@ DWORD ConsoleController::getCursorSize() {
 	return cursorInfo.dwSize;
 }
 
+int ConsoleController::getLastMessageResponse() const
+{
+	return last_msg_response;
+}
+
 // test code for events 
 // TODO: event thread
 void ConsoleController::listenToUserEvents() {
@@ -211,9 +216,13 @@ void ConsoleController::listenToUserEvents() {
 						if (messages.size() > 0) {
 							if (isIntersects(mousePos, &messages[0]->getOkBtn())) {
 								messages[0]->getOkBtn().mouseClicked(ir[i].Event.MouseEvent);
+								last_msg_response = messages[0]->getResult();
+								
 							}
-							if (isIntersects(mousePos, &messages[0]->getCancelBtn()))
-								messages[0]->getOkBtn().mouseClicked(ir[i].Event.MouseEvent);
+							if (isIntersects(mousePos, &messages[0]->getCancelBtn())) {
+								messages[0]->getCancelBtn().mouseClicked(ir[i].Event.MouseEvent);
+								last_msg_response = messages[0]->getResult();
+							}
 							continue;
 						}
 

@@ -4,6 +4,7 @@ TextBox::TextBox(std::string _text, int _maxSize, short x_pos, short y_pos, shor
 	Color tColor, Color bColor, UIComponent *parent) : UIComponent(x_pos, y_pos, w, h, border, tColor, bColor), text(_text), maxSize(_maxSize) {
 	if (text.length() > width * height)   text = text.substr(0, width * height);
 	if (text.length() > maxSize) text = text.substr(0, maxSize);
+	lastIndexPosition = { position.X + 2, position.Y + 2 };
 	//CCTRL.attachObserver(this);
 }
 
@@ -18,15 +19,17 @@ void TextBox::mouseClicked(MOUSE_EVENT_RECORD mouseRecord) {
 	if (mousePos.Y > getYPosition() &&
 		mousePos.Y < getYPosition() + getHeight() &&
 		mousePos.X > getXPosition() &&
-		mousePos.X < getXPosition() + getWidth() + 1) {
-
+		mousePos.X < getXPosition() + getWidth()) {
 		if (mousePos.Y > lastIndexPosition.Y ||
-			(mousePos.Y == lastIndexPosition.Y &&
-				mousePos.X > lastIndexPosition.X)) {
+			(mousePos.Y == lastIndexPosition.Y && mousePos.X > lastIndexPosition.X)) {
 			CCTRL.setPosition(lastIndexPosition);
 		}
-		else CCTRL.setPosition(mousePos);
-
+		else {
+			CCTRL.setPosition(mousePos);
+		}
+	}
+	else {
+		CCTRL.setPosition(lastIndexPosition);
 	}
 }
 
@@ -41,8 +44,7 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		break;
 	case VK_LEFT:
 		if (currPos.X == position.X + 1 && currPos.Y == position.Y + 1) break;
-		else if (currPos.X != position.X + 1)
-			ctrl.setPosition({ currPos.X - 1, currPos.Y});
+		else if (currPos.X != position.X + 1) ctrl.setPosition({ currPos.X - 1, currPos.Y});
 		else ctrl.setPosition({ currPos.X + width - 1, currPos.Y - 1 });
 		break;
 	case VK_DOWN:
@@ -55,7 +57,8 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		break;
 	case VK_RIGHT:
 		if (currPos.X != position.X + width) {
-			if (currPos.Y != lastIndexPosition.Y || currPos.X != lastIndexPosition.X) {
+			if (currPos.X == position.X + 1 && (text.length() == 1 || text.length() == 0)) break;
+			else if (currPos.Y != lastIndexPosition.Y || currPos.X != lastIndexPosition.X) {
 				ctrl.setPosition({ currPos.X + 1, currPos.Y });
 			}
 		}
@@ -79,19 +82,13 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		text.erase(currentStringIndex - 1, 1);
 		draw();
 		if (currPos.X - 1 == position.X) {
-			ctrl.setPosition({ position.X + width,currPos.Y - 1 });
+			ctrl.setPosition({ position.X + width - 1,currPos.Y - 1 });
 		}
 		else ctrl.setPosition({currPos.X - 1,currPos.Y});
 		break;
 
 	case VK_DELETE:
-		currentStringIndex = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X - 1;
-		//for (int i = currentStringIndex; i % width != 0; i++) {
-		//	if (text[i] != ' ') {
-		//		currentStringIndex = (currPos.Y - position.Y)*(width)+position.X - 1;
-		//		break;
-		//	}
-		//}
+		currentStringIndex = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X  - 1;
 		text.erase(currentStringIndex, 1);
 		draw();
 		ctrl.setPosition({ currPos.X,currPos.Y });
@@ -101,10 +98,15 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 		WORD currCharacter = key.wVirtualKeyCode;
 		short offset = 0;
 		currentStringIndex = (currPos.Y - position.Y - 1)*(width)+currPos.X - position.X - 1;
+		if (currPos.Y >= position.Y + height - 1 && currPos.X >= position.X + width) {
+			break;
+		}
 		if (isprint(currCharacter)) {
 			if (!GetKeyState(VK_CAPITAL)) {
 				currCharacter = tolower(currCharacter);
 			}
+			if (text.length() >= maxSize + 1) break;
+
 			text.insert(currentStringIndex, std::string( 1, char(currCharacter)) );
 			setText(text);
 
@@ -119,8 +121,6 @@ void TextBox::keyPressed(KEY_EVENT_RECORD key) {
 				while (isprint(text[++currentStringIndex]) && text[currentStringIndex] != ' ' ) ++offset;
 				ctrl.setPosition({ position.X + offset + 1, currPos.Y + 1 });
 			}
-
-			//ctrl.setPosition({ currPos.X,currPos.Y });
 		}
 	}
 }
@@ -150,7 +150,7 @@ void TextBox::setText(std::string _text) {
 	text = _text;
 	if (text.length() > width * height) text = text.substr(0, width * height);
 	if (text.length() > maxSize) text = text.substr(0, maxSize);
-	this->draw();
+	draw();
 }
 
 void TextBox::draw() {
