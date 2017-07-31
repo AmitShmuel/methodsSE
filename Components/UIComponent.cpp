@@ -55,12 +55,27 @@ void UIComponent::setVisible(bool visible) {
 
 void UIComponent::invertColors() {
 	Color tmp = this->backgroundColor;
+	bool itmp = fg_intensity;
 	this->backgroundColor = this->textColor;
 	this->textColor = tmp;
+	this->fg_intensity = bg_intensity;
+	this->bg_intensity = itmp;
 }
 
-void UIComponent::applyColors(bool fg, bool bg) {
-	CCTRL.setColors(this->textColor, this->backgroundColor, fg, bg);
+void UIComponent::applyColors() {
+	CCTRL.setColors(this->textColor, this->backgroundColor, fg_intensity, bg_intensity);
+}
+
+void UIComponent::setPosition(short _x, short _y, bool special) {
+	if (_x >= 0 && _y >= 0) {
+		if (is_visible == true) 
+			removeFromScreen();
+
+		position = { _x, _y }; 
+		
+		//if (is_visible == true)
+			draw(); 
+	}
 }
 
 void UIComponent::drawBorder() const {
@@ -68,7 +83,7 @@ void UIComponent::drawBorder() const {
 	ConsoleController ctrl = CCTRL;
 	ctrl.setPosition(position);
 	// SetConsoleTextAttribute(h, textColor | FOREGROUND_INTENSITY | backgroundColor * 16);
-	ctrl.setColors(textColor, backgroundColor, focus);
+	//ctrl.setColors(textColor, backgroundColor, fg_intensity, bg_intensity);
 	short i;
 	COORD c;
 	BorderCharacters bc;

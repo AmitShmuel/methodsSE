@@ -18,7 +18,7 @@ class ComboBox : public UIComponent {
 	// Copy CTOR
 	ComboBox(ComboBox* o);
 
-
+	void calcOpenDirection();
 public:
 	ComboBox(string* options, int len, short pos_x, short pos_y, short width, BorderType border = Double, Color tColor = White, Color bColor = Black, UIComponent* parent = NULL);
 	void draw();

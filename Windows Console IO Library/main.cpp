@@ -27,6 +27,7 @@ class ActionTest : public Action {
 		else {
 			msgDisplay->setVisible(false);
 		}
+		CCTRL.resetLastMessage();
 		return 1;
 	}
 };

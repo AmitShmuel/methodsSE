@@ -4,62 +4,78 @@ using namespace std;
 
 ComboBox::ComboBox(ComboBox * o) : UIComponent(o->position.X, o->position.Y, o->width, 2, o->borderType, o->textColor, o->backgroundColor, o->parent), _originalState(NULL), options(NULL), selected_index(-1), open_down(o->open_down), open(false) {}
 
+void ComboBox::calcOpenDirection() {
+	if (parent == NULL)
+		open_down = CCTRL.getConsoleSize().Y > position.Y + this->options.size() + 1;
+	else {
+		open_down = parent->getYPosition() + parent->getHeight() > position.Y + this->options.size() + 3;
+		if (!open_down && (parent->getHeight() < this->options.size() + 1)) {
+			open_down = true;
+		}
+		
+	}
+
+			
+}
+
 ComboBox::ComboBox(string* options, int len, short pos_x, short pos_y, short width, BorderType border, Color tColor, Color bColor, UIComponent* parent) : UIComponent(pos_x, pos_y, width, 2, border, tColor, bColor, parent) ,options(vector<string>()), selected_index(-1), open(false) {
 	for (int i = 0; i < len; ++i) {
 		this->options.push_back(options[i]);
 	}
-	open_down = CCTRL.getConsoleSize().Y > position.Y + this->options.size() + 1;
+	//open_down = CCTRL.getConsoleSize().Y > position.Y + this->options.size() + 1;
+	calcOpenDirection();
 	_originalState = new ComboBox(this);
+	bg_intensity = false;
 	//CCTRL.attachObserver(this);
 }
 
 void ComboBox::draw() {
 	applyColors();
-
+	ConsoleController& ctrl = CCTRL;
 	if (open) {
 		if (open_down) {
 			// Box opens downwards
-			CCTRL.setPosition({ position.X + 1, position.Y + 1 });
+			ctrl.setPosition({ position.X + 1, position.Y + 1 });
 			if (selected_index != -1)
 				cout << this->options.at(selected_index).substr(0, width - 3);
-			CCTRL.setPosition({ position.X + 1, position.Y + 2 });
+			ctrl.setPosition({ position.X + 1, position.Y + 2 });
 			for (int i = width; i > 0; --i) putchar('-');
 			for (vector<string>::iterator it = options.begin(); it != options.end(); ++it) {
 				if (it - options.begin() == temp_index) invertColors(), applyColors();
-				CCTRL.setPosition({ position.X + 1, position.Y + 3 + static_cast<short>(it - options.begin()) });
+				ctrl.setPosition({ position.X + 1, position.Y + 3 + static_cast<short>(it - options.begin()) });
 				for (int i = width; i > 0; --i) putchar(' ');
-				CCTRL.setPosition({ position.X + 1, position.Y + 3 + static_cast<short>(it - options.begin()) });
+				ctrl.setPosition({ position.X + 1, position.Y + 3 + static_cast<short>(it - options.begin()) });
 				cout << it->substr(0, width);
 				if (it - options.begin() == temp_index) invertColors(), applyColors();
 			}
-			CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + 1 });
+			ctrl.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + 1 });
 		} else {
 			// Box opens upwards
 			for (vector<string>::iterator it = options.begin(); it != options.end(); ++it) {
 				if (it - options.begin() == temp_index) invertColors(), applyColors();
-				CCTRL.setPosition({ position.X + 1, position.Y + 1 + static_cast<short>(it - options.begin())});
+				ctrl.setPosition({ position.X + 1, position.Y + 1 + static_cast<short>(it - options.begin())});
 				for (int i = width; i > 0; --i) putchar(' ');
-				CCTRL.setPosition({ position.X + 1, position.Y + 1 + static_cast<short>(it - options.begin()) });
+				ctrl.setPosition({ position.X + 1, position.Y + 1 + static_cast<short>(it - options.begin()) });
 				cout << it->substr(0, width);
 				if (it - options.begin() == temp_index) invertColors(), applyColors();
 
 			}
-			CCTRL.setPosition({ position.X + 1, position.Y + height - 2 });
+			ctrl.setPosition({ position.X + 1, position.Y + height - 2 });
 			for (int i = width; i > 0; --i) putchar('-');
-			CCTRL.setPosition({ position.X + 1, position.Y + height - 1 });
+			ctrl.setPosition({ position.X + 1, position.Y + height - 1 });
 			if (selected_index != -1)
 				cout << this->options.at(selected_index).substr(0, width - 3);
-			CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + height - 1 });
+			ctrl.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + height - 1 });
 		}
 		
 		open_down ? cout << "/\\" : cout << "\\/";
 	} else {
-		CCTRL.setPosition({ this->getXPosition() + 1 , this->getYPosition() + 1 });
+		ctrl.setPosition({ this->getXPosition() + 1 , this->getYPosition() + 1 });
 		for (int i = width; i > 0; --i) putchar(' ');
-		CCTRL.setPosition({ this->getXPosition() + 1 , this->getYPosition() + 1 });
+		ctrl.setPosition({ this->getXPosition() + 1 , this->getYPosition() + 1 });
 		if (selected_index != -1)
 			cout << this->options.at(selected_index).substr(0, width - 3);
-		CCTRL.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + 1 });
+		ctrl.setPosition({ this->getXPosition() + width - 1 , this->getYPosition() + 1 });
 		open_down ? cout << "\\/" : cout << "/\\";
 	}
 	UIComponent::draw();
@@ -69,6 +85,7 @@ void ComboBox::draw() {
 void ComboBox::setPosition(short pos_x, short pos_y, bool special) {
 	this->position.X = pos_x;
 	this->position.Y = pos_y;
+	calcOpenDirection();
 	if (special)
 		this->_originalState->position = position;;
 }
@@ -160,15 +177,49 @@ void ComboBox::toggle() {
 		UIComponent *curr = NULL;
 		vector<UIComponent*> redrawn_items;
 		std::vector<UIComponent*>::iterator pos;
-		for (int i = height + 1; i < height + options.size() + 1; ++i) {
-			for (int j = 0; j < width; ++j) {
-				curr = this->getRoot().getComponentAt(position.X + j, position.Y + i);
+		if (open_down) {
+			for (int i = height + 1; i < height + options.size() + 1; ++i) {
+				for (int j = 0; j < width; ++j) {
+					curr = this->getRoot().getComponentAt(position.X + j, position.Y + i);
 				
-				if (curr != NULL) {
-					pos = std::find(redrawn_items.begin(), redrawn_items.end(), curr);
-					if (redrawn_items.size() == 0 || pos == redrawn_items.end()) {
-						redrawn_items.push_back(curr);
-						curr->draw();
+					if (curr != NULL) {
+						pos = std::find(redrawn_items.begin(), redrawn_items.end(), curr);
+						if (redrawn_items.size() == 0 || pos == redrawn_items.end()) {
+							redrawn_items.push_back(curr);
+							curr->draw();
+						}
+					}
+				}
+			}
+			if (&this->getRoot() != this && this->getRoot().getYPosition() + this->getRoot().getHeight() + 1 <= this->getYPosition() + this->getHeight() + options.size() + 1) {
+				char c = ' ';
+				switch (getRoot().getBorderType()) {
+				case Dotted:
+					c = '-';
+					break;
+				case Solid:
+					c = '\xC4';
+					break;
+				case Double:
+					c = '\xCD';
+					break;
+				default:
+					break;
+				}
+				applyColors();
+				CCTRL.setPosition({this->getXPosition(), this->parent->getYPosition() + this->parent->getHeight()});
+				cout << string(this->width + 2, c);
+			}
+		} else {
+			for (int i = 0; i < options.size() + 1; ++i) {
+				for (int j = 0; j < width; ++j) {
+					curr = this->getRoot().getComponentAt(position.X + j, position.Y - options.size() - 1 + i);
+					if (curr != NULL) {
+						pos = std::find(redrawn_items.begin(), redrawn_items.end(), curr);
+						if (redrawn_items.size() == 0 || pos == redrawn_items.end()) {
+							redrawn_items.push_back(curr);
+							curr->draw();
+						}
 					}
 				}
 			}
