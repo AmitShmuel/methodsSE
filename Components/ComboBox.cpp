@@ -9,7 +9,9 @@ void ComboBox::calcOpenDirection() {
 		open_down = CCTRL.getConsoleSize().Y > position.Y + this->options.size() + 1;
 	else {
 		open_down = parent->getYPosition() + parent->getHeight() > position.Y + this->options.size() + 3;
-		if (!open_down && (parent->getHeight() < this->options.size() + 1)) {
+		int list_start_position = position.Y - (this->options.size() + 1);
+		bool cannot_open_up = parent->getYPosition() >= list_start_position;
+		if (!open_down && cannot_open_up) {
 			open_down = true;
 		}
 		
