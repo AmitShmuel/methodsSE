@@ -185,7 +185,6 @@ void ConsoleController::listenToUserEvents() {
 
 								}
 							}
-							//nextFocusElement:
 							if (observers[focusedIndex]) observers[focusedIndex]->onBlur();
 							focusedIndex = ++focusedIndex % observers.size();
 
