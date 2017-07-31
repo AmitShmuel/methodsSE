@@ -169,8 +169,7 @@ void ConsoleController::listenToUserEvents() {
 						}
 						switch (key.wVirtualKeyCode) {
 						case VK_ESCAPE:
-							goto end;
-							break;
+							return;
 						case VK_TAB:
 							if (observers.size() == 0) continue;
 							if (focusedIndex == -1)
@@ -258,8 +257,6 @@ void ConsoleController::listenToUserEvents() {
 			}
 		}
 	}
-end:
-	return;
 }
 
 bool ConsoleController::isIntersects(COORD mousePos, UIComponent* comp) {

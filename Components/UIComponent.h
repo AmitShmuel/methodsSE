@@ -57,17 +57,15 @@ public:
 	void applyColors();
 
 	// setters:
-	//void setVisible(bool visible) { isVisible = visible; }
-	void setBorderType(BorderType border) { borderType = border; draw(); }
+	void setBorderType(BorderType border);
 	void setParent(UIComponent* p) { parent = p; }
-	virtual void setWidth(int _width) { if (_width >= 0) { removeFromScreen(); width = _width; draw(); } }
-	virtual void setHeight(int _height) { if (_height >= 0) { removeFromScreen(); height = _height; draw(); } }
+	virtual void setWidth(int _width);
+	virtual void setHeight(int _height);
 	virtual void setPosition(short _x, short _y, bool special = false);
-	void setTextColor(Color color) { textColor = color; draw(); }
-	void setBackgroundColor(Color color) { backgroundColor = color; draw(); }
+	void setTextColor(Color color);
+	void setBackgroundColor(Color color);
 
 	// getters:
-	//	bool isVisible() const { return isVisible; }
 	BorderType getBorderType()		const { return borderType; }
 	short	   getWidth()			const { return width; }
 	short	   getHeight()			const { return height; }

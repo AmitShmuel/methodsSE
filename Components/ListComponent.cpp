@@ -6,13 +6,13 @@ ListComponent::ListComponent(string * options, int len, short pos_x, short pos_y
 	for (int i = 0; i < len; ++i) {
 		this->options.push_back(options[i]);
 	}
-	height = this->options.size() + 2;
+	height = this->options.size() + 1;
 	//CCTRL.attachObserver(this);
 }
 
 void ListComponent::draw()
 {
-	height = static_cast<short> (options.size() + 1);
+	//height = static_cast<short> (options.size() + 1);
 	UIComponent::draw();
 	ConsoleController ctrl = CCTRL;
 	COORD c = { position.X + 1, position.Y + 1 };
