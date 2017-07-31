@@ -4,7 +4,7 @@
 
 ###### The project was developed during the course: Methods in Software Engineering, instructed by Dr. Resh Amit in Shenkar, College of Engineering & Design
 
-<br>
+
 ##### Offered components:
 
 - CheckList: Multiple selection text list
@@ -32,7 +32,7 @@
 ###### Final result:
 ![Result](/images/Result.PNG)
 
-<br>
+
 #### Developed by:
 - [Yoav Saroya](https://github.com/SaroyaMan)
 - [Amit Shmuel](https://github.com/AmitShmuel)
