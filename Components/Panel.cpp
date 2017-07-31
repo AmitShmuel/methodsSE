@@ -1,14 +1,21 @@
 #include "Panel.h"
 #include "../Common/IOConsoleException.h"
 #include <algorithm>
+#include <sstream>
+#include <typeinfo>
 
 void Panel::markOnMap(UIComponent *component) {
 	int index = std::find(this->components.begin(), this->components.end(), component) - components.begin();
 	bool safe = true;
+	int colliding_index = -1;
+	if (component->getXPosition() == 12 && component->getYPosition() == 11)
+		cout << typeid(*component).name();
 	for (int i = 0; i < component->getHeight() + 1; ++i) {
 		for (int j = 0; j < component->getWidth(); ++j) {
 			safe = isInRange(component, i, j);
 			if (safe == false) {
+				COORD c = getRelativePosition(component);
+				colliding_index = component_map[c.Y + i][c.X + j];
 				i = component->getHeight() + 1;
 				break;
 			}
@@ -23,6 +30,9 @@ void Panel::markOnMap(UIComponent *component) {
 		}
 		1;
 	} else {
+		stringstream ss; 
+		ss << typeid(*component).name() << " is colliding with " << typeid(*components[colliding_index]).name();
+		cerr << ss.str();
 		throw new OverlapException();
 	}
 	
@@ -53,6 +63,7 @@ Panel::Panel(short pos_x, short pos_y, short width, short height, BorderType bor
 			component_map[i][j] = -1;
 		}
 	}
+	this->fg_intensity = true;
 }
 
 void Panel::addComponent(UIComponent * component) {
@@ -114,13 +125,13 @@ void Panel::setVisible(bool visible) {
 
 void Panel::setPosition(short pos_x, short pos_y, bool special) {
 	if (pos_x >= 0 && pos_y >= 0) {
-		removeFromScreen();
+		if (is_visible) removeFromScreen();
 		for each (UIComponent* component in components) {
 			component->setPosition(component->getXPosition() - position.X + pos_x, component->getYPosition() - position.Y + pos_y, true);
 		}
 		this->position.X = pos_x;
 		this->position.Y = pos_y;
-		draw();
+		if (is_visible) draw();
 	}
 }
 

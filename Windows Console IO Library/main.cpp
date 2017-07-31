@@ -20,11 +20,14 @@ class ActionTest : public Action {
 	//TODO : a better design with MessageResponse !!!!
 	static DWORD WINAPI submitForm(LPVOID lpParam) {
 		CCTRL.messageDialog("Are You Sure You Want To Submit ?", Double);
-		while (CCTRL.getLastMessageResponse() == -1 && msgDisplay != NULL);		//Block till answer is different than -1
-
+		while (CCTRL.getLastMessageResponse() == -1 && msgDisplay != NULL);
 		if (CCTRL.getLastMessageResponse() == 1) {
 			msgDisplay->setVisible(true);
 		}
+		else {
+			msgDisplay->setVisible(false);
+		}
+		CCTRL.resetLastMessage();
 		return 1;
 	}
 };

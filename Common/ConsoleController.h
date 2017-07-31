@@ -57,6 +57,7 @@ public:
 
 	// Message Window Popup
 	void messageDialog(std::string message, BorderType border = Solid, Color tColor = Orange, Color bColor = Blue);
+	void resetLastMessage();
 
 	// setters
 	void setPosition(COORD c);

@@ -35,6 +35,10 @@ void ConsoleController::messageDialog(std::string message, BorderType border, Co
 	messages[0]->draw();
 }
 
+void ConsoleController::resetLastMessage() {
+	this->last_msg_response = -1;
+}
+
 // sets current cursor position
 void ConsoleController::setPosition(COORD c) {
 	SetConsoleCursorPosition(hOutput, c);

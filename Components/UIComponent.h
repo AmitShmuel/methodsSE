@@ -19,8 +19,9 @@ protected:
 	short width, height;
 	BorderType borderType;
 	Color textColor, backgroundColor;
+	bool fg_intensity = true, bg_intensity = false;
 	bool focus;
-	bool is_visible;
+	bool is_visible = false;
 
 	void removeFromScreen() const;
 	void drawBorder() const;
@@ -53,7 +54,7 @@ public:
 
 	virtual void postDraw() { CCTRL.restoreDefaultColors(); }
 	void invertColors();
-	void applyColors(bool fg = true, bool bg = false);
+	void applyColors();
 
 	// setters:
 	//void setVisible(bool visible) { isVisible = visible; }
@@ -61,15 +62,15 @@ public:
 	void setParent(UIComponent* p) { parent = p; }
 	virtual void setWidth(int _width) { if (_width >= 0) { removeFromScreen(); width = _width; draw(); } }
 	virtual void setHeight(int _height) { if (_height >= 0) { removeFromScreen(); height = _height; draw(); } }
-	virtual void setPosition(short _x, short _y, bool special = false) { if (_x >= 0 && _y >= 0) { removeFromScreen(); position = { _x, _y }; draw(); } }
+	virtual void setPosition(short _x, short _y, bool special = false);
 	void setTextColor(Color color) { textColor = color; draw(); }
 	void setBackgroundColor(Color color) { backgroundColor = color; draw(); }
 
 	// getters:
 	//	bool isVisible() const { return isVisible; }
 	BorderType getBorderType()		const { return borderType; }
-	int		   getWidth()			const { return width; }
-	int		   getHeight()			const { return height; }
+	short	   getWidth()			const { return width; }
+	short	   getHeight()			const { return height; }
 	COORD      getDimentions()		const { return { width, height }; }
 	COORD	   getPosition()		const { return position; }
 	short	   getXPosition()		const { return position.X; }
